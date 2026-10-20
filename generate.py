@@ -379,7 +379,14 @@ def encode_video(frame_path: Path, out_path: Path, duration: float, song: Path |
     cmd = [ffmpeg, "-y", "-framerate", "30", "-loop", "1", "-i", str(frame_path)]
     if song:
         cmd += ["-stream_loop", "-1", "-i", str(song)]
-        cmd += ["-c:a", "aac", "-b:a", "160k"]
+        cmd += [
+            "-af",
+            "loudnorm=I=-15:TP=-1.5:LRA=11",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "160k",
+        ]
     cmd += [
         "-t",
         str(duration),
