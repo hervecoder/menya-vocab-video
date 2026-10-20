@@ -3,19 +3,23 @@
 Menya Icyongereza - vocabulary video generator.
 
 Renders a 1080x1920 video frame that looks like the Menya Icyongereza app
-screen (phone mockup background), with up to 7 English word / Kinyarwanda
-translation rows and an edge-to-edge yellow promo banner.
+screen (phone mockup background), with either 7 English word / Kinyarwanda
+rows or 4 sentence pairs (8 lines), plus an edge-to-edge yellow promo banner.
 
 Everything is drawn at 1.5x the source mockup so text stays sharp.
 
 Usage:
     python generate.py                         # built-in test content
+    python generate.py --batch-json data/vocabulary_pilot_videos.json --video-id word_01
+    python generate.py --batch-json data/vocabulary_pilot_videos.json --video-id sentence_01
     python generate.py --pairs "Book=Igitabo,Water=Amazi"
+    python generate.py --mode sentence --pairs "Where does it hurt?=Uri kubabara he?..."
     python generate.py --note "Some text" --duration 6
     python generate.py --video                 # also encode the mp4
 """
 
 import argparse
+import json
 import os
 import random
 import shutil
@@ -97,7 +101,7 @@ def tracked_text(draw, xy, text, fnt, fill, tracking=0.0, anchor="la"):
         x += w + tracking
 
 
-def parse_pairs(raw: str):
+def parse_pairs(raw: str, max_pairs: int = 7):
     chunks = [c.strip() for c in raw.replace("\r", "").split(";")]
     chunks = [c for chunk in chunks for c in chunk.split("\n")]
     chunks = [c.strip() for c in chunks if c.strip()]
@@ -117,7 +121,7 @@ def parse_pairs(raw: str):
             pairs.append((eng, kin))
     if not pairs:
         raise SystemExit("No word pairs given.")
-    return pairs[:7]
+    return pairs[:max_pairs]
 
 
 def fit_font(text, font_name, start, minimum, max_width):
@@ -288,6 +292,69 @@ def draw_row(canvas, box, index, english, kinyarwanda):
     return canvas
 
 
+def draw_sentence_row(canvas, box, index, english, kinyarwanda):
+    """Sentence card: English and Kinyarwanda stacked, with wrapping."""
+    x0, y0, x1, y1 = box
+    h = y1 - y0
+    radius = 24
+    canvas = rounded_shadow(canvas, box, radius)
+    d = ImageDraw.Draw(canvas)
+
+    d.rounded_rectangle(box, radius=radius, fill=WHITE, outline=BORDER, width=2)
+
+    # number badge
+    badge = 58
+    bx = x0 + 24
+    by = y0 + (h - badge) // 2
+    d.rounded_rectangle(
+        (bx, by + 4, bx + badge, by + badge + 4), radius=16, fill=GREEN_DARK
+    )
+    d.rounded_rectangle((bx, by, bx + badge, by + badge), radius=16, fill=GREEN)
+    num = font("Poppins-ExtraBold.ttf", 28)
+    d.text(
+        (bx + badge / 2, by + badge / 2 + 1),
+        str(index),
+        font=num,
+        fill=WHITE,
+        anchor="mm",
+    )
+
+    text_left = bx + badge + 22
+    text_right = x1 - 26
+    available = text_right - text_left
+
+    # Shrink until both languages fit comfortably in the card.
+    f_eng = f_kin = None
+    eng_lines = kin_lines = []
+    eng_lh = kin_lh = 0
+    gap = 12
+    for size in range(46, 21, -1):
+        f_eng = font("Poppins-ExtraBold.ttf", size)
+        f_kin = font("Poppins-Bold.ttf", max(20, size - 2))
+        eng_lines = wrap_balanced(english, f_eng, available)
+        kin_lines = wrap_balanced(kinyarwanda, f_kin, available)
+        eng_lh = f_eng.size + 6
+        kin_lh = f_kin.size + 6
+        block_h = len(eng_lines) * eng_lh + gap + len(kin_lines) * kin_lh
+        if len(eng_lines) <= 4 and len(kin_lines) <= 4 and block_h <= h - 28:
+            break
+
+    block_h = len(eng_lines) * eng_lh + gap + len(kin_lines) * kin_lh
+    y = y0 + (h - block_h) / 2
+
+    for line in eng_lines:
+        d.text((text_left, y), line, font=f_eng, fill=TEXT, anchor="la")
+        y += eng_lh
+
+    y += gap
+
+    for line in kin_lines:
+        d.text((text_left, y), line, font=f_kin, fill=GREEN_DARK, anchor="la")
+        y += kin_lh
+
+    return canvas
+
+
 def promo_segments(line, brand):
     """Split a line into plain / highlighted runs around the brand name."""
     if not brand:
@@ -351,7 +418,7 @@ def draw_promo(canvas, box, lines, brand):
     return canvas
 
 
-def render(pairs, note, brand, out_path: Path):
+def render(pairs, note, brand, out_path: Path, mode: str = "word"):
     if not BG_PATH.exists():
         raise SystemExit(f"Missing background: {BG_PATH}")
 
@@ -361,10 +428,12 @@ def render(pairs, note, brand, out_path: Path):
     left, top, right, bottom = BODY
     content_left = left + SIDE_PAD
     content_right = right - SIDE_PAD
-    content_w = content_right - content_left
 
     # section label
-    label = f"AMAGAMBO {len(pairs)} Y'ICYONGEREZA"
+    if mode == "sentence":
+        label = f"INTERURO {len(pairs)} Z'ICYONGEREZA"
+    else:
+        label = f"AMAGAMBO {len(pairs)} Y'ICYONGEREZA"
     d = ImageDraw.Draw(canvas)
     f_label = font("Poppins-SemiBold.ttf", 24)
     tracked_text(
@@ -388,15 +457,22 @@ def render(pairs, note, brand, out_path: Path):
     rows_top = top + 34 + 40 + 28
     rows_bottom_limit = promo_top - 42
     n = len(pairs)
-    row_h = min(ROW_MAX_H, int((rows_bottom_limit - rows_top - (n - 1) * ROW_GAP) / n))
-    row_h = max(row_h, 96)
+    gap = ROW_GAP if mode == "word" else 18
+    available_h = rows_bottom_limit - rows_top - (n - 1) * gap
+
+    if mode == "sentence":
+        row_h = max(180, min(310, int(available_h / n)))
+        draw = draw_sentence_row
+    else:
+        row_h = max(96, min(ROW_MAX_H, int(available_h / n)))
+        draw = draw_row
 
     y = rows_top
     for i, (eng, kin) in enumerate(pairs, start=1):
-        canvas = draw_row(
+        canvas = draw(
             canvas, (content_left, y, content_right, y + row_h), i, eng, kin
         )
-        y += row_h + ROW_GAP
+        y += row_h + gap
 
     canvas = draw_promo(
         canvas,
@@ -467,9 +543,44 @@ def pick_song(explicit: str):
     return random.choice(tracks) if tracks else None
 
 
+def load_batch(path: str, video_id: str = "", preferred_mode: str = "word"):
+    batch_path = Path(path)
+    if not batch_path.exists():
+        raise SystemExit(f"Batch JSON not found: {batch_path}")
+
+    data = json.loads(batch_path.read_text(encoding="utf-8"))
+    videos = data.get("videos") or []
+    if not videos:
+        raise SystemExit(f"No videos in batch JSON: {batch_path}")
+
+    if video_id:
+        video = next((v for v in videos if v.get("id") == video_id), None)
+        if video is None:
+            ids = ", ".join(v.get("id", "?") for v in videos)
+            raise SystemExit(f"Video id {video_id!r} not found. Available: {ids}")
+    else:
+        video = next(
+            (v for v in videos if v.get("mode") == preferred_mode), videos[0]
+        )
+
+    mode = video.get("mode", "word")
+    expected = 7 if mode == "word" else 4
+    pairs = [(p["english"], p["kinyarwanda"]) for p in video.get("pairs", [])]
+    if len(pairs) != expected:
+        raise SystemExit(
+            f"Batch {video.get('id')!r} has {len(pairs)} pairs; "
+            f"{mode} mode needs exactly {expected}."
+        )
+
+    return mode, pairs, video.get("id", "")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pairs", default=DEFAULT_PAIRS)
+    ap.add_argument("--batch-json", default="")
+    ap.add_argument("--video-id", default="")
+    ap.add_argument("--mode", choices=["word", "sentence"], default="word")
     ap.add_argument("--note", default=DEFAULT_NOTE)
     ap.add_argument("--brand", default=DEFAULT_BRAND)
     ap.add_argument("--duration", type=float, default=6.0)
@@ -479,9 +590,28 @@ def main():
     ap.add_argument("--preview", default="")
     args = ap.parse_args()
 
-    pairs = parse_pairs(args.pairs)
-    preview_path = Path(args.preview) if args.preview else PREVIEW_DIR / "preview.png"
-    render(pairs, args.note, args.brand, preview_path)
+    if args.batch_json:
+        mode, pairs, video_id = load_batch(
+            args.batch_json, args.video_id, args.mode
+        )
+    else:
+        mode = args.mode
+        video_id = ""
+        pairs = parse_pairs(args.pairs, 100 if mode == "sentence" else 7)
+        if mode == "sentence" and len(pairs) != 4:
+            raise SystemExit("Sentence mode needs exactly 4 English=Kinyarwanda pairs.")
+
+    if args.preview:
+        preview_path = Path(args.preview)
+    elif video_id:
+        preview_path = PREVIEW_DIR / f"{video_id}.png"
+    else:
+        preview_path = PREVIEW_DIR / "preview.png"
+
+    render(pairs, args.note, args.brand, preview_path, mode=mode)
+    print(f"mode:    {mode}")
+    if video_id:
+        print(f"batch:   {video_id} ({len(pairs)} pairs)")
     print(f"preview: {preview_path}")
 
     if args.video:
@@ -489,7 +619,10 @@ def main():
             video_path = Path(args.out)
         else:
             stamp = int(time.time() * 1000)
-            video_path = OUT_DIR / f"menya_vocab_{stamp}.mp4"
+            if video_id:
+                video_path = OUT_DIR / f"menya_vocab_{video_id}_{stamp}.mp4"
+            else:
+                video_path = OUT_DIR / f"menya_vocab_{stamp}.mp4"
         song = pick_song(args.song)
         if song:
             print(f"song:    {song}")

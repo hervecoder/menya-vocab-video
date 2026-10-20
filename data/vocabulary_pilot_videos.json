@@ -1,0 +1,1525 @@
+{
+  "meta": {
+    "name": "Menya Icyongereza video-ready pilot batches",
+    "version": 1,
+    "created": "2026-10-20",
+    "source_database": "vocabulary_pilot.json",
+    "direction": "english_to_kinyarwanda",
+    "language_from": "en",
+    "language_to": "rw",
+    "word_video_size": 7,
+    "sentence_video_size": 4,
+    "sentence_lines_per_video": 8,
+    "word_count": 74,
+    "sentence_count": 26,
+    "full_word_videos": 10,
+    "full_sentence_videos": 6,
+    "word_remainder": 4,
+    "sentence_remainder": 2,
+    "batch_seed": 20261020,
+    "rule": "Only complete batches are in videos: word videos have exactly 7 pairs (14 lines); sentence videos have exactly 4 pairs (8 lines). Leftover entries are in remainder and are not treated as complete videos."
+  },
+  "videos": [
+    {
+      "id": "word_01",
+      "mode": "word",
+      "complete": true,
+      "pair_count": 7,
+      "line_count": 14,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "w065",
+          "english": "secretary",
+          "kinyarwanda": "umunyamabanga",
+          "group_id": "office-people",
+          "group_title": "Office People",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/secretary"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 2,
+          "entry_id": "w016",
+          "english": "hand",
+          "kinyarwanda": "ikiganza",
+          "group_id": "body-parts",
+          "group_title": "Body Parts",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/hand"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 3,
+          "entry_id": "w021",
+          "english": "goat",
+          "kinyarwanda": "ihene",
+          "group_id": "farm-animals",
+          "group_title": "Farm Animals",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/goat"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 4,
+          "entry_id": "w001",
+          "english": "blackboard",
+          "kinyarwanda": "ikibaho",
+          "group_id": "school-tools",
+          "group_title": "School Tools",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/blackboard"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 5,
+          "entry_id": "w035",
+          "english": "today",
+          "kinyarwanda": "uyu munsi",
+          "group_id": "time-words",
+          "group_title": "Time Words",
+          "grammar": "adverb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/today"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 6,
+          "entry_id": "w057",
+          "english": "rain",
+          "kinyarwanda": "imvura",
+          "group_id": "weather-words",
+          "group_title": "Weather Words",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/rain"
+          ],
+          "notes": "Verified noun form; rainy adjective form is queued."
+        },
+        {
+          "position": 7,
+          "entry_id": "w015",
+          "english": "father",
+          "kinyarwanda": "papa",
+          "group_id": "family-relations",
+          "group_title": "Family Relations",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/father"
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "word_02",
+      "mode": "word",
+      "complete": true,
+      "pair_count": 7,
+      "line_count": 14,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "w067",
+          "english": "key",
+          "kinyarwanda": "urufunguzo",
+          "group_id": "market-items",
+          "group_title": "Market Items",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/key"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 2,
+          "entry_id": "w051",
+          "english": "to fry",
+          "kinyarwanda": "gukaranga",
+          "group_id": "kitchen-verbs",
+          "group_title": "Kitchen Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/fry"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 3,
+          "entry_id": "w061",
+          "english": "guest",
+          "kinyarwanda": "umushyitsi",
+          "group_id": "village-people",
+          "group_title": "Village People",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/guest"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 4,
+          "entry_id": "w060",
+          "english": "shirt",
+          "kinyarwanda": "ishati",
+          "group_id": "clothing-items",
+          "group_title": "Clothing Items",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/shirt"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 5,
+          "entry_id": "w070",
+          "english": "student",
+          "kinyarwanda": "umunyeshuri",
+          "group_id": "people-and-roles",
+          "group_title": "People and Roles",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/student"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 6,
+          "entry_id": "w011",
+          "english": "bicycle",
+          "kinyarwanda": "igare",
+          "group_id": "transport-types",
+          "group_title": "Transport Types",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/bicycle"
+          ],
+          "notes": "Extra word selected by the seeded random sample."
+        },
+        {
+          "position": 7,
+          "entry_id": "w045",
+          "english": "silent",
+          "kinyarwanda": "ceceka",
+          "group_id": "sound-adjectives-ijwi",
+          "group_title": "Sound Adjectives (IJWI)",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/rw/en/ceceka"
+          ],
+          "notes": "Glosbe reverse entry: silent, quiet, stop talking; Menya dictionary also lists guceceka."
+        }
+      ]
+    },
+    {
+      "id": "word_03",
+      "mode": "word",
+      "complete": true,
+      "pair_count": 7,
+      "line_count": 14,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "w058",
+          "english": "brick",
+          "kinyarwanda": "itafari",
+          "group_id": "building-items",
+          "group_title": "Building Items",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/brick"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 2,
+          "entry_id": "w010",
+          "english": "bottle",
+          "kinyarwanda": "icupa",
+          "group_id": "market-items",
+          "group_title": "Market Items",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/bottle"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 3,
+          "entry_id": "w007",
+          "english": "daughter",
+          "kinyarwanda": "umukobwa",
+          "group_id": "family-relations",
+          "group_title": "Family Relations",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/daughter"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 4,
+          "entry_id": "w034",
+          "english": "stone",
+          "kinyarwanda": "ibuye",
+          "group_id": "building-items",
+          "group_title": "Building Items",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/stone"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 5,
+          "entry_id": "w069",
+          "english": "tomorrow",
+          "kinyarwanda": "ejo",
+          "group_id": "time-words",
+          "group_title": "Time Words",
+          "grammar": "adverb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/tomorrow"
+          ],
+          "notes": "Extra word selected by the seeded random sample."
+        },
+        {
+          "position": 6,
+          "entry_id": "w056",
+          "english": "blue",
+          "kinyarwanda": "ubururu",
+          "group_id": "colors",
+          "group_title": "Colors",
+          "grammar": "adjective",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/blue"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 7,
+          "entry_id": "w024",
+          "english": "sour",
+          "kinyarwanda": "sharira",
+          "group_id": "taste-adjectives",
+          "group_title": "Taste Adjectives",
+          "grammar": "adjective",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/sour"
+          ],
+          "notes": "Glosbe lists the root sharira; natural adjective form gisharira needs native confirmation."
+        }
+      ]
+    },
+    {
+      "id": "word_04",
+      "mode": "word",
+      "complete": true,
+      "pair_count": 7,
+      "line_count": 14,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "w039",
+          "english": "twin",
+          "kinyarwanda": "impanga",
+          "group_id": "village-people",
+          "group_title": "Village People",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/twin"
+          ],
+          "notes": "Extra word selected by the seeded random sample."
+        },
+        {
+          "position": 2,
+          "entry_id": "w042",
+          "english": "cow",
+          "kinyarwanda": "inka",
+          "group_id": "farm-animals",
+          "group_title": "Farm Animals",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/cow"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 3,
+          "entry_id": "w032",
+          "english": "leaf",
+          "kinyarwanda": "ikibabi",
+          "group_id": "garden-nouns",
+          "group_title": "Garden Nouns",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/leaf"
+          ],
+          "notes": "Extra word selected by the seeded random sample."
+        },
+        {
+          "position": 4,
+          "entry_id": "w017",
+          "english": "red",
+          "kinyarwanda": "umutuku",
+          "group_id": "colors",
+          "group_title": "Colors",
+          "grammar": "adjective",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/red"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 5,
+          "entry_id": "w054",
+          "english": "teacher",
+          "kinyarwanda": "umwarimu",
+          "group_id": "people-and-roles",
+          "group_title": "People and Roles",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/teacher"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 6,
+          "entry_id": "w002",
+          "english": "elder",
+          "kinyarwanda": "umusaza",
+          "group_id": "village-people",
+          "group_title": "Village People",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/elder"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 7,
+          "entry_id": "w074",
+          "english": "bus",
+          "kinyarwanda": "bisi",
+          "group_id": "transport-types",
+          "group_title": "Transport Types",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/bus"
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "word_05",
+      "mode": "word",
+      "complete": true,
+      "pair_count": 7,
+      "line_count": 14,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "w029",
+          "english": "house",
+          "kinyarwanda": "inzu",
+          "group_id": "home-items",
+          "group_title": "Home Items",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/house"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 2,
+          "entry_id": "w027",
+          "english": "to repair",
+          "kinyarwanda": "gusana",
+          "group_id": "repair-verbs",
+          "group_title": "Repair Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/repair"
+          ],
+          "notes": "Reference group lists to fix; Glosbe verifies gusana as repair/mend."
+        },
+        {
+          "position": 3,
+          "entry_id": "w055",
+          "english": "honest",
+          "kinyarwanda": "inyangamugayo",
+          "group_id": "character-words-umuntu",
+          "group_title": "Character Words (UMUNTU)",
+          "grammar": "adjective",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/rw/en/inyangamugayo"
+          ],
+          "notes": "Glosbe reverse entry lists reliable/trustworthy person; reference form is w'inyangamugayo."
+        },
+        {
+          "position": 4,
+          "entry_id": "w068",
+          "english": "to close",
+          "kinyarwanda": "gufunga",
+          "group_id": "household-actions",
+          "group_title": "Household Actions",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/close"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 5,
+          "entry_id": "w053",
+          "english": "patient",
+          "kinyarwanda": "ihangana",
+          "group_id": "character-words-umuntu",
+          "group_title": "Character Words (UMUNTU)",
+          "grammar": "adjective",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/rw/en/ihangana"
+          ],
+          "notes": "Glosbe reverse entry lists patient/endure; reference form is wihangana."
+        },
+        {
+          "position": 6,
+          "entry_id": "w046",
+          "english": "noise",
+          "kinyarwanda": "urusaku",
+          "group_id": "sound-adjectives-ijwi",
+          "group_title": "Sound Adjectives (IJWI)",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/rw/en/urusaku"
+          ],
+          "notes": "Glosbe reverse entry: noise, sound, clamour."
+        },
+        {
+          "position": 7,
+          "entry_id": "w049",
+          "english": "to jump",
+          "kinyarwanda": "gusimbuka",
+          "group_id": "daily-movement-verbs",
+          "group_title": "Daily Movement Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/jump"
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "word_06",
+      "mode": "word",
+      "complete": true,
+      "pair_count": 7,
+      "line_count": 14,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "w020",
+          "english": "sand",
+          "kinyarwanda": "umucanga",
+          "group_id": "building-items",
+          "group_title": "Building Items",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/sand"
+          ],
+          "notes": "Extra word selected by the seeded random sample."
+        },
+        {
+          "position": 2,
+          "entry_id": "w050",
+          "english": "car",
+          "kinyarwanda": "imodoka",
+          "group_id": "transport-types",
+          "group_title": "Transport Types",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/car"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 3,
+          "entry_id": "w023",
+          "english": "to walk",
+          "kinyarwanda": "kugenda",
+          "group_id": "daily-movement-verbs",
+          "group_title": "Daily Movement Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/walk"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 4,
+          "entry_id": "w003",
+          "english": "to drink",
+          "kinyarwanda": "kunywa",
+          "group_id": "common-action-verbs",
+          "group_title": "Common Action Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/drink"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 5,
+          "entry_id": "w071",
+          "english": "morning",
+          "kinyarwanda": "igitondo",
+          "group_id": "time-words",
+          "group_title": "Time Words",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/morning"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 6,
+          "entry_id": "w028",
+          "english": "accountant",
+          "kinyarwanda": "umucungamari",
+          "group_id": "office-people",
+          "group_title": "Office People",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/accountant"
+          ],
+          "notes": "Reference lists umubaruramari; verified Glosbe form is umucungamari."
+        },
+        {
+          "position": 7,
+          "entry_id": "w033",
+          "english": "flower",
+          "kinyarwanda": "ururabyo",
+          "group_id": "garden-nouns",
+          "group_title": "Garden Nouns",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/flower"
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "word_07",
+      "mode": "word",
+      "complete": true,
+      "pair_count": 7,
+      "line_count": 14,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "w036",
+          "english": "green",
+          "kinyarwanda": "icyatsi",
+          "group_id": "colors",
+          "group_title": "Colors",
+          "grammar": "adjective",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/green"
+          ],
+          "notes": "Extra word selected by the seeded random sample."
+        },
+        {
+          "position": 2,
+          "entry_id": "w064",
+          "english": "to cry",
+          "kinyarwanda": "kurira",
+          "group_id": "feeling-verbs",
+          "group_title": "Feeling Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/cry"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 3,
+          "entry_id": "w037",
+          "english": "wind",
+          "kinyarwanda": "umuyaga",
+          "group_id": "weather-words",
+          "group_title": "Weather Words",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/wind"
+          ],
+          "notes": "Extra word selected by the seeded random sample; verified noun form."
+        },
+        {
+          "position": 4,
+          "entry_id": "w059",
+          "english": "to clean",
+          "kinyarwanda": "gusukura",
+          "group_id": "household-actions",
+          "group_title": "Household Actions",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/clean"
+          ],
+          "notes": "Extra word selected by the seeded random sample."
+        },
+        {
+          "position": 5,
+          "entry_id": "w041",
+          "english": "tree",
+          "kinyarwanda": "igiti",
+          "group_id": "garden-nouns",
+          "group_title": "Garden Nouns",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/tree"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 6,
+          "entry_id": "w063",
+          "english": "to replace",
+          "kinyarwanda": "gusimbura",
+          "group_id": "repair-verbs",
+          "group_title": "Repair Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/replace"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 7,
+          "entry_id": "w026",
+          "english": "to wipe",
+          "kinyarwanda": "guhanagura",
+          "group_id": "cleaning-verbs",
+          "group_title": "Cleaning Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/wipe"
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "word_08",
+      "mode": "word",
+      "complete": true,
+      "pair_count": 7,
+      "line_count": 14,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "w038",
+          "english": "to breathe",
+          "kinyarwanda": "guhumeka",
+          "group_id": "body-actions",
+          "group_title": "Body Actions",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/breathe"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 2,
+          "entry_id": "w044",
+          "english": "door",
+          "kinyarwanda": "urugi",
+          "group_id": "home-items",
+          "group_title": "Home Items",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/door"
+          ],
+          "notes": "Reference lists umuryango; verified Glosbe form is urugi."
+        },
+        {
+          "position": 3,
+          "entry_id": "w025",
+          "english": "to eat",
+          "kinyarwanda": "kurya",
+          "group_id": "common-action-verbs",
+          "group_title": "Common Action Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/eat"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 4,
+          "entry_id": "w009",
+          "english": "to choose",
+          "kinyarwanda": "guhitamo",
+          "group_id": "common-travel-verbs",
+          "group_title": "Common Travel Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/choose"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 5,
+          "entry_id": "w014",
+          "english": "to open",
+          "kinyarwanda": "gufungura",
+          "group_id": "household-actions",
+          "group_title": "Household Actions",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/open"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 6,
+          "entry_id": "w066",
+          "english": "big",
+          "kinyarwanda": "nini",
+          "group_id": "describing-words",
+          "group_title": "Describing Words",
+          "grammar": "adjective",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/big"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 7,
+          "entry_id": "w005",
+          "english": "nurse",
+          "kinyarwanda": "umuforomo",
+          "group_id": "work-roles",
+          "group_title": "Work Roles",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/nurse"
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "word_09",
+      "mode": "word",
+      "complete": true,
+      "pair_count": 7,
+      "line_count": 14,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "w013",
+          "english": "to travel",
+          "kinyarwanda": "gutembera",
+          "group_id": "common-travel-verbs",
+          "group_title": "Common Travel Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/travel"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 2,
+          "entry_id": "w072",
+          "english": "sun",
+          "kinyarwanda": "izuba",
+          "group_id": "weather-words",
+          "group_title": "Weather Words",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/sun"
+          ],
+          "notes": "Verified noun form; sunny adjective form is queued."
+        },
+        {
+          "position": 3,
+          "entry_id": "w048",
+          "english": "to mix",
+          "kinyarwanda": "kuvanga",
+          "group_id": "kitchen-verbs",
+          "group_title": "Kitchen Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/mix"
+          ],
+          "notes": "Extra word selected by the seeded random sample."
+        },
+        {
+          "position": 4,
+          "entry_id": "w019",
+          "english": "doctor",
+          "kinyarwanda": "umuganga",
+          "group_id": "work-roles",
+          "group_title": "Work Roles",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/doctor"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 5,
+          "entry_id": "w052",
+          "english": "window",
+          "kinyarwanda": "idirishya",
+          "group_id": "home-items",
+          "group_title": "Home Items",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/window"
+          ],
+          "notes": "Extra word selected by the seeded random sample."
+        },
+        {
+          "position": 6,
+          "entry_id": "w040",
+          "english": "milk",
+          "kinyarwanda": "amata",
+          "group_id": "everyday-foods",
+          "group_title": "Everyday Foods",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/milk"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 7,
+          "entry_id": "w022",
+          "english": "to cook",
+          "kinyarwanda": "guteka",
+          "group_id": "kitchen-verbs",
+          "group_title": "Kitchen Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/cook"
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "word_10",
+      "mode": "word",
+      "complete": true,
+      "pair_count": 7,
+      "line_count": 14,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "w006",
+          "english": "to sweep",
+          "kinyarwanda": "gukubura",
+          "group_id": "cleaning-verbs",
+          "group_title": "Cleaning Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/sweep"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 2,
+          "entry_id": "w047",
+          "english": "bitter",
+          "kinyarwanda": "kirura",
+          "group_id": "taste-adjectives",
+          "group_title": "Taste Adjectives",
+          "grammar": "adjective",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/bitter"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 3,
+          "entry_id": "w031",
+          "english": "rice",
+          "kinyarwanda": "umuceri",
+          "group_id": "everyday-foods",
+          "group_title": "Everyday Foods",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/rice"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 4,
+          "entry_id": "w004",
+          "english": "sister",
+          "kinyarwanda": "mushiki",
+          "group_id": "family-relations",
+          "group_title": "Family Relations",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/sister"
+          ],
+          "notes": "Extra word selected by the seeded random sample."
+        },
+        {
+          "position": 5,
+          "entry_id": "w012",
+          "english": "to smile",
+          "kinyarwanda": "kumwenyura",
+          "group_id": "feeling-verbs",
+          "group_title": "Feeling Verbs",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/smile"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 6,
+          "entry_id": "w008",
+          "english": "to cough",
+          "kinyarwanda": "gukorora",
+          "group_id": "body-actions",
+          "group_title": "Body Actions",
+          "grammar": "verb",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/cough"
+          ],
+          "notes": ""
+        },
+        {
+          "position": 7,
+          "entry_id": "w018",
+          "english": "trousers",
+          "kinyarwanda": "ipantaro",
+          "group_id": "clothing-items",
+          "group_title": "Clothing Items",
+          "grammar": "noun",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/trousers"
+          ],
+          "notes": "Spelling corrected from reference ipantalo to verified ipantaro."
+        }
+      ]
+    },
+    {
+      "id": "sentence_01",
+      "mode": "sentence",
+      "complete": true,
+      "pair_count": 4,
+      "line_count": 8,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "s013",
+          "english": "Where does it hurt?",
+          "kinyarwanda": "Uri kubabara he?",
+          "group_id": "health-questions",
+          "group_title": "Health Questions",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 2,
+          "entry_id": "s015",
+          "english": "Good afternoon, I need a small bag.",
+          "kinyarwanda": "Mwiriwe neza, nkeneye agapaki gato.",
+          "group_id": "shop-conversation",
+          "group_title": "Shop Conversation",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 3,
+          "entry_id": "s007",
+          "english": "He cooks food",
+          "kinyarwanda": "Ateka ibiryo",
+          "group_id": "daily-life-actions",
+          "group_title": "Daily Life Actions",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 4,
+          "entry_id": "s019",
+          "english": "I close the window at night",
+          "kinyarwanda": "Mfunga idirishya nijoro",
+          "group_id": "evening-sentences",
+          "group_title": "Evening Sentences",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        }
+      ]
+    },
+    {
+      "id": "sentence_02",
+      "mode": "sentence",
+      "complete": true,
+      "pair_count": 4,
+      "line_count": 8,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "s022",
+          "english": "I carry your bag",
+          "kinyarwanda": "Nagutwarira igikapu",
+          "group_id": "helping-sentences",
+          "group_title": "Helping Sentences",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 2,
+          "entry_id": "s011",
+          "english": "Do you have any siblings?",
+          "kinyarwanda": "Ugira abavandimwe?",
+          "group_id": "question-and-answer",
+          "group_title": "Question and Answer",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 3,
+          "entry_id": "s020",
+          "english": "I wake before sunrise",
+          "kinyarwanda": "Mbyuka mbere y'uko izuba rirasa",
+          "group_id": "morning-sentences",
+          "group_title": "Morning Sentences",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 4,
+          "entry_id": "s016",
+          "english": "I eat food",
+          "kinyarwanda": "Ndarya ibiryo",
+          "group_id": "simple-daily-statements",
+          "group_title": "Simple Daily Statements",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        }
+      ]
+    },
+    {
+      "id": "sentence_03",
+      "mode": "sentence",
+      "complete": true,
+      "pair_count": 4,
+      "line_count": 8,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "s008",
+          "english": "How much is it?",
+          "kinyarwanda": "Ni angahe?",
+          "group_id": "buying-at-a-shop",
+          "group_title": "Buying at a Shop",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 2,
+          "entry_id": "s021",
+          "english": "Look both ways before crossing",
+          "kinyarwanda": "Reba impande zombi mbere yo kwambuka",
+          "group_id": "safety-sentences",
+          "group_title": "Safety Sentences",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 3,
+          "entry_id": "s014",
+          "english": "Where are you?",
+          "kinyarwanda": "Uri he?",
+          "group_id": "basic-daily-questions",
+          "group_title": "Basic Daily Questions",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 4,
+          "entry_id": "s001",
+          "english": "Hi there, can you hear me?",
+          "kinyarwanda": "Muraho, uranyumva?",
+          "group_id": "phone-conversation",
+          "group_title": "Phone Conversation",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        }
+      ]
+    },
+    {
+      "id": "sentence_04",
+      "mode": "sentence",
+      "complete": true,
+      "pair_count": 4,
+      "line_count": 8,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "s012",
+          "english": "May I come in?",
+          "kinyarwanda": "Ninjire?",
+          "group_id": "polite-questions",
+          "group_title": "Polite Questions",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 2,
+          "entry_id": "s005",
+          "english": "Where did you put the key?",
+          "kinyarwanda": "Washyize he urufunguzo?",
+          "group_id": "home-questions",
+          "group_title": "Home Questions",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 3,
+          "entry_id": "s009",
+          "english": "I read a short story",
+          "kinyarwanda": "Nsoma inkuru ngufi",
+          "group_id": "reading-sentences",
+          "group_title": "Reading Sentences",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 4,
+          "entry_id": "s023",
+          "english": "I would like food.",
+          "kinyarwanda": "Ndashaka ibiryo.",
+          "group_id": "restaurant-conversation",
+          "group_title": "Restaurant Conversation",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        }
+      ]
+    },
+    {
+      "id": "sentence_05",
+      "mode": "sentence",
+      "complete": true,
+      "pair_count": 4,
+      "line_count": 8,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "s002",
+          "english": "Do you eat rice?",
+          "kinyarwanda": "Urarya umuceri?",
+          "group_id": "yes-or-no-questions",
+          "group_title": "Yes or No Questions",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 2,
+          "entry_id": "s006",
+          "english": "Please, take me to the station.",
+          "kinyarwanda": "Nyamuneka njyana kuri sitasiyo.",
+          "group_id": "taxi-conversation",
+          "group_title": "Taxi Conversation",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 3,
+          "entry_id": "s025",
+          "english": "Where is the road?",
+          "kinyarwanda": "Umuhanda uri he?",
+          "group_id": "direction-questions",
+          "group_title": "Direction Questions",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 4,
+          "entry_id": "s004",
+          "english": "I have a headache.",
+          "kinyarwanda": "Mfite umutwe ubabara.",
+          "group_id": "clinic-conversation",
+          "group_title": "Clinic Conversation",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        }
+      ]
+    },
+    {
+      "id": "sentence_06",
+      "mode": "sentence",
+      "complete": true,
+      "pair_count": 4,
+      "line_count": 8,
+      "pairs": [
+        {
+          "position": 1,
+          "entry_id": "s010",
+          "english": "Good morning",
+          "kinyarwanda": "Mwaramutse",
+          "group_id": "talking-in-class",
+          "group_title": "Talking in Class",
+          "grammar": "sentence",
+          "verification": "verified",
+          "sources": [
+            "https://glosbe.com/en/rw/good%20morning"
+          ],
+          "notes": "Common phrase confirmed on Glosbe."
+        },
+        {
+          "position": 2,
+          "entry_id": "s018",
+          "english": "Let us walk in the park.",
+          "kinyarwanda": "Reka tugende muri pariki.",
+          "group_id": "park-conversation",
+          "group_title": "Park Conversation",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 3,
+          "entry_id": "s024",
+          "english": "How much is the ride?",
+          "kinyarwanda": "Urugendo ni angahe?",
+          "group_id": "bus-travel-conversation",
+          "group_title": "Bus Travel Conversation",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        },
+        {
+          "position": 4,
+          "entry_id": "s003",
+          "english": "Is the baby sleeping?",
+          "kinyarwanda": "Umwana arasinziriye?",
+          "group_id": "quiet-questions",
+          "group_title": "Quiet Questions",
+          "grammar": "sentence",
+          "verification": "native_review_required",
+          "sources": [],
+          "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+        }
+      ]
+    }
+  ],
+  "remainder": {
+    "note": "Not enough entries for a complete batch in this pilot. These will fill the next videos after the database is expanded.",
+    "words": [
+      {
+        "position": 1,
+        "entry_id": "w030",
+        "english": "pencil",
+        "kinyarwanda": "ikaramu",
+        "group_id": "school-tools",
+        "group_title": "School Tools",
+        "grammar": "noun",
+        "verification": "verified",
+        "sources": [
+          "https://glosbe.com/en/rw/pencil"
+        ],
+        "notes": ""
+      },
+      {
+        "position": 2,
+        "entry_id": "w062",
+        "english": "mother",
+        "kinyarwanda": "mama",
+        "group_id": "people-and-roles",
+        "group_title": "People and Roles",
+        "grammar": "noun",
+        "verification": "verified",
+        "sources": [
+          "https://glosbe.com/en/rw/mother"
+        ],
+        "notes": "Extra word selected by the seeded random sample."
+      },
+      {
+        "position": 3,
+        "entry_id": "w073",
+        "english": "foot",
+        "kinyarwanda": "ikirenge",
+        "group_id": "body-parts",
+        "group_title": "Body Parts",
+        "grammar": "noun",
+        "verification": "verified",
+        "sources": [
+          "https://glosbe.com/en/rw/foot"
+        ],
+        "notes": ""
+      },
+      {
+        "position": 4,
+        "entry_id": "w043",
+        "english": "small",
+        "kinyarwanda": "gitoya",
+        "group_id": "describing-words",
+        "group_title": "Describing Words",
+        "grammar": "adjective",
+        "verification": "verified",
+        "sources": [
+          "https://glosbe.com/en/rw/small"
+        ],
+        "notes": "Reference lists nto; pilot uses verified gitoya (class 7 adjective)."
+      }
+    ],
+    "sentences": [
+      {
+        "position": 1,
+        "entry_id": "s017",
+        "english": "How much do you need?",
+        "kinyarwanda": "Ukeneye amafaranga angahe?",
+        "group_id": "money-questions",
+        "group_title": "Money Questions",
+        "grammar": "sentence",
+        "verification": "native_review_required",
+        "sources": [],
+        "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+      },
+      {
+        "position": 2,
+        "entry_id": "s026",
+        "english": "I brush my teeth",
+        "kinyarwanda": "Noza amenyo",
+        "group_id": "daily-routine-sentences",
+        "group_title": "Daily Routine Sentences",
+        "grammar": "sentence",
+        "verification": "native_review_required",
+        "sources": [],
+        "notes": "From the supplied reference table; exact sentence pair not found in online dictionary."
+      }
+    ]
+  }
+}

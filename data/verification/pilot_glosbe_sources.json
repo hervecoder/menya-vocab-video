@@ -1,0 +1,1375 @@
+[
+  {
+    "group": "Common Action Verbs",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to eat",
+    "kinyarwanda": "kurya",
+    "query": "eat",
+    "url": "https://glosbe.com/en/rw/eat",
+    "status": 200,
+    "found": true,
+    "top": [
+      "rya, gufundu, kurya"
+    ],
+    "summary": "rya, gufundu, kurya are the top translations of \"eat\" into Kinyarwanda."
+  },
+  {
+    "group": "Common Action Verbs",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to drink",
+    "kinyarwanda": "kunywa",
+    "query": "drink",
+    "url": "https://glosbe.com/en/rw/drink",
+    "status": 200,
+    "found": true,
+    "top": [
+      "nywa, ikinyobwa, kunywa"
+    ],
+    "summary": "nywa, ikinyobwa, kunywa are the top translations of \"drink\" into Kinyarwanda."
+  },
+  {
+    "group": "Common Action Verbs",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to come",
+    "kinyarwanda": "kuza",
+    "query": "come",
+    "url": "https://glosbe.com/en/rw/come",
+    "status": 200,
+    "found": false,
+    "top": [
+      "za, gwino"
+    ],
+    "summary": "za, gwino are the top translations of \"come\" into Kinyarwanda."
+  },
+  {
+    "group": "Everyday Foods",
+    "topic": "Food and drinks",
+    "grammar": "noun",
+    "english": "rice",
+    "kinyarwanda": "umuceri",
+    "query": "rice",
+    "url": "https://glosbe.com/en/rw/rice",
+    "status": 200,
+    "found": true,
+    "top": [
+      "umuceri, Umuceli, umuceli"
+    ],
+    "summary": "umuceri, Umuceli, umuceli are the top translations of \"rice\" into Kinyarwanda."
+  },
+  {
+    "group": "Everyday Foods",
+    "topic": "Food and drinks",
+    "grammar": "noun",
+    "english": "beans",
+    "kinyarwanda": "ibishyimbo",
+    "query": "beans",
+    "url": "https://glosbe.com/en/rw/beans",
+    "status": 200,
+    "found": false,
+    "top": [],
+    "summary": ""
+  },
+  {
+    "group": "Everyday Foods",
+    "topic": "Food and drinks",
+    "grammar": "noun",
+    "english": "milk",
+    "kinyarwanda": "amata",
+    "query": "milk",
+    "url": "https://glosbe.com/en/rw/milk",
+    "status": 200,
+    "found": true,
+    "top": [
+      "ta, amata, gukama"
+    ],
+    "summary": "ta, amata, gukama are the top translations of \"milk\" into Kinyarwanda."
+  },
+  {
+    "group": "Describing Words",
+    "topic": "Daily activities",
+    "grammar": "adjective",
+    "english": "big",
+    "kinyarwanda": "nini",
+    "query": "big",
+    "url": "https://glosbe.com/en/rw/big",
+    "status": 200,
+    "found": true,
+    "top": [
+      "nini, munini, kinini"
+    ],
+    "summary": "nini, munini, kinini are the top translations of \"big\" into Kinyarwanda."
+  },
+  {
+    "group": "Describing Words",
+    "topic": "Daily activities",
+    "grammar": "adjective",
+    "english": "small",
+    "kinyarwanda": "nto",
+    "query": "small",
+    "url": "https://glosbe.com/en/rw/small",
+    "status": 200,
+    "found": true,
+    "top": [
+      "to, gitoya, toya"
+    ],
+    "summary": "to, gitoya, toya are the top translations of \"small\" into Kinyarwanda."
+  },
+  {
+    "group": "Describing Words",
+    "topic": "Daily activities",
+    "grammar": "adjective",
+    "english": "good",
+    "kinyarwanda": "nziza",
+    "query": "good",
+    "url": "https://glosbe.com/en/rw/good",
+    "status": 200,
+    "found": false,
+    "top": [
+      "iza, -iza"
+    ],
+    "summary": "iza, -iza are the top translations of \"good\" into Kinyarwanda."
+  },
+  {
+    "group": "People and Roles",
+    "topic": "Family",
+    "grammar": "noun",
+    "english": "teacher",
+    "kinyarwanda": "umwarimu",
+    "query": "teacher",
+    "url": "https://glosbe.com/en/rw/teacher",
+    "status": 200,
+    "found": true,
+    "top": [
+      "umwigisha, umwarimu, arimu"
+    ],
+    "summary": "umwigisha, umwarimu, arimu are the top translations of \"teacher\" into Kinyarwanda."
+  },
+  {
+    "group": "People and Roles",
+    "topic": "Family",
+    "grammar": "noun",
+    "english": "student",
+    "kinyarwanda": "umunyeshuri",
+    "query": "student",
+    "url": "https://glosbe.com/en/rw/student",
+    "status": 200,
+    "found": true,
+    "top": [
+      "umwigishwa, umunyeshuri, nyeshuri"
+    ],
+    "summary": "umwigishwa, umunyeshuri, nyeshuri are the top translations of \"student\" into Kinyarwanda."
+  },
+  {
+    "group": "People and Roles",
+    "topic": "Family",
+    "grammar": "noun",
+    "english": "mother",
+    "kinyarwanda": "mama",
+    "query": "mother",
+    "url": "https://glosbe.com/en/rw/mother",
+    "status": 200,
+    "found": true,
+    "top": [
+      "mama"
+    ],
+    "summary": "mama is the translation of \"mother\" into Kinyarwanda."
+  },
+  {
+    "group": "Household Actions",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to open",
+    "kinyarwanda": "gufungura",
+    "query": "open",
+    "url": "https://glosbe.com/en/rw/open",
+    "status": 200,
+    "found": true,
+    "top": [
+      "gufungura, fungura, gukingura"
+    ],
+    "summary": "gufungura, fungura, gukingura are the top translations of \"open\" into Kinyarwanda."
+  },
+  {
+    "group": "Household Actions",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to close",
+    "kinyarwanda": "gufunga",
+    "query": "close",
+    "url": "https://glosbe.com/en/rw/close",
+    "status": 200,
+    "found": true,
+    "top": [
+      "gufunga, funga, iherezo"
+    ],
+    "summary": "gufunga, funga, iherezo are the top translations of \"close\" into Kinyarwanda."
+  },
+  {
+    "group": "Household Actions",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to clean",
+    "kinyarwanda": "gusukura",
+    "query": "clean",
+    "url": "https://glosbe.com/en/rw/clean",
+    "status": 200,
+    "found": true,
+    "top": [
+      "gusukura, sukura, koza"
+    ],
+    "summary": "gusukura, sukura, koza are the top translations of \"clean\" into Kinyarwanda."
+  },
+  {
+    "group": "Home Items",
+    "topic": "Home",
+    "grammar": "noun",
+    "english": "house",
+    "kinyarwanda": "inzu",
+    "query": "house",
+    "url": "https://glosbe.com/en/rw/house",
+    "status": 200,
+    "found": true,
+    "top": [
+      "inzu, zu, intaho"
+    ],
+    "summary": "inzu, zu, intaho are the top translations of \"house\" into Kinyarwanda."
+  },
+  {
+    "group": "Home Items",
+    "topic": "Home",
+    "grammar": "noun",
+    "english": "door",
+    "kinyarwanda": "umuryango",
+    "query": "door",
+    "url": "https://glosbe.com/en/rw/door",
+    "status": 200,
+    "found": false,
+    "top": [
+      "urugi, ugi"
+    ],
+    "summary": "urugi, ugi are the top translations of \"door\" into Kinyarwanda."
+  },
+  {
+    "group": "Home Items",
+    "topic": "Home",
+    "grammar": "noun",
+    "english": "window",
+    "kinyarwanda": "idirishya",
+    "query": "window",
+    "url": "https://glosbe.com/en/rw/window",
+    "status": 200,
+    "found": true,
+    "top": [
+      "idirishya, idirisha, dirishya"
+    ],
+    "summary": "idirishya, idirisha, dirishya are the top translations of \"window\" into Kinyarwanda."
+  },
+  {
+    "group": "Common Travel Verbs",
+    "topic": "Transport",
+    "grammar": "verb",
+    "english": "to travel",
+    "kinyarwanda": "gutembera",
+    "query": "travel",
+    "url": "https://glosbe.com/en/rw/travel",
+    "status": 200,
+    "found": true,
+    "top": [
+      "genda, Gutembera, Tembera"
+    ],
+    "summary": "genda, Gutembera, Tembera are the top translations of \"travel\" into Kinyarwanda."
+  },
+  {
+    "group": "Common Travel Verbs",
+    "topic": "Transport",
+    "grammar": "verb",
+    "english": "to return",
+    "kinyarwanda": "kugaruka",
+    "query": "return",
+    "url": "https://glosbe.com/en/rw/return",
+    "status": 200,
+    "found": false,
+    "top": [],
+    "summary": ""
+  },
+  {
+    "group": "Common Travel Verbs",
+    "topic": "Transport",
+    "grammar": "verb",
+    "english": "to choose",
+    "kinyarwanda": "guhitamo",
+    "query": "choose",
+    "url": "https://glosbe.com/en/rw/choose",
+    "status": 200,
+    "found": true,
+    "top": [
+      "guhitamo, hitamo, robanura"
+    ],
+    "summary": "guhitamo, hitamo, robanura are the top translations of \"choose\" into Kinyarwanda."
+  },
+  {
+    "group": "Market Items",
+    "topic": "Shopping",
+    "grammar": "noun",
+    "english": "bag",
+    "kinyarwanda": "igikapu",
+    "query": "bag",
+    "url": "https://glosbe.com/en/rw/bag",
+    "status": 200,
+    "found": false,
+    "top": [
+      "umufuka, fuka, hago"
+    ],
+    "summary": "umufuka, fuka, hago are the top translations of \"bag\" into Kinyarwanda."
+  },
+  {
+    "group": "Market Items",
+    "topic": "Shopping",
+    "grammar": "noun",
+    "english": "bottle",
+    "kinyarwanda": "icupa",
+    "query": "bottle",
+    "url": "https://glosbe.com/en/rw/bottle",
+    "status": 200,
+    "found": true,
+    "top": [
+      "icupa, cupa"
+    ],
+    "summary": "icupa, cupa are the top translations of \"bottle\" into Kinyarwanda."
+  },
+  {
+    "group": "Market Items",
+    "topic": "Shopping",
+    "grammar": "noun",
+    "english": "key",
+    "kinyarwanda": "urufunguzo",
+    "query": "key",
+    "url": "https://glosbe.com/en/rw/key",
+    "status": 200,
+    "found": true,
+    "top": [
+      "urufunguzo, buto, funguzo"
+    ],
+    "summary": "urufunguzo, buto, funguzo are the top translations of \"key\" into Kinyarwanda."
+  },
+  {
+    "group": "Character Words",
+    "topic": "Feelings",
+    "grammar": "adjective",
+    "english": "honest",
+    "kinyarwanda": "w'inyangamugayo",
+    "query": "honest",
+    "url": "https://glosbe.com/en/rw/honest",
+    "status": 200,
+    "found": false,
+    "top": [],
+    "summary": ""
+  },
+  {
+    "group": "Character Words",
+    "topic": "Feelings",
+    "grammar": "adjective",
+    "english": "patient",
+    "kinyarwanda": "wihangana",
+    "query": "patient",
+    "url": "https://glosbe.com/en/rw/patient",
+    "status": 200,
+    "found": false,
+    "top": [
+      "umurwayi, ihangana, rwayi"
+    ],
+    "summary": "umurwayi, ihangana, rwayi are the top translations of \"patient\" into Kinyarwanda."
+  },
+  {
+    "group": "Character Words",
+    "topic": "Feelings",
+    "grammar": "adjective",
+    "english": "gentle",
+    "kinyarwanda": "woroheje",
+    "query": "gentle",
+    "url": "https://glosbe.com/en/rw/gentle",
+    "status": 200,
+    "found": false,
+    "top": [
+      "kwitonda, itonda"
+    ],
+    "summary": "kwitonda, itonda are the top translations of \"gentle\" into Kinyarwanda."
+  },
+  {
+    "group": "Work Roles",
+    "topic": "Jobs",
+    "grammar": "noun",
+    "english": "doctor",
+    "kinyarwanda": "umuganga",
+    "query": "doctor",
+    "url": "https://glosbe.com/en/rw/doctor",
+    "status": 200,
+    "found": true,
+    "top": [
+      "umuganga, dogiteri, umuvuzi"
+    ],
+    "summary": "umuganga, dogiteri, umuvuzi are the top translations of \"doctor\" into Kinyarwanda."
+  },
+  {
+    "group": "Work Roles",
+    "topic": "Jobs",
+    "grammar": "noun",
+    "english": "nurse",
+    "kinyarwanda": "umuforomo",
+    "query": "nurse",
+    "url": "https://glosbe.com/en/rw/nurse",
+    "status": 200,
+    "found": true,
+    "top": [
+      "umuforomo, konsa, foromo"
+    ],
+    "summary": "umuforomo, konsa, foromo are the top translations of \"nurse\" into Kinyarwanda."
+  },
+  {
+    "group": "Work Roles",
+    "topic": "Jobs",
+    "grammar": "noun",
+    "english": "farmer",
+    "kinyarwanda": "umuhinzi",
+    "query": "farmer",
+    "url": "https://glosbe.com/en/rw/farmer",
+    "status": 200,
+    "found": true,
+    "top": [
+      "umuhinzi, hinzi"
+    ],
+    "summary": "umuhinzi, hinzi are the top translations of \"farmer\" into Kinyarwanda."
+  },
+  {
+    "group": "School Tools",
+    "topic": "Education",
+    "grammar": "noun",
+    "english": "pencil",
+    "kinyarwanda": "ikaramu",
+    "query": "pencil",
+    "url": "https://glosbe.com/en/rw/pencil",
+    "status": 200,
+    "found": true,
+    "top": [
+      "ikaramu, karamu"
+    ],
+    "summary": "ikaramu, karamu are the top translations of \"pencil\" into Kinyarwanda."
+  },
+  {
+    "group": "School Tools",
+    "topic": "Education",
+    "grammar": "noun",
+    "english": "notebook",
+    "kinyarwanda": "agatabo",
+    "query": "notebook",
+    "url": "https://glosbe.com/en/rw/notebook",
+    "status": 200,
+    "found": false,
+    "top": [
+      "ikaye, kaye, ikarine"
+    ],
+    "summary": "ikaye, kaye, ikarine are the top translations of \"notebook\" into Kinyarwanda."
+  },
+  {
+    "group": "School Tools",
+    "topic": "Education",
+    "grammar": "noun",
+    "english": "blackboard",
+    "kinyarwanda": "ikibaho",
+    "query": "blackboard",
+    "url": "https://glosbe.com/en/rw/blackboard",
+    "status": 200,
+    "found": true,
+    "top": [
+      "ikibaho, baho"
+    ],
+    "summary": "ikibaho, baho are the top translations of \"blackboard\" into Kinyarwanda."
+  },
+  {
+    "group": "Repair Verbs",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to fix",
+    "kinyarwanda": "gusana",
+    "query": "fix",
+    "url": "https://glosbe.com/en/rw/fix",
+    "status": 200,
+    "found": false,
+    "top": [
+      "gukora, koresha, kora"
+    ],
+    "summary": "gukora, koresha, kora are the top translations of \"fix\" into Kinyarwanda."
+  },
+  {
+    "group": "Repair Verbs",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to replace",
+    "kinyarwanda": "gusimbura",
+    "query": "replace",
+    "url": "https://glosbe.com/en/rw/replace",
+    "status": 200,
+    "found": true,
+    "top": [
+      "gusimbura, kuzungura, simbura"
+    ],
+    "summary": "gusimbura, kuzungura, simbura are the top translations of \"replace\" into Kinyarwanda."
+  },
+  {
+    "group": "Repair Verbs",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to check",
+    "kinyarwanda": "kugenzura",
+    "query": "check",
+    "url": "https://glosbe.com/en/rw/check",
+    "status": 200,
+    "found": false,
+    "top": [
+      "sheki, fagitire, gusaka"
+    ],
+    "summary": "sheki, fagitire, gusaka are the top translations of \"check\" into Kinyarwanda."
+  },
+  {
+    "group": "Weather Words",
+    "topic": "Weather",
+    "grammar": "adjective",
+    "english": "sunny",
+    "kinyarwanda": "hari izuba",
+    "query": "sunny",
+    "url": "https://glosbe.com/en/rw/sunny",
+    "status": 200,
+    "found": false,
+    "top": [],
+    "summary": ""
+  },
+  {
+    "group": "Weather Words",
+    "topic": "Weather",
+    "grammar": "adjective",
+    "english": "rainy",
+    "kinyarwanda": "hari imvura",
+    "query": "rainy",
+    "url": "https://glosbe.com/en/rw/rainy",
+    "status": 200,
+    "found": false,
+    "top": [],
+    "summary": ""
+  },
+  {
+    "group": "Weather Words",
+    "topic": "Weather",
+    "grammar": "adjective",
+    "english": "windy",
+    "kinyarwanda": "hari umuyaga",
+    "query": "windy",
+    "url": "https://glosbe.com/en/rw/windy",
+    "status": 200,
+    "found": false,
+    "top": [],
+    "summary": ""
+  },
+  {
+    "group": "Village People",
+    "topic": "Family",
+    "grammar": "noun",
+    "english": "elder",
+    "kinyarwanda": "umusaza",
+    "query": "elder",
+    "url": "https://glosbe.com/en/rw/elder",
+    "status": 200,
+    "found": true,
+    "top": [
+      "umusaza, kambwe, kurambere"
+    ],
+    "summary": "umusaza, kambwe, kurambere are the top translations of \"elder\" into Kinyarwanda."
+  },
+  {
+    "group": "Village People",
+    "topic": "Family",
+    "grammar": "noun",
+    "english": "guest",
+    "kinyarwanda": "umushyitsi",
+    "query": "guest",
+    "url": "https://glosbe.com/en/rw/guest",
+    "status": 200,
+    "found": true,
+    "top": [
+      "umushyitsi, shyitsi"
+    ],
+    "summary": "umushyitsi, shyitsi are the top translations of \"guest\" into Kinyarwanda."
+  },
+  {
+    "group": "Village People",
+    "topic": "Family",
+    "grammar": "noun",
+    "english": "twin",
+    "kinyarwanda": "impanga",
+    "query": "twin",
+    "url": "https://glosbe.com/en/rw/twin",
+    "status": 200,
+    "found": true,
+    "top": [
+      "impanga, panga"
+    ],
+    "summary": "impanga, panga are the top translations of \"twin\" into Kinyarwanda."
+  },
+  {
+    "group": "Kitchen Verbs",
+    "topic": "Food and drinks",
+    "grammar": "verb",
+    "english": "to chop",
+    "kinyarwanda": "gutema",
+    "query": "chop",
+    "url": "https://glosbe.com/en/rw/chop",
+    "status": 200,
+    "found": false,
+    "top": [],
+    "summary": ""
+  },
+  {
+    "group": "Kitchen Verbs",
+    "topic": "Food and drinks",
+    "grammar": "verb",
+    "english": "to boil",
+    "kinyarwanda": "gutogosa",
+    "query": "boil",
+    "url": "https://glosbe.com/en/rw/boil",
+    "status": 200,
+    "found": false,
+    "top": [
+      "ikibyimba, byimba, kubiza"
+    ],
+    "summary": "ikibyimba, byimba, kubiza are the top translations of \"boil\" into Kinyarwanda."
+  },
+  {
+    "group": "Kitchen Verbs",
+    "topic": "Food and drinks",
+    "grammar": "verb",
+    "english": "to fry",
+    "kinyarwanda": "gukaranga",
+    "query": "fry",
+    "url": "https://glosbe.com/en/rw/fry",
+    "status": 200,
+    "found": true,
+    "top": [
+      "gukaranga, karanga"
+    ],
+    "summary": "gukaranga, karanga are the top translations of \"fry\" into Kinyarwanda."
+  },
+  {
+    "group": "Garden Nouns",
+    "topic": "Home",
+    "grammar": "noun",
+    "english": "flower",
+    "kinyarwanda": "ururabyo",
+    "query": "flower",
+    "url": "https://glosbe.com/en/rw/flower",
+    "status": 200,
+    "found": true,
+    "top": [
+      "rabo, ururabyo, kurabya"
+    ],
+    "summary": "rabo, ururabyo, kurabya are the top translations of \"flower\" into Kinyarwanda."
+  },
+  {
+    "group": "Garden Nouns",
+    "topic": "Home",
+    "grammar": "noun",
+    "english": "tree",
+    "kinyarwanda": "igiti",
+    "query": "tree",
+    "url": "https://glosbe.com/en/rw/tree",
+    "status": 200,
+    "found": true,
+    "top": [
+      "igiti, ti, Igiti"
+    ],
+    "summary": "igiti, ti, Igiti are the top translations of \"tree\" into Kinyarwanda."
+  },
+  {
+    "group": "Garden Nouns",
+    "topic": "Home",
+    "grammar": "noun",
+    "english": "leaf",
+    "kinyarwanda": "ikibabi",
+    "query": "leaf",
+    "url": "https://glosbe.com/en/rw/leaf",
+    "status": 200,
+    "found": true,
+    "top": [
+      "ikibabi, ibabi, babi"
+    ],
+    "summary": "ikibabi, ibabi, babi are the top translations of \"leaf\" into Kinyarwanda."
+  },
+  {
+    "group": "Body Parts",
+    "topic": "Body parts",
+    "grammar": "noun",
+    "english": "hand",
+    "kinyarwanda": "ikiganza",
+    "query": "hand",
+    "url": "https://glosbe.com/en/rw/hand",
+    "status": 200,
+    "found": true,
+    "top": [
+      "ganza, ikiganza, ukuboko"
+    ],
+    "summary": "ganza, ikiganza, ukuboko are the top translations of \"hand\" into Kinyarwanda."
+  },
+  {
+    "group": "Body Parts",
+    "topic": "Body parts",
+    "grammar": "noun",
+    "english": "foot",
+    "kinyarwanda": "ikirenge",
+    "query": "foot",
+    "url": "https://glosbe.com/en/rw/foot",
+    "status": 200,
+    "found": true,
+    "top": [
+      "renge, ikirenge, ibirenge"
+    ],
+    "summary": "renge, ikirenge, ibirenge are the top translations of \"foot\" into Kinyarwanda."
+  },
+  {
+    "group": "Body Parts",
+    "topic": "Body parts",
+    "grammar": "noun",
+    "english": "eye",
+    "kinyarwanda": "ijisho",
+    "query": "eye",
+    "url": "https://glosbe.com/en/rw/eye",
+    "status": 200,
+    "found": true,
+    "top": [
+      "jisho, ijisho, i-jīsho"
+    ],
+    "summary": "jisho, ijisho, i-jīsho are the top translations of \"eye\" into Kinyarwanda."
+  },
+  {
+    "group": "Office People",
+    "topic": "Jobs",
+    "grammar": "noun",
+    "english": "secretary",
+    "kinyarwanda": "umunyamabanga",
+    "query": "secretary",
+    "url": "https://glosbe.com/en/rw/secretary",
+    "status": 200,
+    "found": true,
+    "top": [
+      "umunyamabanga, Umukarani, karani"
+    ],
+    "summary": "umunyamabanga, Umukarani, karani are the top translations of \"secretary\" into Kinyarwanda."
+  },
+  {
+    "group": "Office People",
+    "topic": "Jobs",
+    "grammar": "noun",
+    "english": "manager",
+    "kinyarwanda": "umuyobozi",
+    "query": "manager",
+    "url": "https://glosbe.com/en/rw/manager",
+    "status": 200,
+    "found": false,
+    "top": [],
+    "summary": ""
+  },
+  {
+    "group": "Office People",
+    "topic": "Jobs",
+    "grammar": "noun",
+    "english": "accountant",
+    "kinyarwanda": "umubaruramari",
+    "query": "accountant",
+    "url": "https://glosbe.com/en/rw/accountant",
+    "status": 200,
+    "found": false,
+    "top": [
+      "umucungamari, cungamari"
+    ],
+    "summary": "umucungamari, cungamari are the top translations of \"accountant\" into Kinyarwanda."
+  },
+  {
+    "group": "Cleaning Verbs",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to sweep",
+    "kinyarwanda": "gukubura",
+    "query": "sweep",
+    "url": "https://glosbe.com/en/rw/sweep",
+    "status": 200,
+    "found": true,
+    "top": [
+      "gukubura, gukondora, kubura"
+    ],
+    "summary": "gukubura, gukondora, kubura are the top translations of \"sweep\" into Kinyarwanda."
+  },
+  {
+    "group": "Cleaning Verbs",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to wipe",
+    "kinyarwanda": "guhanagura",
+    "query": "wipe",
+    "url": "https://glosbe.com/en/rw/wipe",
+    "status": 200,
+    "found": true,
+    "top": [
+      "guhanagura, hanagura"
+    ],
+    "summary": "guhanagura, hanagura are the top translations of \"wipe\" into Kinyarwanda."
+  },
+  {
+    "group": "Cleaning Verbs",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to dry",
+    "kinyarwanda": "kumisha",
+    "query": "dry",
+    "url": "https://glosbe.com/en/rw/dry",
+    "status": 200,
+    "found": false,
+    "top": [
+      "kumuka, umutsa, kumutsa"
+    ],
+    "summary": "kumuka, umutsa, kumutsa are the top translations of \"dry\" into Kinyarwanda."
+  },
+  {
+    "group": "Farm Animals",
+    "topic": "Animals",
+    "grammar": "noun",
+    "english": "cow",
+    "kinyarwanda": "inka",
+    "query": "cow",
+    "url": "https://glosbe.com/en/rw/cow",
+    "status": 200,
+    "found": true,
+    "top": [
+      "inka, ka"
+    ],
+    "summary": "inka, ka are the top translations of \"cow\" into Kinyarwanda."
+  },
+  {
+    "group": "Farm Animals",
+    "topic": "Animals",
+    "grammar": "noun",
+    "english": "goat",
+    "kinyarwanda": "ihene",
+    "query": "goat",
+    "url": "https://glosbe.com/en/rw/goat",
+    "status": 200,
+    "found": true,
+    "top": [
+      "ihene, hene, impene"
+    ],
+    "summary": "ihene, hene, impene are the top translations of \"goat\" into Kinyarwanda."
+  },
+  {
+    "group": "Farm Animals",
+    "topic": "Animals",
+    "grammar": "noun",
+    "english": "chicken",
+    "kinyarwanda": "inkoko",
+    "query": "chicken",
+    "url": "https://glosbe.com/en/rw/chicken",
+    "status": 200,
+    "found": true,
+    "top": [
+      "inkoko, Inkoko, koko"
+    ],
+    "summary": "inkoko, Inkoko, koko are the top translations of \"chicken\" into Kinyarwanda."
+  },
+  {
+    "group": "Family Relations",
+    "topic": "Family",
+    "grammar": "noun",
+    "english": "grandfather",
+    "kinyarwanda": "sekuru",
+    "query": "grandfather",
+    "url": "https://glosbe.com/en/rw/grandfather",
+    "status": 200,
+    "found": false,
+    "top": [],
+    "summary": ""
+  },
+  {
+    "group": "Family Relations",
+    "topic": "Family",
+    "grammar": "noun",
+    "english": "grandmother",
+    "kinyarwanda": "nyogokuru",
+    "query": "grandmother",
+    "url": "https://glosbe.com/en/rw/grandmother",
+    "status": 200,
+    "found": false,
+    "top": [],
+    "summary": ""
+  },
+  {
+    "group": "Family Relations",
+    "topic": "Family",
+    "grammar": "noun",
+    "english": "uncle",
+    "kinyarwanda": "nyirarume",
+    "query": "uncle",
+    "url": "https://glosbe.com/en/rw/uncle",
+    "status": 200,
+    "found": false,
+    "top": [
+      "Se,data wabo,wacu, marume"
+    ],
+    "summary": "Se,data wabo,wacu, marume are the top translations of \"uncle\" into Kinyarwanda."
+  },
+  {
+    "group": "Sound Adjectives",
+    "topic": "Daily activities",
+    "grammar": "adjective",
+    "english": "loud",
+    "kinyarwanda": "riranguruye",
+    "query": "loud",
+    "url": "https://glosbe.com/en/rw/loud",
+    "status": 200,
+    "found": false,
+    "top": [],
+    "summary": ""
+  },
+  {
+    "group": "Sound Adjectives",
+    "topic": "Daily activities",
+    "grammar": "adjective",
+    "english": "silent",
+    "kinyarwanda": "rituje",
+    "query": "silent",
+    "url": "https://glosbe.com/en/rw/silent",
+    "status": 200,
+    "found": false,
+    "top": [
+      "ceceka, tuza, ihorera"
+    ],
+    "summary": "ceceka, tuza, ihorera are the top translations of \"silent\" into Kinyarwanda."
+  },
+  {
+    "group": "Sound Adjectives",
+    "topic": "Daily activities",
+    "grammar": "adjective",
+    "english": "clear",
+    "kinyarwanda": "risobanutse",
+    "query": "clear",
+    "url": "https://glosbe.com/en/rw/clear",
+    "status": 200,
+    "found": false,
+    "top": [
+      "kugaragara, kugaragaza, garagaza"
+    ],
+    "summary": "kugaragara, kugaragaza, garagaza are the top translations of \"clear\" into Kinyarwanda."
+  },
+  {
+    "group": "Daily Movement Verbs",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to jump",
+    "kinyarwanda": "gusimbuka",
+    "query": "jump",
+    "url": "https://glosbe.com/en/rw/jump",
+    "status": 200,
+    "found": true,
+    "top": [
+      "gusimbuka, simbuka"
+    ],
+    "summary": "gusimbuka, simbuka are the top translations of \"jump\" into Kinyarwanda."
+  },
+  {
+    "group": "Daily Movement Verbs",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to walk",
+    "kinyarwanda": "kugenda",
+    "query": "walk",
+    "url": "https://glosbe.com/en/rw/walk",
+    "status": 200,
+    "found": true,
+    "top": [
+      "genda, kugenda"
+    ],
+    "summary": "genda, kugenda are the top translations of \"walk\" into Kinyarwanda."
+  },
+  {
+    "group": "Daily Movement Verbs",
+    "topic": "Daily activities",
+    "grammar": "verb",
+    "english": "to run",
+    "kinyarwanda": "kwiruka",
+    "query": "run",
+    "url": "https://glosbe.com/en/rw/run",
+    "status": 200,
+    "found": true,
+    "top": [
+      "iruka, va, kwiruka"
+    ],
+    "summary": "iruka, va, kwiruka are the top translations of \"run\" into Kinyarwanda."
+  },
+  {
+    "group": "Clothing Items",
+    "topic": "Clothes",
+    "grammar": "noun",
+    "english": "shirt",
+    "kinyarwanda": "ishati",
+    "query": "shirt",
+    "url": "https://glosbe.com/en/rw/shirt",
+    "status": 200,
+    "found": true,
+    "top": [
+      "ijipo, ishati, umupira"
+    ],
+    "summary": "ijipo, ishati, umupira are the top translations of \"shirt\" into Kinyarwanda."
+  },
+  {
+    "group": "Clothing Items",
+    "topic": "Clothes",
+    "grammar": "noun",
+    "english": "trousers",
+    "kinyarwanda": "ipantalo",
+    "query": "trousers",
+    "url": "https://glosbe.com/en/rw/trousers",
+    "status": 200,
+    "found": false,
+    "top": [
+      "ipantaro, pantaro"
+    ],
+    "summary": "ipantaro, pantaro are the top translations of \"trousers\" into Kinyarwanda."
+  },
+  {
+    "group": "Clothing Items",
+    "topic": "Clothes",
+    "grammar": "noun",
+    "english": "dress",
+    "kinyarwanda": "ikanzu",
+    "query": "dress",
+    "url": "https://glosbe.com/en/rw/dress",
+    "status": 200,
+    "found": true,
+    "top": [
+      "ikanzu, igiteteyi, ikizibaho"
+    ],
+    "summary": "ikanzu, igiteteyi, ikizibaho are the top translations of \"dress\" into Kinyarwanda."
+  },
+  {
+    "group": "Taste Adjectives",
+    "topic": "Food and drinks",
+    "grammar": "adjective",
+    "english": "sweet",
+    "kinyarwanda": "kiryoshye",
+    "query": "sweet",
+    "url": "https://glosbe.com/en/rw/sweet",
+    "status": 200,
+    "found": false,
+    "top": [
+      "bombo, gusosa"
+    ],
+    "summary": "bombo, gusosa are the top translations of \"sweet\" into Kinyarwanda."
+  },
+  {
+    "group": "Taste Adjectives",
+    "topic": "Food and drinks",
+    "grammar": "adjective",
+    "english": "bitter",
+    "kinyarwanda": "kirura",
+    "query": "bitter",
+    "url": "https://glosbe.com/en/rw/bitter",
+    "status": 200,
+    "found": true,
+    "top": [
+      "kirura, rura"
+    ],
+    "summary": "kirura, rura are the top translations of \"bitter\" into Kinyarwanda."
+  },
+  {
+    "group": "Taste Adjectives",
+    "topic": "Food and drinks",
+    "grammar": "adjective",
+    "english": "sour",
+    "kinyarwanda": "gisharira",
+    "query": "sour",
+    "url": "https://glosbe.com/en/rw/sour",
+    "status": 200,
+    "found": false,
+    "top": [
+      "sharira"
+    ],
+    "summary": "sharira is the translation of \"sour\" into Kinyarwanda."
+  },
+  {
+    "group": "Transport Types",
+    "topic": "Transport",
+    "grammar": "noun",
+    "english": "bus",
+    "kinyarwanda": "bisi",
+    "query": "bus",
+    "url": "https://glosbe.com/en/rw/bus",
+    "status": 200,
+    "found": true,
+    "top": [
+      "bisi, ibisi"
+    ],
+    "summary": "bisi, ibisi are the top translations of \"bus\" into Kinyarwanda."
+  },
+  {
+    "group": "Transport Types",
+    "topic": "Transport",
+    "grammar": "noun",
+    "english": "car",
+    "kinyarwanda": "imodoka",
+    "query": "car",
+    "url": "https://glosbe.com/en/rw/car",
+    "status": 200,
+    "found": true,
+    "top": [
+      "imodoka, imodokari, modokari"
+    ],
+    "summary": "imodoka, imodokari, modokari are the top translations of \"car\" into Kinyarwanda."
+  },
+  {
+    "group": "Transport Types",
+    "topic": "Transport",
+    "grammar": "noun",
+    "english": "bicycle",
+    "kinyarwanda": "igare",
+    "query": "bicycle",
+    "url": "https://glosbe.com/en/rw/bicycle",
+    "status": 200,
+    "found": true,
+    "top": [
+      "ikinga, igare, gare"
+    ],
+    "summary": "ikinga, igare, gare are the top translations of \"bicycle\" into Kinyarwanda."
+  },
+  {
+    "group": "Time Words",
+    "topic": "Time",
+    "grammar": "noun",
+    "english": "morning",
+    "kinyarwanda": "igitondo",
+    "query": "morning",
+    "url": "https://glosbe.com/en/rw/morning",
+    "status": 200,
+    "found": true,
+    "top": [
+      "tondo, igitondo"
+    ],
+    "summary": "tondo, igitondo are the top translations of \"morning\" into Kinyarwanda."
+  },
+  {
+    "group": "Time Words",
+    "topic": "Time",
+    "grammar": "noun",
+    "english": "today",
+    "kinyarwanda": "uyu munsi",
+    "query": "today",
+    "url": "https://glosbe.com/en/rw/today",
+    "status": 200,
+    "found": true,
+    "top": [
+      "asd, uyu munsi"
+    ],
+    "summary": "asd, uyu munsi are the top translations of \"today\" into Kinyarwanda."
+  },
+  {
+    "group": "Time Words",
+    "topic": "Time",
+    "grammar": "noun",
+    "english": "tomorrow",
+    "kinyarwanda": "ejo",
+    "query": "tomorrow",
+    "url": "https://glosbe.com/en/rw/tomorrow",
+    "status": 200,
+    "found": true,
+    "top": [
+      "ejo, ejo hazaza"
+    ],
+    "summary": "ejo, ejo hazaza are the top translations of \"tomorrow\" into Kinyarwanda."
+  },
+  {
+    "group": "Feeling Verbs",
+    "topic": "Feelings",
+    "grammar": "verb",
+    "english": "to smile",
+    "kinyarwanda": "kumwenyura",
+    "query": "smile",
+    "url": "https://glosbe.com/en/rw/smile",
+    "status": 200,
+    "found": true,
+    "top": [
+      "inseko, kumwenyura, guseka"
+    ],
+    "summary": "inseko, kumwenyura, guseka are the top translations of \"smile\" into Kinyarwanda."
+  },
+  {
+    "group": "Feeling Verbs",
+    "topic": "Feelings",
+    "grammar": "verb",
+    "english": "to cry",
+    "kinyarwanda": "kurira",
+    "query": "cry",
+    "url": "https://glosbe.com/en/rw/cry",
+    "status": 200,
+    "found": true,
+    "top": [
+      "rira, sakuza, kurira"
+    ],
+    "summary": "rira, sakuza, kurira are the top translations of \"cry\" into Kinyarwanda."
+  },
+  {
+    "group": "Feeling Verbs",
+    "topic": "Feelings",
+    "grammar": "verb",
+    "english": "to love",
+    "kinyarwanda": "gukunda",
+    "query": "love",
+    "url": "https://glosbe.com/en/rw/love",
+    "status": 200,
+    "found": true,
+    "top": [
+      "urukundo, uru-kūndo, gukunda"
+    ],
+    "summary": "urukundo, uru-kūndo, gukunda are the top translations of \"love\" into Kinyarwanda."
+  },
+  {
+    "group": "Colors",
+    "topic": "Colors",
+    "grammar": "adjective",
+    "english": "red",
+    "kinyarwanda": "umutuku",
+    "query": "red",
+    "url": "https://glosbe.com/en/rw/red",
+    "status": 200,
+    "found": true,
+    "top": [
+      "tuku, umutuku, tukura"
+    ],
+    "summary": "tuku, umutuku, tukura are the top translations of \"red\" into Kinyarwanda."
+  },
+  {
+    "group": "Colors",
+    "topic": "Colors",
+    "grammar": "adjective",
+    "english": "blue",
+    "kinyarwanda": "ubururu",
+    "query": "blue",
+    "url": "https://glosbe.com/en/rw/blue",
+    "status": 200,
+    "found": true,
+    "top": [
+      "bogobogo, ubururu, ruru"
+    ],
+    "summary": "bogobogo, ubururu, ruru are the top translations of \"blue\" into Kinyarwanda."
+  },
+  {
+    "group": "Colors",
+    "topic": "Colors",
+    "grammar": "adjective",
+    "english": "green",
+    "kinyarwanda": "icyatsi",
+    "query": "green",
+    "url": "https://glosbe.com/en/rw/green",
+    "status": 200,
+    "found": true,
+    "top": [
+      "atsi kibisi, icyatsi kibisi"
+    ],
+    "summary": "atsi kibisi, icyatsi kibisi are the top translations of \"green\" into Kinyarwanda."
+  },
+  {
+    "group": "Body Actions",
+    "topic": "Body parts",
+    "grammar": "verb",
+    "english": "to breathe",
+    "kinyarwanda": "guhumeka",
+    "query": "breathe",
+    "url": "https://glosbe.com/en/rw/breathe",
+    "status": 200,
+    "found": true,
+    "top": [
+      "guhumeka, humeka"
+    ],
+    "summary": "guhumeka, humeka are the top translations of \"breathe\" into Kinyarwanda."
+  },
+  {
+    "group": "Body Actions",
+    "topic": "Body parts",
+    "grammar": "verb",
+    "english": "to cough",
+    "kinyarwanda": "gukorora",
+    "query": "cough",
+    "url": "https://glosbe.com/en/rw/cough",
+    "status": 200,
+    "found": true,
+    "top": [
+      "korora, gukorora, inkorora"
+    ],
+    "summary": "korora, gukorora, inkorora are the top translations of \"cough\" into Kinyarwanda."
+  },
+  {
+    "group": "Body Actions",
+    "topic": "Body parts",
+    "grammar": "verb",
+    "english": "to blink",
+    "kinyarwanda": "guhuma amaso",
+    "query": "blink",
+    "url": "https://glosbe.com/en/rw/blink",
+    "status": 200,
+    "found": false,
+    "top": [
+      "guhumbya, humbya"
+    ],
+    "summary": "guhumbya, humbya are the top translations of \"blink\" into Kinyarwanda."
+  },
+  {
+    "group": "Building Items",
+    "topic": "Home",
+    "grammar": "noun",
+    "english": "brick",
+    "kinyarwanda": "itafari",
+    "query": "brick",
+    "url": "https://glosbe.com/en/rw/brick",
+    "status": 200,
+    "found": true,
+    "top": [
+      "itafari, tafari"
+    ],
+    "summary": "itafari, tafari are the top translations of \"brick\" into Kinyarwanda."
+  },
+  {
+    "group": "Building Items",
+    "topic": "Home",
+    "grammar": "noun",
+    "english": "stone",
+    "kinyarwanda": "ibuye",
+    "query": "stone",
+    "url": "https://glosbe.com/en/rw/stone",
+    "status": 200,
+    "found": true,
+    "top": [
+      "ibuye, buye"
+    ],
+    "summary": "ibuye, buye are the top translations of \"stone\" into Kinyarwanda."
+  },
+  {
+    "group": "Building Items",
+    "topic": "Home",
+    "grammar": "noun",
+    "english": "sand",
+    "kinyarwanda": "umucanga",
+    "query": "sand",
+    "url": "https://glosbe.com/en/rw/sand",
+    "status": 200,
+    "found": true,
+    "top": [
+      "umusenyi, umucanga, canga"
+    ],
+    "summary": "umusenyi, umucanga, canga are the top translations of \"sand\" into Kinyarwanda."
+  }
+]

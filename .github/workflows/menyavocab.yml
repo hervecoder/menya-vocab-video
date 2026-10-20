@@ -5,10 +5,14 @@ name: Menya Vocab Video
 on:
   workflow_dispatch:
     inputs:
-      pairs:
-        description: 'Words as English=Kinyarwanda, separated by ; (max 7)'
+      batch_file:
+        description: 'Batch JSON path in the repo'
         required: true
-        default: 'Book=Igitabo; Water=Amazi; House=Inzu; Friend=Inshuti; School=Ishuri; Teacher=Umwarimu; Market=Isoko'
+        default: 'data/vocabulary_pilot_videos.json'
+      video_id:
+        description: 'Batch id (word_01..word_10 or sentence_01..sentence_06)'
+        required: true
+        default: 'word_01'
       note:
         description: 'Yellow box text. The brand name is highlighted in green.'
         required: true
@@ -56,27 +60,33 @@ jobs:
 
       - name: Generate frame + video
         env:
-          PAIRS: ${{ inputs.pairs }}
+          BATCH_FILE: ${{ inputs.batch_file }}
+          VIDEO_ID: ${{ inputs.video_id }}
           NOTE: ${{ inputs.note }}
           BRAND: ${{ inputs.brand }}
           DURATION: ${{ inputs.duration }}
         run: |
           python generate.py \
-            --pairs "$PAIRS" \
+            --batch-json "$BATCH_FILE" \
+            --video-id "$VIDEO_ID" \
             --note "$NOTE" \
             --brand "$BRAND" \
             --duration "$DURATION" \
+            --preview "preview/${VIDEO_ID}.png" \
+            --out "output/${VIDEO_ID}.mp4" \
             --video
 
       - name: Commit video to the repo
+        env:
+          VIDEO_ID: ${{ inputs.video_id }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add output preview
+          git add "output/${VIDEO_ID}.mp4" "preview/${VIDEO_ID}.png"
           if git diff --staged --quiet; then
             echo "No new output to commit."
           else
-            git commit -m "Add Menya vocab video ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+            git commit -m "Add Menya vocab video ${VIDEO_ID} ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
             git push
           fi
 
@@ -86,12 +96,15 @@ jobs:
           name: menya-vocab-video
           path: |
             output/*.mp4
-            preview/preview.png
+            preview/*.png
           if-no-files-found: error
 
       - name: Summary
+        env:
+          VIDEO_ID: ${{ inputs.video_id }}
         run: |
           echo "### Menya Vocab Video" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Video:** \`$(ls -t output/*.mp4 | head -n 1)\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Frame:** \`preview/preview.png\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Batch:** \`$VIDEO_ID\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Video:** \`output/$VIDEO_ID.mp4\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Frame:** \`preview/$VIDEO_ID.png\`" >> "$GITHUB_STEP_SUMMARY"
