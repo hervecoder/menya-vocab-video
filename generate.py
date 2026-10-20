@@ -62,9 +62,10 @@ WHITE = "#FFFFFF"
 SIDE_PAD = 36
 ROW_GAP = 20
 ROW_MAX_H = 184
-PROMO_PAD = 30
-PROMO_FONT_SIZE = 36
-PROMO_LINE_H = 50
+PROMO_PAD_X = 8
+PROMO_PAD_Y = 18
+PROMO_FONT_SIZE = 40
+PROMO_LINE_H = 54
 
 # ---------------------------------------------------------------- defaults
 DEFAULT_PAIRS = "Book=Igitabo,Water=Amazi,House=Inzu,Friend=Inshuti,School=Ishuri,Teacher=Umwarimu,Market=Isoko"
@@ -372,13 +373,14 @@ def render(pairs, note, brand, out_path: Path):
 
     # promo block height first (so rows can use the rest of the screen)
     f_line = font("Poppins-Bold.ttf", PROMO_FONT_SIZE)
+    banner_w = (right - 1) - left
     note_lines = wrap_balanced(
         note.strip(),
         f_line,
-        content_w - PROMO_PAD * 2,
+        banner_w - PROMO_PAD_X * 2,
         protect=(brand, "Play Store"),
     )
-    promo_h = PROMO_PAD * 2 + len(note_lines) * PROMO_LINE_H
+    promo_h = PROMO_PAD_Y * 2 + len(note_lines) * PROMO_LINE_H
 
     promo_bottom = NAV_BAR_TOP
     promo_top = promo_bottom - promo_h

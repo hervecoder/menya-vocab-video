@@ -85,8 +85,9 @@ the promo banner runs edge-to-edge and sits on the tab bar divider.
 - Long words shrink automatically (46→26 px English, 42→24 px Kinyarwanda)
   so a pair can never overflow the card.
 - Promo: edge-to-edge `#FFF9C4` banner with square corners, no side or top
-  border, a single black rule along the bottom, balanced line wrapping (no
-  orphan words), brand name highlighted in green.
+  border, a single black rule along the bottom, and the text set on two
+  lines at the largest size that fits (8 px side padding), brand name
+  highlighted in green.
 - Rows are sized from the space left above the promo banner, so 1–7 pairs all
   fit without manual tweaking.
 
