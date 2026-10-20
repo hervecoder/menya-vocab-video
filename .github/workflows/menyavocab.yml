@@ -1,0 +1,92 @@
+name: Menya Vocab Video
+
+# Manual only. Every field is pre-filled with test content, so the first
+# run needs no typing at all: just press "Run workflow".
+on:
+  workflow_dispatch:
+    inputs:
+      pairs:
+        description: 'Words as English=Kinyarwanda, separated by ; (max 6)'
+        required: true
+        default: 'Book=Igitabo; Water=Amazi; House=Inzu; Friend=Inshuti; School=Ishuri'
+      note:
+        description: 'Yellow box text. The brand name becomes the green pill.'
+        required: true
+        default: 'Ushaka kwiga icyongereza wakoresha iyi app yitwa Menya Icyongereza App'
+      brand:
+        description: 'Text inside the green pill'
+        required: false
+        default: 'Menya Icyongereza App'
+      duration:
+        description: 'Video length in seconds'
+        required: false
+        default: '6'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: menya-vocab-video
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check ffmpeg
+        run: ffmpeg -version | head -n 1
+
+      - name: Generate frame + video
+        env:
+          PAIRS: ${{ inputs.pairs }}
+          NOTE: ${{ inputs.note }}
+          BRAND: ${{ inputs.brand }}
+          DURATION: ${{ inputs.duration }}
+        run: |
+          python generate.py \
+            --pairs "$PAIRS" \
+            --note "$NOTE" \
+            --brand "$BRAND" \
+            --duration "$DURATION" \
+            --video
+
+      - name: Commit video to the repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add output preview
+          if git diff --staged --quiet; then
+            echo "No new output to commit."
+          else
+            git commit -m "Add Menya vocab video ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+            git push
+          fi
+
+      - name: Upload video
+        uses: actions/upload-artifact@v4
+        with:
+          name: menya-vocab-video
+          path: |
+            output/*.mp4
+            preview/preview.png
+          if-no-files-found: error
+
+      - name: Summary
+        run: |
+          echo "### Menya Vocab Video" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Video:** \`$(ls -t output/*.mp4 | head -n 1)\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Frame:** \`preview/preview.png\`" >> "$GITHUB_STEP_SUMMARY"
