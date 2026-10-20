@@ -12,7 +12,8 @@ Generates a 1080x1920 (9:16) Facebook/Reels-ready video that looks like the
 ![preview](preview/preview.png)
 
 Output: `output/menya_vocab_<timestamp>.mp4` — H.264, yuv420p, 30 fps,
-`+faststart`, silent unless you add tracks to `assets/song/`.
+AAC stereo audio, `+faststart`. One of the four tracks in `assets/song/`
+is picked at random per run (same behaviour as the perime.rw videos).
 
 A sample rendered with the test content is in
 [`output/menya_vocab_sample.mp4`](output/menya_vocab_sample.mp4).
