@@ -4,10 +4,11 @@ Generates a 1080x1920 (9:16) Facebook/Reels-ready video that looks like the
 **Menya Icyongereza App** screen:
 
 - the app's phone mockup as the full-frame background
-- 6 (up to 6) English words with their Kinyarwanda translations
+- 7 (up to 7) English words with their Kinyarwanda translations
 - the app's chunky white cards, green number badges and dotted leaders
-- a yellow promo box: *Iyi app yitwa* **"Menya Icyongereza App"** *wayisanga
-  kuri Play Store yigisha icyongereza* (the app name is highlighted in green)
+- an edge-to-edge yellow promo banner: *Iyi app yitwa* **"Menya Icyongereza
+  App"** *wayisanga kuri Play Store yigisha icyongereza* (the app name is
+  highlighted in green)
 
 ![preview](preview/preview.png)
 
@@ -34,6 +35,7 @@ No typing is needed: the workflow inputs already contain this test set:
 | Friend | Inshuti |
 | School | Ishuri |
 | Teacher | Umwarimu |
+| Market | Isoko |
 
 The run commits the mp4 and the preview frame back into the repo and also
 attaches them as the `menya-vocab-video` artifact.
@@ -42,15 +44,15 @@ attaches them as the `menya-vocab-video` artifact.
 
 | Input | Meaning | Default |
 |---|---|---|
-| `pairs` | `English=Kinyarwanda` pairs separated by `;` (max 6) | the test set above |
-| `note` | Yellow box text. The `brand` text is highlighted in green | the Play Store hook |
+| `pairs` | `English=Kinyarwanda` pairs separated by `;` (max 7) | the test set above |
+| `note` | Yellow banner text. The `brand` text is highlighted in green | the Play Store hook |
 | `brand` | Text to highlight green inside `note` | `Menya Icyongereza App` |
 | `duration` | Video length in seconds | `6` |
 
 Example:
 
 ```
-Book=Igitabo; Water=Amazi; House=Inzu; Friend=Inshuti; School=Ishuri; Teacher=Umwarimu
+Book=Igitabo; Water=Amazi; House=Inzu; Friend=Inshuti; School=Ishuri; Teacher=Umwarimu; Market=Isoko
 ```
 
 ## Run locally
@@ -73,8 +75,8 @@ python generate.py --pairs "Book=Igitabo; Water=Amazi" --note "Ushaka kwiga icyo
 
 The background is 720x1280, so everything is drawn on a 1080x1920 canvas
 (1.5x) to keep text sharp. The usable app body was measured from the mockup:
-x 32–685, y 183–1115. The generator draws only inside that area, with 36 px
-side padding.
+x 32–685, y 183–1115. The word rows use that area with 36 px side padding;
+the promo banner runs edge-to-edge and sits on the tab bar divider.
 
 - Section label: `AMAGAMBO <n> Y'ICYONGEREZA`, uppercase, tracked, muted.
 - Rows: white card, 2 px `#E5E5E5` border, hard offset shadow, 3D green
@@ -82,9 +84,10 @@ side padding.
   green, dotted leader between them.
 - Long words shrink automatically (46→26 px English, 42→24 px Kinyarwanda)
   so a pair can never overflow the card.
-- Promo: `#FFF9C4` box, 2 px black border, balanced line wrapping (no orphan
-  words), brand name highlighted in green.
-- Rows are sized from the space left above the promo box, so 1–6 pairs all
+- Promo: edge-to-edge `#FFF9C4` banner with square corners, no side or top
+  border, a single black rule along the bottom, balanced line wrapping (no
+  orphan words), brand name highlighted in green.
+- Rows are sized from the space left above the promo banner, so 1–7 pairs all
   fit without manual tweaking.
 
 ## Customizing
@@ -96,7 +99,7 @@ side padding.
 | Background | `assets/img/background.png` (keep the same 720x1280 screen position, or update `BODY`) |
 | Music | drop `.mp3/.m4a/.wav` files into `assets/song/`; one is picked at random. Empty = silent |
 | Video length | `--duration` / the `duration` input |
-| Number of words | pass 1–6 pairs; the label and row heights adapt |
+| Number of words | pass 1–7 pairs; the label and row heights adapt |
 
 ## Files
 
@@ -113,6 +116,6 @@ output/*.mp4                    generated videos
 ## Notes
 
 - 9:16 — ready for Facebook Reels, Stories and feed.
-- The video is silent by default. Add a track to `assets/song/` if you want
-  music like the perime.ru videos.
+- A track from `assets/song/` is mixed automatically; if the folder is empty,
+  the video is silent.
 - Poppins is licensed under the SIL Open Font License 1.1 (`assets/fonts/OFL.txt`).

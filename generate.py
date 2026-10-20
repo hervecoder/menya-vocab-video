@@ -3,8 +3,8 @@
 Menya Icyongereza - vocabulary video generator.
 
 Renders a 1080x1920 video frame that looks like the Menya Icyongereza app
-screen (phone mockup background), with 5 English word / Kinyarwanda
-translation rows and a yellow promo box.
+screen (phone mockup background), with up to 7 English word / Kinyarwanda
+translation rows and an edge-to-edge yellow promo banner.
 
 Everything is drawn at 1.5x the source mockup so text stays sharp.
 
@@ -45,6 +45,9 @@ BODY = (
     round(1115 * SCALE),    # bottom
 )
 
+# Top edge of the mockup's bottom tab bar (the divider at source y=1117).
+NAV_BAR_TOP = round(1117 * SCALE)
+
 # ---------------------------------------------------------------- design tokens
 GREEN = "#58CC02"
 GREEN_DARK = "#46A302"
@@ -64,7 +67,7 @@ PROMO_FONT_SIZE = 36
 PROMO_LINE_H = 50
 
 # ---------------------------------------------------------------- defaults
-DEFAULT_PAIRS = "Book=Igitabo,Water=Amazi,House=Inzu,Friend=Inshuti,School=Ishuri,Teacher=Umwarimu"
+DEFAULT_PAIRS = "Book=Igitabo,Water=Amazi,House=Inzu,Friend=Inshuti,School=Ishuri,Teacher=Umwarimu,Market=Isoko"
 DEFAULT_NOTE = (
     'Iyi app yitwa "Menya Icyongereza App" wayisanga kuri Play Store '
     "yigisha icyongereza"
@@ -113,7 +116,7 @@ def parse_pairs(raw: str):
             pairs.append((eng, kin))
     if not pairs:
         raise SystemExit("No word pairs given.")
-    return pairs[:6]
+    return pairs[:7]
 
 
 def fit_font(text, font_name, start, minimum, max_width):
@@ -313,10 +316,9 @@ def promo_segments(line, brand):
 
 def draw_promo(canvas, box, lines, brand):
     x0, y0, x1, y1 = box
-    radius = 24
-    canvas = rounded_shadow(canvas, box, radius, offset=6, alpha=24)
     d = ImageDraw.Draw(canvas)
-    d.rounded_rectangle(box, radius=radius, fill=YELLOW, outline=INK, width=2)
+    # edge-to-edge in-app banner: sharp corners, flat fill, no outline
+    d.rectangle(box, fill=YELLOW)
 
     f_line = font("Poppins-Bold.ttf", PROMO_FONT_SIZE)
     f_brand = font("Poppins-ExtraBold.ttf", PROMO_FONT_SIZE)
@@ -341,6 +343,9 @@ def draw_promo(canvas, box, lines, brand):
             )
             x += f.getlength(text)
         cy += line_h
+
+    # only the bottom edge keeps a rule, like an in-app banner
+    d.rectangle((x0, y1 - 2, x1, y1), fill=INK)
 
     return canvas
 
@@ -375,7 +380,7 @@ def render(pairs, note, brand, out_path: Path):
     )
     promo_h = PROMO_PAD * 2 + len(note_lines) * PROMO_LINE_H
 
-    promo_bottom = bottom - 30
+    promo_bottom = NAV_BAR_TOP
     promo_top = promo_bottom - promo_h
 
     rows_top = top + 34 + 40 + 28
@@ -393,7 +398,7 @@ def render(pairs, note, brand, out_path: Path):
 
     canvas = draw_promo(
         canvas,
-        (content_left, promo_top, content_right, promo_bottom),
+        (left, promo_top, right - 1, promo_bottom),
         note_lines,
         brand,
     )

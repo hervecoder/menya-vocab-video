@@ -6,15 +6,15 @@ on:
   workflow_dispatch:
     inputs:
       pairs:
-        description: 'Words as English=Kinyarwanda, separated by ; (max 6)'
+        description: 'Words as English=Kinyarwanda, separated by ; (max 7)'
         required: true
-        default: 'Book=Igitabo; Water=Amazi; House=Inzu; Friend=Inshuti; School=Ishuri; Teacher=Umwarimu'
+        default: 'Book=Igitabo; Water=Amazi; House=Inzu; Friend=Inshuti; School=Ishuri; Teacher=Umwarimu; Market=Isoko'
       note:
         description: 'Yellow box text. The brand name is highlighted in green.'
         required: true
         default: 'Iyi app yitwa "Menya Icyongereza App" wayisanga kuri Play Store yigisha icyongereza'
       brand:
-        description: 'Text inside the green pill'
+        description: 'Text to highlight green inside the note'
         required: false
         default: 'Menya Icyongereza App'
       duration:
