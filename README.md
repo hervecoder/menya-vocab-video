@@ -4,10 +4,10 @@ Generates a 1080x1920 (9:16) Facebook/Reels-ready video that looks like the
 **Menya Icyongereza App** screen:
 
 - the app's phone mockup as the full-frame background
-- 5 (up to 6) English words with their Kinyarwanda translations
+- 6 (up to 6) English words with their Kinyarwanda translations
 - the app's chunky white cards, green number badges and dotted leaders
-- a yellow promo box: *Ushaka kwiga icyongereza wakoresha iyi app yitwa*
-  **Menya Icyongereza App** (the app name is a green pill)
+- a yellow promo box: *Iyi app yitwa* **"Menya Icyongereza App"** *wayisanga
+  kuri Play Store yigisha icyongereza* (the app name is highlighted in green)
 
 ![preview](preview/preview.png)
 
@@ -33,6 +33,7 @@ No typing is needed: the workflow inputs already contain this test set:
 | House | Inzu |
 | Friend | Inshuti |
 | School | Ishuri |
+| Teacher | Umwarimu |
 
 The run commits the mp4 and the preview frame back into the repo and also
 attaches them as the `menya-vocab-video` artifact.
@@ -42,14 +43,14 @@ attaches them as the `menya-vocab-video` artifact.
 | Input | Meaning | Default |
 |---|---|---|
 | `pairs` | `English=Kinyarwanda` pairs separated by `;` (max 6) | the test set above |
-| `note` | Yellow box text. The `brand` text is cut out of it and shown in the green pill | the Kinyarwanda promo sentence |
-| `brand` | Green pill text | `Menya Icyongereza App` |
+| `note` | Yellow box text. The `brand` text is highlighted in green | the Play Store hook |
+| `brand` | Text to highlight green inside `note` | `Menya Icyongereza App` |
 | `duration` | Video length in seconds | `6` |
 
 Example:
 
 ```
-Book=Igitabo; Water=Amazi; House=Inzu; Friend=Inshuti; School=Ishuri
+Book=Igitabo; Water=Amazi; House=Inzu; Friend=Inshuti; School=Ishuri; Teacher=Umwarimu
 ```
 
 ## Run locally
@@ -82,7 +83,7 @@ side padding.
 - Long words shrink automatically (46→26 px English, 42→24 px Kinyarwanda)
   so a pair can never overflow the card.
 - Promo: `#FFF9C4` box, 2 px black border, balanced line wrapping (no orphan
-  words), brand name as a green pill.
+  words), brand name highlighted in green.
 - Rows are sized from the space left above the promo box, so 1–6 pairs all
   fit without manual tweaking.
 

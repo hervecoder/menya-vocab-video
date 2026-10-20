@@ -8,11 +8,11 @@ on:
       pairs:
         description: 'Words as English=Kinyarwanda, separated by ; (max 6)'
         required: true
-        default: 'Book=Igitabo; Water=Amazi; House=Inzu; Friend=Inshuti; School=Ishuri'
+        default: 'Book=Igitabo; Water=Amazi; House=Inzu; Friend=Inshuti; School=Ishuri; Teacher=Umwarimu'
       note:
-        description: 'Yellow box text. The brand name becomes the green pill.'
+        description: 'Yellow box text. The brand name is highlighted in green.'
         required: true
-        default: 'Ushaka kwiga icyongereza wakoresha iyi app yitwa Menya Icyongereza App'
+        default: 'Iyi app yitwa "Menya Icyongereza App" wayisanga kuri Play Store yigisha icyongereza'
       brand:
         description: 'Text inside the green pill'
         required: false

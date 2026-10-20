@@ -60,11 +60,14 @@ SIDE_PAD = 36
 ROW_GAP = 20
 ROW_MAX_H = 184
 PROMO_PAD = 30
+PROMO_FONT_SIZE = 36
+PROMO_LINE_H = 50
 
 # ---------------------------------------------------------------- defaults
-DEFAULT_PAIRS = "Book=Igitabo,Water=Amazi,House=Inzu,Friend=Inshuti,School=Ishuri"
+DEFAULT_PAIRS = "Book=Igitabo,Water=Amazi,House=Inzu,Friend=Inshuti,School=Ishuri,Teacher=Umwarimu"
 DEFAULT_NOTE = (
-    "Ushaka kwiga icyongereza wakoresha iyi app yitwa Menya Icyongereza App"
+    'Iyi app yitwa "Menya Icyongereza App" wayisanga kuri Play Store '
+    "yigisha icyongereza"
 )
 DEFAULT_BRAND = "Menya Icyongereza App"
 
@@ -139,21 +142,43 @@ def wrap_to_width(text, fnt, max_width):
     return lines
 
 
-def wrap_balanced(text, fnt, max_width):
+def wrap_balanced(text, fnt, max_width, protect=()):
     """Wrap lines so they look even instead of leaving one orphan word.
 
     Minimises the sum of squared empty space on every line. Explicit
-    newlines in the input are respected.
+    newlines in the input are respected. Quoted phrases and any phrase
+    listed in ``protect`` are never split across lines.
     """
     if "\n" in text:
         out = []
         for part in text.split("\n"):
             part = part.strip()
             if part:
-                out.extend(wrap_balanced(part, fnt, max_width))
+                out.extend(wrap_balanced(part, fnt, max_width, protect))
         return out or [""]
 
-    words = text.split()
+    import re
+
+    words = re.findall(r'"[^"]*"|[^\s]+', text)
+
+    # keep multi-word protected phrases together
+    phrases = [p.split() for p in protect if p]
+    merged = []
+    i = 0
+    while i < len(words):
+        for parts in phrases:
+            chunk = words[i : i + len(parts)]
+            if len(chunk) == len(parts) and [
+                w.strip('"').lower() for w in chunk
+            ] == [p.lower() for p in parts]:
+                merged.append(" ".join(chunk))
+                i += len(parts)
+                break
+        else:
+            merged.append(words[i])
+            i += 1
+    words = merged
+
     if not words:
         return [""]
 
@@ -259,6 +284,33 @@ def draw_row(canvas, box, index, english, kinyarwanda):
     return canvas
 
 
+def promo_segments(line, brand):
+    """Split a line into plain / highlighted runs around the brand name."""
+    if not brand:
+        return [(line, False)]
+    low = line.lower()
+    needle = brand.lower()
+    out = []
+    pos = 0
+    while True:
+        i = low.find(needle, pos)
+        if i == -1:
+            if pos < len(line):
+                out.append((line[pos:], False))
+            break
+        start, end = i, i + len(brand)
+        # keep the quotes around the app name inside the highlight
+        if start > 0 and line[start - 1] in '"“':
+            start -= 1
+        if end < len(line) and line[end] in '"”':
+            end += 1
+        if start > pos:
+            out.append((line[pos:start], False))
+        out.append((line[start:end], True))
+        pos = end
+    return out or [(line, False)]
+
+
 def draw_promo(canvas, box, lines, brand):
     x0, y0, x1, y1 = box
     radius = 24
@@ -266,42 +318,29 @@ def draw_promo(canvas, box, lines, brand):
     d = ImageDraw.Draw(canvas)
     d.rounded_rectangle(box, radius=radius, fill=YELLOW, outline=INK, width=2)
 
-    inner_w = (x1 - x0) - PROMO_PAD * 2
-
-    f_line = font("Poppins-Bold.ttf", 40)
-    line_h = 54
-    pill_h = 76
-    gap = 14
-    text_h = len(lines) * line_h
-    content_h = text_h + (gap + pill_h if brand else 0)
+    f_line = font("Poppins-Bold.ttf", PROMO_FONT_SIZE)
+    f_brand = font("Poppins-ExtraBold.ttf", PROMO_FONT_SIZE)
+    line_h = PROMO_LINE_H
+    content_h = len(lines) * line_h
     cy = y0 + ((y1 - y0) - content_h) / 2
 
     for line in lines:
-        d.text(((x0 + x1) / 2, cy), line, font=f_line, fill=INK, anchor="ma")
+        segments = promo_segments(line, brand)
+        total = sum(
+            (f_brand if hot else f_line).getlength(text) for text, hot in segments
+        )
+        x = (x0 + x1) / 2 - total / 2
+        for text, hot in segments:
+            f = f_brand if hot else f_line
+            d.text(
+                (x, cy),
+                text,
+                font=f,
+                fill=GREEN_DARK if hot else INK,
+                anchor="la",
+            )
+            x += f.getlength(text)
         cy += line_h
-
-    if brand:
-        cy += gap
-        f_brand = fit_font(brand, "Poppins-ExtraBold.ttf", 34, 22, inner_w - 110)
-        text_w = f_brand.getlength(brand)
-        pw = text_w + 104
-        px0 = (x0 + x1) / 2 - pw / 2
-        py0 = cy
-        d.rounded_rectangle(
-            (px0, py0 + 4, px0 + pw, py0 + pill_h + 4),
-            radius=pill_h / 2,
-            fill=GREEN_DARK,
-        )
-        d.rounded_rectangle(
-            (px0, py0, px0 + pw, py0 + pill_h), radius=pill_h / 2, fill=GREEN
-        )
-        d.text(
-            (px0 + pw / 2, py0 + pill_h / 2 + 1),
-            brand,
-            font=f_brand,
-            fill=WHITE,
-            anchor="mm",
-        )
 
     return canvas
 
@@ -327,19 +366,14 @@ def render(pairs, note, brand, out_path: Path):
     )
 
     # promo block height first (so rows can use the rest of the screen)
-    f_line = font("Poppins-Bold.ttf", 40)
-    note_clean = note.strip()
-    show_brand = False
-    if brand and brand.lower() in note_clean.lower():
-        idx = note_clean.lower().rfind(brand.lower())
-        note_clean = note_clean[:idx].rstrip(" ,.-")
-        show_brand = True
-    note_lines = wrap_balanced(note_clean, f_line, content_w - PROMO_PAD * 2)
-    promo_h = (
-        PROMO_PAD * 2
-        + len(note_lines) * 54
-        + (14 + 76 if show_brand else 0)
+    f_line = font("Poppins-Bold.ttf", PROMO_FONT_SIZE)
+    note_lines = wrap_balanced(
+        note.strip(),
+        f_line,
+        content_w - PROMO_PAD * 2,
+        protect=(brand, "Play Store"),
     )
+    promo_h = PROMO_PAD * 2 + len(note_lines) * PROMO_LINE_H
 
     promo_bottom = bottom - 30
     promo_top = promo_bottom - promo_h
@@ -361,7 +395,7 @@ def render(pairs, note, brand, out_path: Path):
         canvas,
         (content_left, promo_top, content_right, promo_bottom),
         note_lines,
-        brand if show_brand else "",
+        brand,
     )
 
     out = canvas.convert("RGB")
