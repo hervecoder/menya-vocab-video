@@ -1,18 +1,134 @@
 {
   "meta": {
-    "generated_at": "2026-10-21T00:46:03Z",
+    "generated_at": "2026-10-21T01:16:46Z",
     "source": "data/vocabulary_pilot_videos.json",
     "source_kind": "videos",
     "chunk_size_target": 300,
     "chunk_count": 1,
-    "total_jobs": 16,
-    "video_entries": 94,
+    "total_jobs": 10,
+    "video_entries": 70,
     "input_entries": 100,
     "word_entries": 74,
     "sentence_entries": 26,
     "video_word_entries": 70,
-    "video_sentence_entries": 24,
-    "remainder_entries": 6,
+    "video_sentence_entries": 0,
+    "eligible_word_entries": 74,
+    "eligible_sentence_entries": 0,
+    "remainder_entries": 4,
+    "excluded_unverified_entries": 26,
+    "excluded_unverified_word_entries": 0,
+    "excluded_unverified_sentence_entries": 26,
+    "verified_only": true,
+    "skipped_videos": [
+      {
+        "source_id": "sentence_01",
+        "mode": "sentence",
+        "pair_count": 4,
+        "entry_ids": [
+          "s013",
+          "s015",
+          "s007",
+          "s019"
+        ],
+        "statuses": [
+          "native_review_required"
+        ],
+        "reason": "unverified"
+      },
+      {
+        "source_id": "sentence_02",
+        "mode": "sentence",
+        "pair_count": 4,
+        "entry_ids": [
+          "s022",
+          "s011",
+          "s020",
+          "s016"
+        ],
+        "statuses": [
+          "native_review_required"
+        ],
+        "reason": "unverified"
+      },
+      {
+        "source_id": "sentence_03",
+        "mode": "sentence",
+        "pair_count": 4,
+        "entry_ids": [
+          "s008",
+          "s021",
+          "s014",
+          "s001"
+        ],
+        "statuses": [
+          "native_review_required"
+        ],
+        "reason": "unverified"
+      },
+      {
+        "source_id": "sentence_04",
+        "mode": "sentence",
+        "pair_count": 4,
+        "entry_ids": [
+          "s012",
+          "s005",
+          "s009",
+          "s023"
+        ],
+        "statuses": [
+          "native_review_required"
+        ],
+        "reason": "unverified"
+      },
+      {
+        "source_id": "sentence_05",
+        "mode": "sentence",
+        "pair_count": 4,
+        "entry_ids": [
+          "s002",
+          "s006",
+          "s025",
+          "s004"
+        ],
+        "statuses": [
+          "native_review_required"
+        ],
+        "reason": "unverified"
+      },
+      {
+        "source_id": "sentence_06",
+        "mode": "sentence",
+        "pair_count": 4,
+        "entry_ids": [
+          "s010",
+          "s018",
+          "s024",
+          "s003"
+        ],
+        "statuses": [
+          "native_review_required",
+          "verified"
+        ],
+        "reason": "unverified"
+      }
+    ],
+    "excluded_remainder": [
+      {
+        "english": "How much do you need?",
+        "kinyarwanda": "Ukeneye amafaranga angahe?",
+        "entry_id": "s017",
+        "type": "sentence",
+        "verification": "native_review_required"
+      },
+      {
+        "english": "I brush my teeth",
+        "kinyarwanda": "Noza amenyo",
+        "entry_id": "s026",
+        "type": "sentence",
+        "verification": "native_review_required"
+      }
+    ],
+    "excluded_entries": [],
     "allow_partial": false,
     "word_video_size": 7,
     "sentence_video_size": 4
@@ -22,10 +138,10 @@
       "chunk_id": 1,
       "file": "chunks/vocabulary_chunk_01.json",
       "entry_start": 1,
-      "entry_end": 94,
-      "entry_count": 94,
+      "entry_end": 70,
+      "entry_count": 70,
       "content_start": 1,
-      "content_end": 16
+      "content_end": 10
     }
   ],
   "jobs": [
@@ -228,108 +344,6 @@
         "w008",
         "w018"
       ]
-    },
-    {
-      "id": "content_0011",
-      "content_number": 11,
-      "source_id": "sentence_01",
-      "chunk_id": 1,
-      "job_index": 10,
-      "mode": "sentence",
-      "pair_count": 4,
-      "entry_start": 71,
-      "entry_end": 74,
-      "source_entry_ids": [
-        "s013",
-        "s015",
-        "s007",
-        "s019"
-      ]
-    },
-    {
-      "id": "content_0012",
-      "content_number": 12,
-      "source_id": "sentence_02",
-      "chunk_id": 1,
-      "job_index": 11,
-      "mode": "sentence",
-      "pair_count": 4,
-      "entry_start": 75,
-      "entry_end": 78,
-      "source_entry_ids": [
-        "s022",
-        "s011",
-        "s020",
-        "s016"
-      ]
-    },
-    {
-      "id": "content_0013",
-      "content_number": 13,
-      "source_id": "sentence_03",
-      "chunk_id": 1,
-      "job_index": 12,
-      "mode": "sentence",
-      "pair_count": 4,
-      "entry_start": 79,
-      "entry_end": 82,
-      "source_entry_ids": [
-        "s008",
-        "s021",
-        "s014",
-        "s001"
-      ]
-    },
-    {
-      "id": "content_0014",
-      "content_number": 14,
-      "source_id": "sentence_04",
-      "chunk_id": 1,
-      "job_index": 13,
-      "mode": "sentence",
-      "pair_count": 4,
-      "entry_start": 83,
-      "entry_end": 86,
-      "source_entry_ids": [
-        "s012",
-        "s005",
-        "s009",
-        "s023"
-      ]
-    },
-    {
-      "id": "content_0015",
-      "content_number": 15,
-      "source_id": "sentence_05",
-      "chunk_id": 1,
-      "job_index": 14,
-      "mode": "sentence",
-      "pair_count": 4,
-      "entry_start": 87,
-      "entry_end": 90,
-      "source_entry_ids": [
-        "s002",
-        "s006",
-        "s025",
-        "s004"
-      ]
-    },
-    {
-      "id": "content_0016",
-      "content_number": 16,
-      "source_id": "sentence_06",
-      "chunk_id": 1,
-      "job_index": 15,
-      "mode": "sentence",
-      "pair_count": 4,
-      "entry_start": 91,
-      "entry_end": 94,
-      "source_entry_ids": [
-        "s010",
-        "s018",
-        "s024",
-        "s003"
-      ]
     }
   ],
   "remainder": {
@@ -337,35 +351,32 @@
       {
         "english": "pencil",
         "kinyarwanda": "ikaramu",
-        "entry_id": "w030"
+        "entry_id": "w030",
+        "type": "word",
+        "verification": "verified"
       },
       {
         "english": "mother",
         "kinyarwanda": "mama",
-        "entry_id": "w062"
+        "entry_id": "w062",
+        "type": "word",
+        "verification": "verified"
       },
       {
         "english": "foot",
         "kinyarwanda": "ikirenge",
-        "entry_id": "w073"
+        "entry_id": "w073",
+        "type": "word",
+        "verification": "verified"
       },
       {
         "english": "small",
         "kinyarwanda": "gitoya",
-        "entry_id": "w043"
+        "entry_id": "w043",
+        "type": "word",
+        "verification": "verified"
       }
     ],
-    "sentences": [
-      {
-        "english": "How much do you need?",
-        "kinyarwanda": "Ukeneye amafaranga angahe?",
-        "entry_id": "s017"
-      },
-      {
-        "english": "I brush my teeth",
-        "kinyarwanda": "Noza amenyo",
-        "entry_id": "s026"
-      }
-    ]
+    "sentences": []
   }
 }

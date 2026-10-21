@@ -167,6 +167,9 @@ def job_summary(
         "total_entries": state["total_entries"],
         "input_entries": state.get("input_entries", state["total_entries"]),
         "remainder_entries": state.get("remainder_entries", 0),
+        "excluded_unverified_entries": state.get(
+            "excluded_unverified_entries", 0
+        ),
         "total_jobs": total_jobs,
         "cycle": state["cycle"],
         "next_content_id": next_content_id,
@@ -327,6 +330,9 @@ def cmd_reset(args: argparse.Namespace) -> None:
         "total_entries": meta.get("video_entries", 0),
         "input_entries": meta.get("input_entries", 0),
         "remainder_entries": meta.get("remainder_entries", 0),
+        "excluded_unverified_entries": meta.get(
+            "excluded_unverified_entries", 0
+        ),
         "last_content_id": None,
         "next_content_id": jobs[0]["id"],
         "updated_at": now_iso(),

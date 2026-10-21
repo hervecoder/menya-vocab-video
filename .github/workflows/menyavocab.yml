@@ -145,6 +145,7 @@ jobs:
           TOTAL_ENTRIES: ${{ steps.pick.outputs.total_entries }}
           INPUT_ENTRIES: ${{ steps.pick.outputs.input_entries }}
           REMAINDER_ENTRIES: ${{ steps.pick.outputs.remainder_entries }}
+          EXCLUDED_ENTRIES: ${{ steps.pick.outputs.excluded_unverified_entries }}
           CYCLE: ${{ steps.pick.outputs.cycle }}
           NEXT_CONTENT_ID: ${{ steps.pick.outputs.next_content_id }}
           NEXT_CYCLE: ${{ steps.pick.outputs.next_cycle }}
@@ -160,8 +161,8 @@ jobs:
           else
             echo "**Manual replay:** rotation state not advanced." >> "$GITHUB_STEP_SUMMARY"
           fi
-          if [ "$REMAINDER_ENTRIES" != "0" ]; then
-            echo "**Coverage:** $TOTAL_ENTRIES of $INPUT_ENTRIES entries in complete videos; $REMAINDER_ENTRIES remainder." >> "$GITHUB_STEP_SUMMARY"
+          if [ "$REMAINDER_ENTRIES" != "0" ] || [ "$EXCLUDED_ENTRIES" != "0" ]; then
+            echo "**Coverage:** $TOTAL_ENTRIES of $INPUT_ENTRIES entries in verified videos; $REMAINDER_ENTRIES remainder; $EXCLUDED_ENTRIES excluded from rotation." >> "$GITHUB_STEP_SUMMARY"
           fi
           echo "**Video:** \`output/$CONTENT_ID.mp4\`" >> "$GITHUB_STEP_SUMMARY"
           echo "**Frame:** \`preview/$CONTENT_ID.png\`" >> "$GITHUB_STEP_SUMMARY"

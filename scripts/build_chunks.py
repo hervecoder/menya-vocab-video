@@ -87,6 +87,14 @@ def entry_mode(entry: dict[str, Any]) -> str:
     )
 
 
+def entry_is_verified(entry: dict[str, Any]) -> bool:
+    return str(entry.get("verification") or "").strip().lower() == "verified"
+
+
+def pair_is_verified(pair: dict[str, Any]) -> bool:
+    return str(pair.get("verification") or "").strip().lower() == "verified"
+
+
 def pair_from_entry(entry: dict[str, Any], index: int) -> dict[str, Any]:
     english = str(entry.get("english") or "").strip()
     kinyarwanda = str(entry.get("kinyarwanda") or "").strip()
@@ -183,12 +191,16 @@ def jobs_from_entries(
     return jobs, word_remainder, sentence_remainder, len(words), len(sentences)
 
 
-def jobs_from_videos(data: dict[str, Any]) -> list[dict[str, Any]]:
+def jobs_from_videos(
+    data: dict[str, Any],
+    include_unverified: bool,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     videos = data.get("videos") or []
     if not videos:
         raise SystemExit("Input has no videos.")
 
     jobs: list[dict[str, Any]] = []
+    skipped: list[dict[str, Any]] = []
     for index, video in enumerate(videos):
         mode = str(video.get("mode") or "").strip().lower()
         if mode not in {"word", "sentence"}:
@@ -200,6 +212,28 @@ def jobs_from_videos(data: dict[str, Any]) -> list[dict[str, Any]]:
                 f"Video {video.get('id')!r} has {len(pairs)} pairs; "
                 f"{mode} needs {expected}."
             )
+
+        if not include_unverified and not all(
+            pair_is_verified(pair) for pair in pairs
+        ):
+            skipped.append(
+                {
+                    "source_id": video.get("id", f"video_{index + 1:02d}"),
+                    "mode": mode,
+                    "pair_count": len(pairs),
+                    "entry_ids": [
+                        pair.get("entry_id", "") for pair in pairs
+                    ],
+                    "statuses": sorted(
+                        {
+                            str(pair.get("verification") or "missing")
+                            for pair in pairs
+                        }
+                    ),
+                    "reason": "unverified",
+                }
+            )
+            continue
 
         clean_pairs = []
         for pair in pairs:
@@ -237,7 +271,58 @@ def jobs_from_videos(data: dict[str, Any]) -> list[dict[str, Any]]:
             }
         )
 
-    return jobs
+    return jobs, skipped
+
+
+def split_verified_entries(
+    entries: list[dict[str, Any]],
+    include_unverified: bool,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    if include_unverified:
+        return entries, []
+    eligible = [entry for entry in entries if entry_is_verified(entry)]
+    excluded = [entry for entry in entries if not entry_is_verified(entry)]
+    return eligible, excluded
+
+
+def excluded_entry_summary(entry: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "entry_id": entry.get("id", ""),
+        "english": entry.get("english", ""),
+        "kinyarwanda": entry.get("kinyarwanda", ""),
+        "type": entry_mode(entry),
+        "verification": entry.get("verification", ""),
+    }
+
+
+def entry_source_jobs(
+    entries: list[dict[str, Any]],
+    allow_partial: bool,
+    include_unverified: bool,
+) -> tuple[
+    list[dict[str, Any]],
+    list[tuple[int, dict[str, Any]]],
+    list[tuple[int, dict[str, Any]]],
+    int,
+    int,
+    list[dict[str, Any]],
+]:
+    eligible, excluded = split_verified_entries(entries, include_unverified)
+    (
+        jobs,
+        word_remainder,
+        sentence_remainder,
+        eligible_words,
+        eligible_sentences,
+    ) = jobs_from_entries(eligible, allow_partial)
+    return (
+        jobs,
+        word_remainder,
+        sentence_remainder,
+        eligible_words,
+        eligible_sentences,
+        excluded,
+    )
 
 
 def assign_content_numbers(jobs: list[dict[str, Any]]) -> None:
@@ -288,9 +373,25 @@ def main() -> None:
         help="Include a final short video when entries do not divide evenly.",
     )
     parser.add_argument(
+        "--include-unverified",
+        action="store_true",
+        help=(
+            "Include entries/videos that are not marked verification=verified. "
+            "Use only for review or layout previews, never for publishing."
+        ),
+    )
+    parser.add_argument(
         "--keep-state",
         action="store_true",
         help="Keep the existing rotation state if total_jobs still matches.",
+    )
+    parser.add_argument(
+        "--start-content",
+        default="",
+        help=(
+            "Start the new state at this content id instead of content_0001. "
+            "Useful when migrating a rotation without replaying finished videos."
+        ),
     )
     args = parser.parse_args()
 
@@ -304,23 +405,40 @@ def main() -> None:
     input_entries = 0
     input_word_entries = 0
     input_sentence_entries = 0
+    eligible_word_entries = 0
+    eligible_sentence_entries = 0
+    excluded_unverified_entries = 0
+    excluded_unverified_word_entries = 0
+    excluded_unverified_sentence_entries = 0
+    skipped_videos: list[dict[str, Any]] = []
+    excluded_remainder: list[dict[str, Any]] = []
+    excluded_entries: list[dict[str, Any]] = []
     remainder_words: list[dict[str, Any]] = []
     remainder_sentences: list[dict[str, Any]] = []
 
     if isinstance(data, list):
         source_kind = "entries"
-        entries = data
-        input_entries = len(entries)
+        entries_all = data
+        input_entries = len(entries_all)
+        input_word_entries = sum(
+            1 for entry in entries_all if entry_mode(entry) == "word"
+        )
+        input_sentence_entries = sum(
+            1 for entry in entries_all if entry_mode(entry) == "sentence"
+        )
         (
             jobs,
             word_remainder,
             sentence_remainder,
-            input_word_entries,
-            input_sentence_entries,
-        ) = jobs_from_entries(entries, args.allow_partial)
+            eligible_word_entries,
+            eligible_sentence_entries,
+            excluded_entries,
+        ) = entry_source_jobs(
+            entries_all, args.allow_partial, args.include_unverified
+        )
     elif isinstance(data, dict) and "videos" in data:
         source_kind = "videos"
-        jobs = jobs_from_videos(data)
+        jobs, skipped_videos = jobs_from_videos(data, args.include_unverified)
         meta = data.get("meta", {}) or {}
         input_entries = int(meta.get("total_entries", 0))
         input_word_entries = int(
@@ -356,39 +474,93 @@ def main() -> None:
 
         raw_remainder = data.get("remainder", {}) or {}
         for item in raw_remainder.get("words", []) or []:
-            remainder_words.append(
-                {
-                    "english": item.get("english", ""),
-                    "kinyarwanda": item.get("kinyarwanda", ""),
-                    "entry_id": item.get("entry_id") or item.get("id", ""),
-                }
-            )
+            summary = {
+                "english": item.get("english", ""),
+                "kinyarwanda": item.get("kinyarwanda", ""),
+                "entry_id": item.get("entry_id") or item.get("id", ""),
+                "type": "word",
+                "verification": item.get("verification", ""),
+            }
+            if args.include_unverified or entry_is_verified(item):
+                remainder_words.append(summary)
+            else:
+                excluded_remainder.append(summary)
         for item in raw_remainder.get("sentences", []) or []:
-            remainder_sentences.append(
-                {
-                    "english": item.get("english", ""),
-                    "kinyarwanda": item.get("kinyarwanda", ""),
-                    "entry_id": item.get("entry_id") or item.get("id", ""),
-                }
-            )
+            summary = {
+                "english": item.get("english", ""),
+                "kinyarwanda": item.get("kinyarwanda", ""),
+                "entry_id": item.get("entry_id") or item.get("id", ""),
+                "type": "sentence",
+                "verification": item.get("verification", ""),
+            }
+            if args.include_unverified or entry_is_verified(item):
+                remainder_sentences.append(summary)
+            else:
+                excluded_remainder.append(summary)
+
+        video_word_entries = sum(
+            job["pair_count"] for job in jobs if job["mode"] == "word"
+        )
+        video_sentence_entries = sum(
+            job["pair_count"] for job in jobs if job["mode"] == "sentence"
+        )
+        eligible_word_entries = video_word_entries + len(remainder_words)
+        eligible_sentence_entries = video_sentence_entries + len(remainder_sentences)
+        excluded_unverified_entries = sum(
+            int(video.get("pair_count", 0)) for video in skipped_videos
+        ) + len(excluded_remainder)
+        excluded_unverified_word_entries = sum(
+            int(video.get("pair_count", 0))
+            for video in skipped_videos
+            if video.get("mode") == "word"
+        ) + sum(1 for item in excluded_remainder if item["type"] == "word")
+        excluded_unverified_sentence_entries = sum(
+            int(video.get("pair_count", 0))
+            for video in skipped_videos
+            if video.get("mode") == "sentence"
+        ) + sum(1 for item in excluded_remainder if item["type"] == "sentence")
     elif isinstance(data, dict) and "entries" in data:
         source_kind = "entries"
-        entries = data["entries"]
-        input_entries = len(entries)
+        entries_all = data["entries"]
+        input_entries = len(entries_all)
+        input_word_entries = sum(
+            1 for entry in entries_all if entry_mode(entry) == "word"
+        )
+        input_sentence_entries = sum(
+            1 for entry in entries_all if entry_mode(entry) == "sentence"
+        )
         (
             jobs,
             word_remainder,
             sentence_remainder,
-            input_word_entries,
-            input_sentence_entries,
-        ) = jobs_from_entries(entries, args.allow_partial)
+            eligible_word_entries,
+            eligible_sentence_entries,
+            excluded_entries,
+        ) = entry_source_jobs(
+            entries_all, args.allow_partial, args.include_unverified
+        )
     else:
         raise SystemExit(
             "Input must be a list, an object with 'entries', or an object with 'videos'."
         )
 
+    if source_kind == "entries":
+        excluded_unverified_entries = len(excluded_entries)
+        excluded_unverified_word_entries = sum(
+            1 for entry in excluded_entries if entry_mode(entry) == "word"
+        )
+        excluded_unverified_sentence_entries = sum(
+            1 for entry in excluded_entries if entry_mode(entry) == "sentence"
+        )
+
     if not jobs:
-        raise SystemExit("No complete video jobs were produced.")
+        hint = (
+            ""
+            if args.include_unverified
+            else " No verified complete videos were found; pass "
+            "--include-unverified only for a review build."
+        )
+        raise SystemExit(f"No complete video jobs were produced.{hint}")
 
     assign_content_numbers(jobs)
     total_video_entries = sum(job["pair_count"] for job in jobs)
@@ -451,6 +623,8 @@ def main() -> None:
                 "english": entry.get("english", ""),
                 "kinyarwanda": entry.get("kinyarwanda", ""),
                 "entry_id": entry.get("id", ""),
+                "type": "word",
+                "verification": entry.get("verification", ""),
             }
             for _, entry in word_remainder
         ]
@@ -459,6 +633,8 @@ def main() -> None:
                 "english": entry.get("english", ""),
                 "kinyarwanda": entry.get("kinyarwanda", ""),
                 "entry_id": entry.get("id", ""),
+                "type": "sentence",
+                "verification": entry.get("verification", ""),
             }
             for _, entry in sentence_remainder
         ]
@@ -485,7 +661,18 @@ def main() -> None:
             "sentence_entries": input_sentence_entries,
             "video_word_entries": video_word_entries,
             "video_sentence_entries": video_sentence_entries,
+            "eligible_word_entries": eligible_word_entries,
+            "eligible_sentence_entries": eligible_sentence_entries,
             "remainder_entries": remainder_count,
+            "excluded_unverified_entries": excluded_unverified_entries,
+            "excluded_unverified_word_entries": excluded_unverified_word_entries,
+            "excluded_unverified_sentence_entries": excluded_unverified_sentence_entries,
+            "verified_only": not args.include_unverified,
+            "skipped_videos": skipped_videos,
+            "excluded_remainder": excluded_remainder,
+            "excluded_entries": [
+                excluded_entry_summary(entry) for entry in excluded_entries
+            ],
             "allow_partial": bool(args.allow_partial),
             "word_video_size": 7,
             "sentence_video_size": 4,
@@ -509,17 +696,41 @@ def main() -> None:
                 "Existing state has a different total_jobs; remove it or rerun "
                 "without --keep-state."
             )
+        state.setdefault("input_entries", input_entries)
+        state.setdefault("remainder_entries", remainder_count)
+        state.setdefault(
+            "excluded_unverified_entries", excluded_unverified_entries
+        )
+        write_json(args.state, state)
     else:
+        start_index = 0
+        if args.start_content:
+            start_index = next(
+                (
+                    index
+                    for index, job in enumerate(manifest_jobs)
+                    if job["id"] == args.start_content
+                ),
+                -1,
+            )
+            if start_index < 0:
+                raise SystemExit(
+                    f"--start-content {args.start_content!r} is not in the new "
+                    "manifest."
+                )
         state = {
             "cycle": 1,
-            "next_job_index": 0,
-            "jobs_done_in_cycle": 0,
+            "next_job_index": start_index,
+            "jobs_done_in_cycle": start_index,
             "total_jobs": total_jobs,
             "total_entries": total_video_entries,
             "input_entries": input_entries,
             "remainder_entries": remainder_count,
-            "last_content_id": None,
-            "next_content_id": manifest_jobs[0]["id"],
+            "excluded_unverified_entries": excluded_unverified_entries,
+            "last_content_id": (
+                manifest_jobs[start_index - 1]["id"] if start_index else None
+            ),
+            "next_content_id": manifest_jobs[start_index]["id"],
             "updated_at": now_iso(),
         }
         write_json(args.state, state)
@@ -527,10 +738,17 @@ def main() -> None:
     print(
         f"source: {rel_to_root(args.input)} ({source_kind})"
     )
+    scope = "all" if args.include_unverified else "verified"
     print(
-        f"entries: {input_entries} input, {total_video_entries} in video jobs, "
-        f"{remainder_count} remainder"
+        f"entries: {input_entries} input, {total_video_entries} in {scope} "
+        f"video jobs, {remainder_count} remainder"
     )
+    if excluded_unverified_entries:
+        print(
+            f"excluded: {excluded_unverified_entries} entries held out of "
+            f"rotation ({excluded_unverified_word_entries} words + "
+            f"{excluded_unverified_sentence_entries} sentences)"
+        )
     print(
         f"videos: {total_jobs} jobs "
         f"({sum(1 for j in manifest_jobs if j['mode'] == 'word')} word, "
@@ -553,7 +771,7 @@ def main() -> None:
     print(f"manifest: {rel_to_root(args.manifest)}")
     print(
         f"state: {rel_to_root(args.state)} "
-        f"(next {manifest_jobs[0]['id']}, cycle 1)"
+        f"(next {state['next_content_id']}, cycle {state['cycle']})"
     )
 
 

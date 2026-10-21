@@ -11,9 +11,12 @@ Generates a 1080x1920 (9:16) Facebook/Reels-ready video that looks like the
   App"** *wayisanga kuri Play Store yigisha icyongereza* (the app name is
   highlighted in green)
 
-| Word mode | Sentence mode |
+| Word mode | Sentence layout sample (not yet published) |
 |---|---|
 | ![word preview](preview/word_01.png) | ![sentence preview](preview/sentence_01.png) |
+
+The sentence preview shows the 4-pair layout; those pairs stay out of the
+rotation until a native speaker verifies them.
 
 Output: `output/<content_id>.mp4` — H.264, yuv420p, 30 fps, AAC stereo
 audio, `+faststart`. One of the four tracks in `assets/song/` is picked at
@@ -24,31 +27,39 @@ random per run (same behaviour as the perime.rw videos). Local samples:
 The current data set is the **100-entry pilot**:
 
 - `data/vocabulary_pilot.json` — 100 flat entries (74 words + 26 sentence pairs)
-- `data/vocabulary_pilot_videos.json` — 10 complete word videos, 6 complete
-  sentence videos, plus a 6-entry remainder bucket
-- `data/chunks/vocabulary_chunk_01.json` — the 16 complete videos as one
-  rotation chunk (94 video entries)
-- `data/rotation_manifest.json` — ordered `content_0001`…`content_0016` jobs
+- `data/vocabulary_pilot_videos.json` — 10 complete word videos, 6 sentence
+  layout samples, plus a 6-entry remainder bucket
+- `data/chunks/vocabulary_chunk_01.json` — the 10 **verified** word videos as one
+  rotation chunk (70 entries)
+- `data/rotation_manifest.json` — ordered `content_0001`…`content_0010` jobs
   and the chunk map
 - `data/rotation_state.json` — remembers the next content and the cycle
 - `data/vocabulary_pilot_review.md` and
   `data/vocabulary_pilot_videos_review.md` — human-readable review tables
 
-The pilot's 4 leftover words and 2 leftover sentence pairs are kept in
-`remainder`; they do not fill a complete 7-word or 4-pair video. The full
-1,098 build should use counts that divide evenly (for example 854 words +
-244 sentence pairs) so every entry lands in a complete video.
+The rotation is **verification-gated**: only complete videos whose pairs are all
+marked `verification: "verified"` enter the manifest. The pilot contributes 70
+verified word entries in 10 videos. The 4 leftover words (`pencil`, `mother`,
+`foot`, `small`) stay in `remainder`; 26 sentence pairs are excluded from
+rotation because 25 still need native review and 1 verified pair ("Good
+morning") shares a 4-pair video with unverified pairs. The 6 sentence videos are
+layout previews only until a native speaker signs them off.
+
+The full 1,098 build should use counts that divide evenly (for example 854 words
++ 244 sentence pairs) so every verified entry lands in a complete video.
 
 **Verification status:** 75 entries are checked against live Glosbe pages.
 The other 25 sentence pairs are marked `native_review_required`; they are not
-claimed as online-verified until a native speaker reviews them.
+claimed as online-verified and are not published by the rotation until a native
+speaker reviews them.
 
 ## Rotation (one video per run)
 
 Every workflow run picks exactly one content item and advances the state:
-`content_0001` → `content_0002` → … → `content_0016` → `content_0001` again
+`content_0001` → `content_0002` → … → `content_0010` → `content_0001` again
 (in a new cycle). The state is committed only after the video renders
 successfully, so a failed run repeats the same content instead of skipping it.
+
 
 - `scripts/rotation.py next` peeks at the next job and writes a one-job batch
   for `generate.py`; it does not change the state.
@@ -101,6 +112,13 @@ entry target rather than splitting a 7-word or 4-pair video across files. The
 manifest lists every `content_0001`… job and points back to its chunk file and
 job index.
 
+The builder is verification-gated by default: it keeps only content marked
+`verification: "verified"`. Pass `--include-unverified` for a review/layout
+build (never for publishing). Excluded entries, skipped sentence videos and the
+counts are recorded in the manifest `meta`; the workflow summary shows the same
+numbers. Use `--start-content content_0003` when migrating an existing rotation
+so already-rendered videos are not replayed.
+
 Each job looks like this:
 
 ```json
@@ -125,8 +143,7 @@ Each job looks like this:
 - Sentence jobs: `mode: "sentence"`, 4 pairs.
 - A final partial job is allowed only when a database does not divide evenly;
   it is labelled with its real pair count and its cards are centred. The
-  conversion command above keeps leftovers in `remainder` unless
-  `--allow-partial` is passed.
+  builder keeps leftovers in `remainder` unless `--allow-partial` is passed.
 - Directions are always English → Kinyarwanda.
 - `generate.py` accepts 1–7 word pairs or 1–4 sentence pairs, so a short final
   job still renders instead of being dropped.
@@ -150,13 +167,14 @@ python generate.py --batch-json data/.current_job.json --video
 python scripts/rotation.py advance --pending data/.rotation_pending.json
 ```
 
-You can still render one of the approved pilot batches directly:
+You can still render one of the pilot batches directly. The sentence batch is a
+layout sample only; do not publish it until a native speaker reviews the pairs.
 
 ```powershell
-# word mode (7 pairs)
+# word mode (7 pairs, verified)
 python generate.py --batch-json data/vocabulary_pilot_videos.json --video-id word_01 --video
 
-# sentence mode (4 pairs / 8 lines)
+# sentence mode (4 pairs / 8 lines, LAYOUT SAMPLE ONLY)
 python generate.py --batch-json data/vocabulary_pilot_videos.json --video-id sentence_01 --video
 ```
 
@@ -225,8 +243,8 @@ generate.py                     renderer + ffmpeg encoder
 scripts/build_chunks.py         splits entries into video-job chunk files
 scripts/rotation.py             next/advance/select/status/reset state machine
 data/vocabulary_pilot.json      flat 100-entry database
-data/vocabulary_pilot_videos.json   video-ready word/sentence batches
-data/chunks/*.json              rotation chunk files (complete videos only)
+data/vocabulary_pilot_videos.json   video-ready word/sentence batches + review samples
+data/chunks/*.json              rotation chunks (complete verified videos only)
 data/rotation_manifest.json     ordered content ids + chunk map
 data/rotation_state.json        remembered next content and cycle
 data/*_review.md                human-readable review tables
@@ -250,6 +268,8 @@ output/*.mp4                    generated videos
 - The workflow is serialized with a concurrency group, so two runs cannot pick
   the same content. The state is committed only after a successful render.
 - The full 1,098-entry database is the next build step; this repo currently
-  ships the reviewed 100-entry pilot. The chunk builder defaults to 300 entries
-  per file. A clean split of 854 words + 244 sentence pairs gives 122 word
-  videos + 61 sentence videos = 183 contents in roughly four chunk files.
+  ships the 100-entry pilot (75 verified entries; 25 sentence pairs awaiting
+  native review). The chunk builder defaults to 300 entries per file and keeps
+  only verified content. Once all sentence pairs are verified, a clean split of
+  854 words + 244 sentence pairs gives 122 word videos + 61 sentence videos =
+  183 contents in roughly four chunk files.
