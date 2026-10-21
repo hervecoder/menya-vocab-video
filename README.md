@@ -61,8 +61,9 @@ Every workflow run picks exactly one content item and advances the state:
 `content_0001` → `content_0002` → … → `content_1098` → `content_0001` again
 (in a new cycle). The state is committed only after the video renders
 successfully, so a failed run repeats the same content instead of skipping it.
-The current position is `content_0004` (the first three pilot videos are already
-rendered).
+The current position lives in `data/rotation_state.json`; the workflow advances
+it after each successful render. After the latest run it points to
+`content_0005`.
 
 
 - `scripts/rotation.py next` peeks at the next job and writes a one-job batch
@@ -115,7 +116,7 @@ python scripts/build_chunks.py `
   --chunk-size 2000 `
   --allow-shared-entries `
   --trust-dictionary `
-  --start-content content_0004
+  --start-content content_0005
 ```
 
 The builder is verification-gated by default: it keeps only content marked
@@ -123,8 +124,10 @@ The builder is verification-gated by default: it keeps only content marked
 `verification: "dictionary"` for this database; `--include-unverified` remains
 for review/layout builds only (never for publishing). Excluded entries, skipped
 sentence videos and counts are recorded in the manifest `meta`; the workflow
-summary shows the same numbers. Use `--start-content content_0004` when
-migrating the existing rotation so already-rendered videos are not replayed.
+summary shows the same numbers. Use `--start-content` with the current
+`next_content_id` from `data/rotation_state.json` (currently `content_0005`)
+when migrating the existing rotation so already-rendered videos are not
+replayed.
 
 Duplicate videos are rejected even with `--allow-shared-entries`: every video
 signature must be unique. The generated database intentionally reuses words
