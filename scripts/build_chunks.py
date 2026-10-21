@@ -13,10 +13,13 @@ Two input shapes are supported:
 By default only items marked ``verification: "verified"`` enter the rotation.
 Unverified entries/videos are recorded in the manifest meta and excluded.
 ``--include-unverified`` is for review/layout builds only, never publishing.
-Duplicate entries and duplicate videos are rejected; ``--allow-shared-entries``
-relaxes that to unique video signatures only. ``--chunk-size`` is a soft target:
-a chunk may go over it so a video is never split. ``--start-content
-content_0003`` migrates a rotation without replaying finished videos.
+``--trust-dictionary`` promotes cached-dictionary pairs; ``--trust-corpus``
+does the same for the separately sourced sentence track. Duplicate entries and
+duplicate videos are rejected; ``--allow-shared-entries`` relaxes that to unique
+video signatures only. ``--chunk-size`` is a soft target: a chunk may go over it
+so a video is never split. ``--start-content content_0003`` migrates a rotation
+without replaying finished videos. ``--id-prefix sentence_`` keeps a separate
+sentence rotation from colliding with the word-track ids.
 
 Outputs:
 
@@ -43,6 +46,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -110,22 +114,24 @@ def pair_is_verified(pair: dict[str, Any]) -> bool:
     return str(pair.get("verification") or "").strip().lower() == "verified"
 
 
-def promote_dictionary_verification(data: Any) -> int:
-    """Promote cached-dictionary pairs to the publishing gate.
+def promote_verification(data: Any, source_tier: str) -> int:
+    """Promote a named source tier to the publishing gate.
 
-    The full database marks generated pairs ``verification: "dictionary"`` so
-    the source is visible. With ``--trust-dictionary`` those pairs are promoted
-    to ``verified`` for the rotation, while ``verification_tier`` keeps the
-    original tier. The 10 pilot pairs stay ``verified`` either way.
+    The source database keeps the original tier visible (``dictionary`` for the
+    generated word videos, ``corpus`` for the sentence track). The opt-in flags
+    promote those pairs to ``verified`` for a build while ``verification_tier``
+    preserves where they came from. This is deliberate: a promoted pair is
+    publishable, not claimed as individually native-reviewed.
     """
     changed = 0
+    wanted = source_tier.strip().lower()
 
     def promote(pair: dict[str, Any]) -> None:
         nonlocal changed
-        if str(pair.get("verification") or "").strip().lower() != "dictionary":
+        if str(pair.get("verification") or "").strip().lower() != wanted:
             return
         pair["verification"] = "verified"
-        pair.setdefault("verification_tier", "dictionary")
+        pair.setdefault("verification_tier", wanted)
         changed += 1
 
     if isinstance(data, list):
@@ -143,6 +149,16 @@ def promote_dictionary_verification(data: Any) -> int:
                 if isinstance(pair, dict):
                     promote(pair)
     return changed
+
+
+def promote_dictionary_verification(data: Any) -> int:
+    """Backward-compatible wrapper for the word-track build."""
+    return promote_verification(data, "dictionary")
+
+
+def promote_corpus_verification(data: Any) -> int:
+    """Promote corpus-aligned sentence pairs for the separate sentence track."""
+    return promote_verification(data, "corpus")
 
 
 def pair_from_entry(entry: dict[str, Any], index: int) -> dict[str, Any]:
@@ -184,6 +200,7 @@ def mode_jobs(
             {
                 "mode": mode,
                 "pair_count": len(pairs),
+                "line_count": len(pairs) * 2 if mode == "sentence" else len(pairs),
                 "source_indices": [index for index, _ in batch],
                 "source_entry_ids": [pair["entry_id"] for pair in pairs],
                 "first_source_index": min(index for index, _ in batch),
@@ -316,6 +333,12 @@ def jobs_from_videos(
                 "source_id": video.get("id", f"video_{index + 1:02d}"),
                 "mode": mode,
                 "pair_count": len(clean_pairs),
+                "line_count": int(
+                    video.get(
+                        "line_count",
+                        len(clean_pairs) * 2 if mode == "sentence" else len(clean_pairs),
+                    )
+                ),
                 "source_indices": [],
                 "source_entry_ids": [
                     pair["entry_id"] for pair in clean_pairs if pair["entry_id"]
@@ -379,11 +402,13 @@ def entry_source_jobs(
     )
 
 
-def assign_content_numbers(jobs: list[dict[str, Any]]) -> None:
+def assign_content_numbers(
+    jobs: list[dict[str, Any]], id_prefix: str = "content_"
+) -> None:
     cursor = 1
     for number, job in enumerate(jobs, start=1):
         job["content_number"] = number
-        job["id"] = f"content_{number:04d}"
+        job["id"] = f"{id_prefix}{number:04d}"
         job["entry_start"] = cursor
         job["entry_end"] = cursor + job["pair_count"] - 1
         cursor += job["pair_count"]
@@ -546,6 +571,32 @@ def main() -> None:
         ),
     )
     parser.add_argument(
+        "--trust-corpus",
+        action="store_true",
+        help=(
+            "Promote pairs marked verification=corpus to verified for this "
+            "build. Used by the separate sentence track; the original "
+            "verification_tier stays 'corpus'."
+        ),
+    )
+    parser.add_argument(
+        "--id-prefix",
+        default="content_",
+        help=(
+            "Prefix for generated job ids (default: content_). Use sentence_ "
+            "for a separate sentence rotation so outputs and state cannot "
+            "collide with the word track."
+        ),
+    )
+    parser.add_argument(
+        "--chunk-prefix",
+        default="vocabulary_chunk_",
+        help=(
+            "Filename prefix for chunk files (default: vocabulary_chunk_). "
+            "Use sentence_chunk_ for the sentence track."
+        ),
+    )
+    parser.add_argument(
         "--keep-state",
         action="store_true",
         help="Keep the existing rotation state if total_jobs still matches.",
@@ -560,12 +611,26 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    if not re.fullmatch(r"[a-z][a-z0-9_]*", args.id_prefix):
+        raise SystemExit(
+            f"--id-prefix must be lowercase letters/digits/underscore: "
+            f"{args.id_prefix!r}"
+        )
+    if not re.fullmatch(r"[a-z][a-z0-9_]*", args.chunk_prefix):
+        raise SystemExit(
+            f"--chunk-prefix must be lowercase letters/digits/underscore: "
+            f"{args.chunk_prefix!r}"
+        )
+
     if not args.input.exists():
         raise SystemExit(f"Input not found: {args.input}")
     data = read_json(args.input)
     if args.trust_dictionary:
         promoted = promote_dictionary_verification(data)
         print(f"trusted dictionary pairs promoted: {promoted}")
+    if args.trust_corpus:
+        promoted = promote_corpus_verification(data)
+        print(f"trusted corpus pairs promoted: {promoted}")
 
     source_kind: str
     word_remainder: list[tuple[int, dict[str, Any]]] = []
@@ -733,7 +798,7 @@ def main() -> None:
     unique_videos, unique_entries = validate_unique_jobs(
         jobs, args.allow_shared_entries
     )
-    assign_content_numbers(jobs)
+    assign_content_numbers(jobs, args.id_prefix)
     total_video_entries = sum(job["pair_count"] for job in jobs)
     total_jobs = len(jobs)
     chunks = chunk_jobs(jobs, args.chunk_size)
@@ -747,7 +812,7 @@ def main() -> None:
     manifest_jobs: list[dict[str, Any]] = []
 
     for chunk_id, chunk in enumerate(chunks, start=1):
-        filename = f"vocabulary_chunk_{chunk_id:02d}.json"
+        filename = f"{args.chunk_prefix}{chunk_id:02d}.json"
         payload = {
             "chunk_id": chunk_id,
             "entry_start": chunk[0]["entry_start"],
@@ -784,6 +849,7 @@ def main() -> None:
                     "job_index": job_index,
                     "mode": job["mode"],
                     "pair_count": job["pair_count"],
+                    "line_count": job.get("line_count", 0),
                     "entry_start": job["entry_start"],
                     "entry_end": job["entry_end"],
                     "source_entry_ids": job.get("source_entry_ids", []),
@@ -842,6 +908,9 @@ def main() -> None:
             "excluded_unverified_sentence_entries": excluded_unverified_sentence_entries,
             "verified_only": not args.include_unverified,
             "trusted_dictionary": bool(args.trust_dictionary),
+            "trusted_corpus": bool(args.trust_corpus),
+            "id_prefix": args.id_prefix,
+            "chunk_prefix": args.chunk_prefix,
             "unique_videos": unique_videos,
             "unique_entries": unique_entries,
             "strict_unique_entries": not args.allow_shared_entries,
@@ -862,7 +931,7 @@ def main() -> None:
         },
     }
     write_json(args.manifest, manifest)
-    for old in args.out_dir.glob("vocabulary_chunk_*.json"):
+    for old in args.out_dir.glob(f"{args.chunk_prefix}*.json"):
         if old.name not in written_chunk_names:
             old.unlink()
 

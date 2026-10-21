@@ -11,20 +11,23 @@ Generates a 1080x1920 (9:16) Facebook/Reels-ready video that looks like the
   App"** *wayisanga kuri Play Store yigisha icyongereza* (the app name is
   highlighted in green)
 
-| Word mode | Sentence layout sample (not yet published) |
+| Word mode | Sentence mode (separate rotation) |
 |---|---|
-| ![word preview](preview/word_01.png) | ![sentence preview](preview/sentence_01.png) |
+| ![word preview](preview/word_01.png) | ![sentence preview](preview/sentence_0001.png) |
 
-The sentence preview shows the 4-pair layout; those pairs stay out of the
-rotation until a native speaker verifies them.
+The sentence track is a separate **18-video rotation**. Every sentence video is
+exactly 4 pairs = 8 text lines: English sentence first, Kinyarwanda translation
+second. The pairs are selected from the cached aligned corpus and carry the
+`corpus` source tier, not a claim of native review.
 
 Output: `output/<content_id>.mp4` — H.264, yuv420p, 30 fps, AAC stereo
 audio, `+faststart`. One of the four tracks in `assets/song/` is picked at
 random per run (same behaviour as the perime.rw videos). Local samples:
-[`output/word_01.mp4`](output/word_01.mp4) and
-[`output/sentence_01.mp4`](output/sentence_01.mp4).
+[`output/word_01.mp4`](output/word_01.mp4) and the old
+[`output/sentence_01.mp4`](output/sentence_01.mp4) layout sample.
 
-The current data set is the full **1,098-video rotation**:
+The current data set has two separate rotations — the untouched **1,098-video
+word rotation** and the **18-video sentence rotation**:
 
 - `data/vocabulary_all_videos.json` — 1,098 complete word videos
   (10 verified pilot videos + 1,088 generated videos)
@@ -32,13 +35,22 @@ The current data set is the full **1,098-video rotation**:
   1,500-word source pool
 - `data/sources/` — cached English frequency list, English→Kinyarwanda
   dictionary, aligned sentence corpus, and source notes
-- `data/chunks/vocabulary_chunk_01.json` … `_04.json` — four rotation chunks
-  (2,002 / 2,002 / 2,002 / 1,680 entries)
-- `data/rotation_manifest.json` — ordered `content_0001`…`content_1098` jobs
-  and the chunk map
-- `data/rotation_state.json` — remembers the next content and the cycle
+- `data/chunks/vocabulary_chunk_01.json` … `_04.json` — four word-rotation
+  chunks (2,002 / 2,002 / 2,002 / 1,680 entries)
+- `data/rotation_manifest.json` — ordered `content_0001`…`content_1098` word
+  jobs and the chunk map
+- `data/rotation_state.json` — remembers the next word content and the cycle
+- `data/vocabulary_sentences.json` - 72 curated sentence pairs → 18 sentence
+  videos (4 pairs / 8 lines each)
+- `data/vocabulary_sentences_review.md` — sentence review table with alignment
+  notes
+- `data/sentence_chunks/sentence_chunk_01.json` — one sentence-rotation chunk
+  (72 pairs)
+- `data/sentence_rotation_manifest.json` — ordered `sentence_0001` …
+  `sentence_0018` sentence jobs
+- `data/sentence_rotation_state.json` — remembers the next sentence video
 - `data/vocabulary_pilot*.json` — the original 100-entry pilot, kept as the
-  source of the 10 verified opening videos and the sentence layout samples
+  source of the 10 verified opening videos and the old sentence layout samples
 
 The first 10 videos are the Glosbe-verified pilot. The other 1,088 are generated
 from a **1,500-word common-vocabulary pool**; the 7,616 word slots reuse each
@@ -48,46 +60,83 @@ no words. The rotation therefore always advances to a visibly different video
 and wraps from `content_1098` back to `content_0001`.
 
 **Verification status:** the 10 pilot videos are checked against live Glosbe
-pages. Generated pairs are marked `verification: "dictionary"` in the source
-database and are promoted by the build's `--trust-dictionary` flag; their
-sources are the app curriculum, the cached Iriza 2006 / Cox–Adamson–Teusink
+pages. Generated word pairs are marked `verification: "dictionary"` in the
+source database and are promoted by the build's `--trust-dictionary` flag;
+their sources are the app curriculum, the cached Iriza 2006 / Cox–Adamson–Teusink
 1957 dictionary, and corpus co-occurrence checks. They are not claimed as
-individually native-reviewed. The 25 `native_review_required` sentence pairs
-and the 6 sentence layout videos are **not** in this rotation.
+individually native-reviewed.
 
-## Rotation (one video per run)
+The separate sentence track uses 72 curated pairs from the aligned corpus.
+Each pair is marked `verification: "corpus"` in the source and promoted with
+`--trust-corpus`; the manifest keeps `verification_tier: "corpus"` so the
+provenance is visible. The pairs passed alignment, length, grammar, duplicate
+and name/religious-term filters, and a manual scan, followed by orthographic
+cleanup of missing apostrophes/spaces. They are **not** claimed as
+native-verified. The 25 older `native_review_required` sentence pairs and the 6
+old sentence layout samples remain outside both rotations.
 
-Every workflow run picks exactly one content item and advances the state:
+## Rotation (two separate tracks, one video per run)
+
+The word track is unchanged:
+
 `content_0001` → `content_0002` → … → `content_1098` → `content_0001` again
-(in a new cycle). The state is committed only after the video renders
-successfully, so a failed run repeats the same content instead of skipping it.
-The current position lives in `data/rotation_state.json`; the workflow advances
-it after each successful render. After the latest run it points to
-`content_0005`.
+(in a new cycle). Its manifest, state, IDs and 7-pair videos are exactly as
+before. The current position lives in `data/rotation_state.json`; after the
+latest run it points to `content_0005`.
 
+The sentence track is independent:
+
+`sentence_0001` → `sentence_0002` → … → `sentence_0018` → `sentence_0001`
+again. Every job is exactly 4 pairs = 8 text lines, never mixed with words. Its
+state lives in `data/sentence_rotation_state.json`.
+
+Both tracks use the same state machine. State is committed only after the video
+renders successfully, so a failed run repeats the same content instead of
+skipping it.
 
 - `scripts/rotation.py next` peeks at the next job and writes a one-job batch
   for `generate.py`; it does not change the state.
 - `scripts/rotation.py advance` runs after encoding and moves to the next job.
 - `scripts/rotation.py select --content-id content_0005` replays one specific
-  content without touching the state.
-- `scripts/rotation.py reset` starts again at `content_0001`, cycle 1.
+  content without touching the state (use a `sentence_XXXX` id with the
+  sentence manifest/state).
+- `scripts/rotation.py reset` starts again at the first content of that track.
 - `scripts/rotation.py status` shows the remembered position.
+
+To use the sentence track, pass its files explicitly:
+
+```powershell
+python scripts/rotation.py next `
+  --manifest data/sentence_rotation_manifest.json `
+  --state data/sentence_rotation_state.json `
+  --out data/.sentence_job.json `
+  --pending data/.sentence_pending.json
+
+python generate.py --batch-json data/.sentence_job.json --video --duration 6
+
+python scripts/rotation.py advance `
+  --manifest data/sentence_rotation_manifest.json `
+  --state data/sentence_rotation_state.json `
+  --pending data/.sentence_pending.json
+```
 
 ## Run it on GitHub
 
-1. Open the repo's **Actions** tab → **Menya Vocab Video** → **Run workflow**.
-2. Leave every field as-is.
-3. Press **Run workflow**.
+Choose one of the two pre-filled workflows:
 
-The run automatically renders the next `content_XXXX`, commits the mp4, its
-preview frame and the updated `data/rotation_state.json`, and attaches them as
-the `menya-vocab-video` artifact. The next run starts with the following
-content. No typing is needed.
+1. **Menya Vocab Video** — word track (`content_0001`…`content_1098`).
+2. **Menya Vocab Sentences** — sentence track (`sentence_0001`…`sentence_0018`).
 
-To replay one specific video, set `content_id` to an id from
-`data/rotation_manifest.json` (for example `content_0001`). A replay does not
-advance the rotation state.
+For either one: open the **Actions** tab, select the workflow, leave every
+field as-is, and press **Run workflow**. The run renders the next video,
+commits the mp4, its preview frame and that track's updated state, and attaches
+them as an artifact. The next run starts with the following content. No typing
+is needed.
+
+To replay one specific video, set `content_id` to an id from the matching
+manifest (for example `content_0001` or `sentence_0001`). A replay does not
+advance that track's state. Both workflows share one concurrency group, so a
+word run and a sentence run cannot race on a commit.
 
 ## Inputs
 
@@ -130,10 +179,37 @@ when migrating the existing rotation so already-rendered videos are not
 replayed.
 
 Duplicate videos are rejected even with `--allow-shared-entries`: every video
-signature must be unique. The generated database intentionally reuses words
-across non-adjacent videos, but no video repeats the same 7-word set and
+signature must be unique. The generated word database intentionally reuses
+words across non-adjacent videos, but no video repeats the same 7-word set and
 consecutive videos share no words. Without `--allow-shared-entries` the builder
 also rejects any repeated word/sentence anywhere in the database.
+
+### Sentence track
+
+The sentence track is built separately so it cannot change the word manifest or
+state. It has **one** chunk with 72 pairs and 18 complete 4-pair videos:
+
+```powershell
+python scripts/build_sentence_database.py
+
+python scripts/build_chunks.py `
+  --input data/vocabulary_sentences.json `
+  --out-dir data/sentence_chunks `
+  --manifest data/sentence_rotation_manifest.json `
+  --state data/sentence_rotation_state.json `
+  --chunk-size 2000 `
+  --allow-shared-entries `
+  --trust-corpus `
+  --id-prefix sentence_ `
+  --chunk-prefix sentence_chunk_
+```
+
+`--trust-corpus` promotes the source pairs from `verification: "corpus"` to the
+publishing gate for this build; `verification_tier` stays `"corpus"` so the
+workflow summary and review table never pretend the sentences were native
+reviewed. `--id-prefix sentence_` keeps ids and output filenames separate from
+the word rotation. The sentence builder refuses a partial final video: a
+remainder is dropped rather than published with fewer than 4 pairs.
 
 Each job looks like this:
 
@@ -155,14 +231,16 @@ Each job looks like this:
 }
 ```
 
-- Word jobs: `mode: "word"`, 7 pairs.
-- Sentence jobs: `mode: "sentence"`, 4 pairs.
+- Word jobs: `mode: "word"`, 7 pairs. The word track never contains sentences.
+- Sentence jobs: `mode: "sentence"`, 4 pairs = 8 text lines (English first,
+  Kinyarwanda second). The sentence track never contains word-only jobs.
 - A final partial job is allowed only when a database does not divide evenly;
   it is labelled with its real pair count and its cards are centred. The
-  builder keeps leftovers in `remainder` unless `--allow-partial` is passed.
+  sentence track deliberately drops a remainder instead, so every published
+  sentence video is exactly 4 pairs.
 - Directions are always English → Kinyarwanda.
-- `generate.py` accepts 1–7 word pairs or 1–4 sentence pairs, so a short final
-  job still renders instead of being dropped.
+- `generate.py` accepts 1–7 word pairs or 1–4 sentence pairs for manual
+  previews; the rotations themselves only contain complete jobs.
 
 ## Rebuild the database from the cached sources
 
@@ -189,8 +267,22 @@ no words. Output:
 - `data/vocabulary_all_videos.json`
 - `data/vocabulary_all_review.md`
 
-Then rebuild the four chunks and the manifest with the command in the previous
-section.
+Then rebuild the four word chunks and the manifest with the command in the
+previous section.
+
+The sentence source is rebuilt separately and deterministically from the same
+cached corpus:
+
+```powershell
+python scripts/build_sentence_database.py
+```
+
+It selects the 72 curated pairs, applies the orthographic cleanup table, writes
+`data/vocabulary_sentences.json` and `data/vocabulary_sentences_review.md`, and
+refuses to write a partial final video. Then run the sentence chunk command from
+the previous section. Rebuilding the sentence source does **not** touch
+`data/vocabulary_all_videos.json`, the word chunks, the word manifest, or the
+word state.
 
 ## Run locally
 
@@ -211,15 +303,28 @@ python generate.py --batch-json data/.current_job.json --video
 python scripts/rotation.py advance --pending data/.rotation_pending.json
 ```
 
-You can still render one of the pilot batches directly. The sentence batch is a
-layout sample only; do not publish it until a native speaker reviews the pairs.
+You can still render one of the old pilot batches directly. Its sentence batch
+is a layout sample only; the live sentence rotation is the separate 18-video
+track built from `data/vocabulary_sentences.json`.
 
 ```powershell
 # word mode (7 pairs, verified)
 python generate.py --batch-json data/vocabulary_pilot_videos.json --video-id word_01 --video
 
-# sentence mode (4 pairs / 8 lines, LAYOUT SAMPLE ONLY)
+# old sentence layout sample (not the live sentence rotation)
 python generate.py --batch-json data/vocabulary_pilot_videos.json --video-id sentence_01 --video
+
+# live sentence rotation: peek, render, advance
+python scripts/rotation.py next `
+  --manifest data/sentence_rotation_manifest.json `
+  --state data/sentence_rotation_state.json `
+  --out data/.sentence_job.json `
+  --pending data/.sentence_pending.json
+python generate.py --batch-json data/.sentence_job.json --video
+python scripts/rotation.py advance `
+  --manifest data/sentence_rotation_manifest.json `
+  --state data/sentence_rotation_state.json `
+  --pending data/.sentence_pending.json
 ```
 
 Custom content without the batch JSON still works:
@@ -258,7 +363,8 @@ promo banner runs edge-to-edge and sits on the tab bar divider.
 - English is Poppins ExtraBold dark; Kinyarwanda is Poppins Bold green.
 - Text wraps and shrinks (46→22 px) until both languages fit inside the card.
 - Number badges, borders and shadows match the word cards.
-- A short final job with fewer than 4 pairs is centred vertically.
+- Manual sentence batches with fewer than 4 pairs are centred vertically; the
+  live sentence rotation never contains a partial job.
 
 ### Promo banner
 
@@ -277,22 +383,28 @@ promo banner runs edge-to-edge and sits on the tab bar divider.
 | Background | `assets/img/background.png` (keep the same 720x1280 screen position, or update `BODY`) |
 | Music | drop `.mp3/.m4a/.wav` files into `assets/song/`; one is picked at random. Empty = silent |
 | Video length | `--duration` / the `duration` input |
-| Video content | edit `data/vocabulary_pilot_videos.json` or `data/vocabulary_all.json`, then rebuild chunks with `scripts/build_chunks.py` |
-| Rotation order | `data/rotation_manifest.json` (generated); reset with `scripts/rotation.py reset` |
+| Video content | edit `data/vocabulary_all_videos.json` (words) or `data/vocabulary_sentences.json` (sentences), then rebuild with `scripts/build_chunks.py` |
+| Rotation order | `data/rotation_manifest.json` or `data/sentence_rotation_manifest.json` (generated); reset with `scripts/rotation.py reset` |
 
 ## Files
 
 ```
 generate.py                     renderer + ffmpeg encoder
-scripts/build_full_database.py  builds the 1,098-video database from cached sources
+scripts/build_full_database.py  builds the 1,098-video word database from cached sources
+scripts/build_sentence_database.py  builds the 72-pair sentence database from the corpus
 scripts/build_chunks.py         splits videos into chunk files + manifest/state
 scripts/rotation.py             next/advance/select/status/reset state machine
-data/vocabulary_all_videos.json 1,098-video database (10 pilot + 1,088 generated)
+data/vocabulary_all_videos.json 1,098-video word database (10 pilot + 1,088 generated)
 data/vocabulary_all_review.md   word-pool and one-line-per-video review tables
+data/vocabulary_sentences.json  72 curated sentence pairs -> 18 videos
+data/vocabulary_sentences_review.md  sentence review table
 data/sources/                   frequency list, dictionary cache, corpus, provenance
-data/chunks/*.json              four rotation chunks (complete videos only)
-data/rotation_manifest.json     ordered content ids + chunk map
-data/rotation_state.json        remembered next content and cycle
+data/chunks/*.json              four word-rotation chunks (complete videos only)
+data/rotation_manifest.json     ordered word content ids + chunk map
+data/rotation_state.json        remembered next word content and cycle
+data/sentence_chunks/*.json     one sentence-rotation chunk
+data/sentence_rotation_manifest.json  ordered sentence content ids + chunk map
+data/sentence_rotation_state.json     remembered next sentence video and cycle
 data/vocabulary_pilot.json      original flat 100-entry pilot
 data/vocabulary_pilot_videos.json   original word/sentence batches + layout samples
 data/*_review.md                human-readable review tables
@@ -304,6 +416,7 @@ assets/song/                    optional music
 preview/*.png                   rendered frames
 output/*.mp4                    generated videos
 .github/workflows/menyavocab.yml
+.github/workflows/menyavocab_sentences.yml
 ```
 
 ## Notes
@@ -313,12 +426,14 @@ output/*.mp4                    generated videos
   the video is silent.
 - Poppins is licensed under the SIL Open Font License 1.1
   (`assets/fonts/OFL.txt`).
-- The workflow is serialized with a concurrency group, so two runs cannot pick
-  the same content. The state is committed only after a successful render.
-- The rotation is now the full 1,098-video word database. The 25 sentence pairs
-  awaiting native review and the 6 sentence layout samples are intentionally
-  outside the rotation; they can be added later as a separate verified sentence
-  track without disturbing the 1,098 word-video cycle.
-- Generated pairs are dictionary/corpus sourced, not individually native
-  reviewed. Use `data/vocabulary_all_review.md` to spot-check before treating
-  every generated translation as final.
+- Both workflows share one concurrency group, so two runs cannot race on a
+  commit. Each track's state is committed only after a successful render.
+- The 1,098-video word rotation is unchanged: same manifest, same ids, same
+  7-pair videos, same state, and no slash glosses removed. The sentence track
+  is separate so it cannot renumber or disturb it.
+- The 25 older `native_review_required` sentence pairs and the 6 old sentence
+  layout samples remain outside both rotations.
+- Generated word pairs are dictionary/corpus sourced; sentence pairs are
+  corpus-sourced. Neither is individually native-reviewed. Use
+  `data/vocabulary_all_review.md` and `data/vocabulary_sentences_review.md` to
+  spot-check before treating every translation as final.

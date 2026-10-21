@@ -35,6 +35,11 @@ re-downloading large data on every workflow run.
   the Kinyarwanda candidate actually co-occur in a sentence. This corrects
   common dictionary sense errors (for example *capital* -> *umurwa mukuru*
   instead of *ubukungu*) without adding new downloads.
+- Sentence track: the same corpus supplies the 72 curated pairs behind the
+  separate 18-video sentence rotation. Candidate pairs are length/grammar/
+  alignment filtered, orthography-normalized, and marked `verification:
+  "corpus"` (not native-reviewed). See
+  `data/vocabulary_sentences_review.md` for the full list and alignment scores.
 
 ## Curriculum seed
 

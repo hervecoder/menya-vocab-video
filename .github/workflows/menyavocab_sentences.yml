@@ -1,0 +1,291 @@
+name: Menya Vocab Sentences
+
+# Manual only. This is a separate rotation from the 1,098-word track, so the
+# word manifest and state are never touched. Leave every field as-is and press
+# "Run workflow". Each run renders one sentence video with exactly 4 pairs =
+# 8 text lines (English sentence, then Kinyarwanda translation), then advances
+# data/sentence_rotation_state.json. After sentence_0018 it wraps to
+# sentence_0001. Use content_id only to replay a specific video.
+on:
+  workflow_dispatch:
+    inputs:
+      content_id:
+        description: 'Optional replay id (e.g. sentence_0001). Leave empty for auto-next.'
+        required: false
+        default: ''
+      note:
+        description: 'Yellow box text. The brand name is highlighted in green.'
+        required: true
+        default: 'Iyi app yitwa "Menya Icyongereza App" wayisanga kuri Play Store yigisha icyongereza'
+      brand:
+        description: 'Text to highlight green inside the note'
+        required: false
+        default: 'Menya Icyongereza App'
+      duration:
+        description: 'Video length in seconds'
+        required: false
+        default: '6'
+
+permissions:
+  contents: write
+
+concurrency:
+  # Shared with the word workflow so the two tracks cannot race on a commit.
+  group: menya-vocab-video
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate sentence rotation database
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          EXPECTED_VIDEOS = 18
+          EXPECTED_CHUNKS = 1
+          EXPECTED_PAIRS = 4
+          EXPECTED_LINES = 8
+
+          manifest_path = Path("data/sentence_rotation_manifest.json")
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          jobs = manifest.get("jobs") or []
+          chunks = manifest.get("chunks") or []
+
+          if len(jobs) != EXPECTED_VIDEOS:
+              raise SystemExit(
+                  f"sentence database has {len(jobs)} jobs; "
+                  f"expected {EXPECTED_VIDEOS}"
+              )
+          if len(chunks) != EXPECTED_CHUNKS:
+              raise SystemExit(
+                  f"sentence database has {len(chunks)} chunks; "
+                  f"expected {EXPECTED_CHUNKS}"
+              )
+          if manifest.get("meta", {}).get("unique_videos") != EXPECTED_VIDEOS:
+              raise SystemExit(
+                  "sentence manifest does not report 18 unique videos"
+              )
+          if manifest.get("meta", {}).get("sentence_entries") != 72:
+              raise SystemExit("sentence manifest does not report 72 pairs")
+
+          chunk_cache = {}
+          seen_videos = set()
+          seen_english = set()
+          seen_kinyarwanda = set()
+          for index, entry in enumerate(jobs):
+              chunk_id = int(entry["chunk_id"])
+              chunk = chunk_cache.get(chunk_id)
+              if chunk is None:
+                  chunk_path = manifest_path.parent / chunks[chunk_id - 1]["file"]
+                  if not chunk_path.exists():
+                      raise SystemExit(f"missing chunk file: {chunk_path}")
+                  chunk = json.loads(chunk_path.read_text(encoding="utf-8"))
+                  chunk_cache[chunk_id] = chunk
+              job = chunk["jobs"][int(entry["job_index"])]
+              if job.get("id") != entry.get("id"):
+                  raise SystemExit(
+                      f"job mismatch at {index}: {entry.get('id')} != {job.get('id')}"
+                  )
+              if job.get("mode") != "sentence":
+                  raise SystemExit(f"{entry.get('id')} is not a sentence video")
+              pairs = job.get("pairs") or []
+              if len(pairs) != EXPECTED_PAIRS:
+                  raise SystemExit(
+                      f"{entry.get('id')} has {len(pairs)} pairs; "
+                      f"expected {EXPECTED_PAIRS}"
+                  )
+              if int(entry.get("line_count", 0)) != EXPECTED_LINES:
+                  raise SystemExit(
+                      f"{entry.get('id')} has line_count="
+                      f"{entry.get('line_count')}; expected {EXPECTED_LINES}"
+                  )
+              if int(job.get("line_count", 0)) != EXPECTED_LINES:
+                  raise SystemExit(
+                      f"{entry.get('id')} chunk job has line_count="
+                      f"{job.get('line_count')}; expected {EXPECTED_LINES}"
+                  )
+
+              signature = tuple(
+                  sorted(
+                      (
+                          str(pair["english"]).strip().casefold(),
+                          str(pair["kinyarwanda"]).strip().casefold(),
+                      )
+                      for pair in pairs
+                  )
+              )
+              if signature in seen_videos:
+                  raise SystemExit(
+                      f"duplicate sentence video signature at {entry.get('id')}"
+                  )
+              seen_videos.add(signature)
+
+              for pair in pairs:
+                  english = str(pair.get("english") or "").strip().casefold()
+                  kinyarwanda = str(pair.get("kinyarwanda") or "").strip().casefold()
+                  if not english or not kinyarwanda:
+                      raise SystemExit(
+                          f"{entry.get('id')} has an empty sentence pair"
+                      )
+                  if pair.get("verification") != "verified":
+                      raise SystemExit(
+                          f"{entry.get('id')} has an unverified sentence pair"
+                      )
+                  if pair.get("verification_tier") != "corpus":
+                      raise SystemExit(
+                          f"{entry.get('id')} lost its corpus source tier"
+                      )
+                  if english in seen_english:
+                      raise SystemExit(
+                          f"duplicate English sentence: {pair.get('english')!r}"
+                      )
+                  if kinyarwanda in seen_kinyarwanda:
+                      raise SystemExit(
+                          f"duplicate Kinyarwanda sentence: "
+                          f"{pair.get('kinyarwanda')!r}"
+                      )
+                  seen_english.add(english)
+                  seen_kinyarwanda.add(kinyarwanda)
+
+          print(
+              f"sentence database OK: {len(jobs)} unique videos, "
+              f"{len(seen_english)} unique pairs, {EXPECTED_LINES} lines per video"
+          )
+          PY
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ffmpeg
+
+      - name: Check ffmpeg
+        run: ffmpeg -version | head -n 1
+
+      - name: Pick next sentence content
+        id: pick
+        env:
+          CONTENT_ID: ${{ inputs.content_id }}
+        run: |
+          if [ -n "$CONTENT_ID" ]; then
+            python scripts/rotation.py select \
+              --manifest data/sentence_rotation_manifest.json \
+              --state data/sentence_rotation_state.json \
+              --content-id "$CONTENT_ID" \
+              --out "$RUNNER_TEMP/current_job.json" \
+              --pending "$RUNNER_TEMP/pending.json" \
+              --github-output "$GITHUB_OUTPUT"
+          else
+            python scripts/rotation.py next \
+              --manifest data/sentence_rotation_manifest.json \
+              --state data/sentence_rotation_state.json \
+              --out "$RUNNER_TEMP/current_job.json" \
+              --pending "$RUNNER_TEMP/pending.json" \
+              --github-output "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate frame + video
+        env:
+          CONTENT_ID: ${{ steps.pick.outputs.content_id }}
+          NOTE: ${{ inputs.note }}
+          BRAND: ${{ inputs.brand }}
+          DURATION: ${{ inputs.duration }}
+        run: |
+          python generate.py \
+            --batch-json "$RUNNER_TEMP/current_job.json" \
+            --note "$NOTE" \
+            --brand "$BRAND" \
+            --duration "$DURATION" \
+            --preview "preview/${CONTENT_ID}.png" \
+            --out "output/${CONTENT_ID}.mp4" \
+            --video
+
+      - name: Advance sentence rotation
+        if: inputs.content_id == ''
+        env:
+          CONTENT_ID: ${{ steps.pick.outputs.content_id }}
+        run: |
+          python scripts/rotation.py advance \
+            --manifest data/sentence_rotation_manifest.json \
+            --state data/sentence_rotation_state.json \
+            --pending "$RUNNER_TEMP/pending.json"
+
+      - name: Commit video, preview and sentence state
+        env:
+          CONTENT_ID: ${{ steps.pick.outputs.content_id }}
+          CYCLE: ${{ steps.pick.outputs.cycle }}
+          AUTO: ${{ steps.pick.outputs.auto }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "output/${CONTENT_ID}.mp4" "preview/${CONTENT_ID}.png"
+          if [ "$AUTO" = "true" ]; then
+            git add data/sentence_rotation_state.json
+          fi
+          if git diff --staged --quiet; then
+            echo "No new output to commit."
+          else
+            git commit -m "Add Menya sentence video ${CONTENT_ID} (cycle ${CYCLE}) ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+            git pull --rebase origin main
+            git push
+          fi
+
+      - name: Upload video
+        uses: actions/upload-artifact@v4
+        with:
+          name: menya-vocab-sentences
+          path: |
+            output/${{ steps.pick.outputs.content_id }}.mp4
+            preview/${{ steps.pick.outputs.content_id }}.png
+          if-no-files-found: error
+
+      - name: Summary
+        env:
+          CONTENT_ID: ${{ steps.pick.outputs.content_id }}
+          CONTENT_NUMBER: ${{ steps.pick.outputs.content_number }}
+          TOTAL_JOBS: ${{ steps.pick.outputs.total_jobs }}
+          MODE: ${{ steps.pick.outputs.mode }}
+          PAIR_COUNT: ${{ steps.pick.outputs.pair_count }}
+          ENTRY_START: ${{ steps.pick.outputs.entry_start }}
+          ENTRY_END: ${{ steps.pick.outputs.entry_end }}
+          TOTAL_ENTRIES: ${{ steps.pick.outputs.total_entries }}
+          INPUT_ENTRIES: ${{ steps.pick.outputs.input_entries }}
+          REMAINDER_ENTRIES: ${{ steps.pick.outputs.remainder_entries }}
+          EXCLUDED_ENTRIES: ${{ steps.pick.outputs.excluded_unverified_entries }}
+          CYCLE: ${{ steps.pick.outputs.cycle }}
+          NEXT_CONTENT_ID: ${{ steps.pick.outputs.next_content_id }}
+          NEXT_CYCLE: ${{ steps.pick.outputs.next_cycle }}
+          AUTO: ${{ steps.pick.outputs.auto }}
+        run: |
+          echo "### Menya Vocab Sentences" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Database:** 18 sentence videos (1 chunk, 4 pairs / 8 lines each, no duplicate sentence signatures)" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Source tier:** corpus-aligned; native review recommended (not claimed as native-verified)" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Content:** \`$CONTENT_ID\` ($CONTENT_NUMBER/$TOTAL_JOBS, $MODE, $PAIR_COUNT pairs / $((PAIR_COUNT * 2)) lines)" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Entry range:** $ENTRY_START–$ENTRY_END of $TOTAL_ENTRIES" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Cycle:** $CYCLE" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$AUTO" = "true" ]; then
+            echo "**Next:** \`$NEXT_CONTENT_ID\` (cycle $NEXT_CYCLE)" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "**Manual replay:** sentence rotation state not advanced." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ "$REMAINDER_ENTRIES" != "0" ] || [ "$EXCLUDED_ENTRIES" != "0" ]; then
+            echo "**Coverage:** $TOTAL_ENTRIES of $INPUT_ENTRIES entries in verified videos; $REMAINDER_ENTRIES remainder; $EXCLUDED_ENTRIES excluded from rotation." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "**Video:** \`output/$CONTENT_ID.mp4\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Frame:** \`preview/$CONTENT_ID.png\`" >> "$GITHUB_STEP_SUMMARY"
