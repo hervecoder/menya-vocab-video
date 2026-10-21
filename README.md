@@ -96,7 +96,9 @@ advance the rotation state.
 ## Chunk files and the manifest
 
 The full database is split into small chunk files so no single file has to hold
-all 1,098 entries. The builder targets **300 entries per chunk** by default:
+all 1,098 entries. The builder uses a **soft 300-entry target**: it closes a
+chunk only after reaching the target, so a chunk may go slightly over (for
+example 303) instead of cutting a video in half.
 
 ```powershell
 python scripts/build_chunks.py `
@@ -118,6 +120,11 @@ build (never for publishing). Excluded entries, skipped sentence videos and the
 counts are recorded in the manifest `meta`; the workflow summary shows the same
 numbers. Use `--start-content content_0003` when migrating an existing rotation
 so already-rendered videos are not replayed.
+
+Duplicates are rejected. The default is strict: the same word or sentence
+cannot appear in two videos, and two videos cannot contain the same set of
+pairs. `--allow-shared-entries` permits repeated words/sentences but still
+requires every video signature to be unique.
 
 Each job looks like this:
 

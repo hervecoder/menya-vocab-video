@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-21T01:16:46Z",
+    "generated_at": "2026-10-21T09:17:41Z",
     "source": "data/vocabulary_pilot_videos.json",
     "source_kind": "videos",
     "chunk_size_target": 300,
@@ -19,6 +19,9 @@
     "excluded_unverified_word_entries": 0,
     "excluded_unverified_sentence_entries": 26,
     "verified_only": true,
+    "unique_videos": 10,
+    "unique_entries": 70,
+    "strict_unique_entries": true,
     "skipped_videos": [
       {
         "source_id": "sentence_01",

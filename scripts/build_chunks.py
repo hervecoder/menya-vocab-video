@@ -13,8 +13,10 @@ Two input shapes are supported:
 By default only items marked ``verification: "verified"`` enter the rotation.
 Unverified entries/videos are recorded in the manifest meta and excluded.
 ``--include-unverified`` is for review/layout builds only, never publishing.
-``--start-content content_0003`` migrates a rotation without replaying finished
-videos.
+Duplicate entries and duplicate videos are rejected; ``--allow-shared-entries``
+relaxes that to unique video signatures only. ``--chunk-size`` is a soft target:
+a chunk may go over it so a video is never split. ``--start-content
+content_0003`` migrates a rotation without replaying finished videos.
 
 Outputs:
 
@@ -341,10 +343,95 @@ def assign_content_numbers(jobs: list[dict[str, Any]]) -> None:
         cursor += job["pair_count"]
 
 
+def normalize_text(value: Any) -> str:
+    return " ".join(str(value or "").casefold().split())
+
+
+def validate_unique_jobs(
+    jobs: list[dict[str, Any]],
+    allow_shared_entries: bool,
+) -> tuple[int, int]:
+    """Reject duplicate entries and duplicate videos.
+
+    Strict mode (the default) also rejects the same word/sentence appearing in
+    more than one video. ``--allow-shared-entries`` relaxes that to unique
+    video signatures only.
+    """
+    errors: list[str] = []
+    seen_entries: dict[tuple[str, str], str] = {}
+    seen_entry_ids: dict[str, str] = {}
+    seen_videos: dict[tuple[tuple[str, str], ...], str] = {}
+    total_pairs = 0
+
+    for job in jobs:
+        label = str(job.get("source_id") or job.get("id") or job["mode"])
+        pairs = job.get("pairs") or []
+        total_pairs += len(pairs)
+        signature = tuple(
+            sorted(
+                (
+                    normalize_text(pair.get("english")),
+                    normalize_text(pair.get("kinyarwanda")),
+                )
+                for pair in pairs
+            )
+        )
+        if signature in seen_videos:
+            errors.append(
+                f"{label}: duplicate video content "
+                f"(same pairs as {seen_videos[signature]})"
+            )
+        else:
+            seen_videos[signature] = label
+
+        for pair in pairs:
+            key = (job["mode"], normalize_text(pair.get("english")))
+            owner = seen_entries.get(key)
+            if owner is not None:
+                if not allow_shared_entries:
+                    errors.append(
+                        f"{label}: duplicate {job['mode']} entry "
+                        f"{pair.get('english')!r} (also in {owner})"
+                    )
+            else:
+                seen_entries[key] = label
+
+            entry_id = str(pair.get("entry_id") or "").strip()
+            if entry_id:
+                id_owner = seen_entry_ids.get(entry_id)
+                if id_owner is not None and not allow_shared_entries:
+                    errors.append(
+                        f"{label}: duplicate entry_id {entry_id!r} "
+                        f"(also in {id_owner})"
+                    )
+                else:
+                    seen_entry_ids[entry_id] = label
+
+    if errors:
+        shown = errors[:25]
+        more = len(errors) - len(shown)
+        detail = "\n".join(f"  - {error}" for error in shown)
+        if more > 0:
+            detail += f"\n  ... and {more} more"
+        raise SystemExit(
+            "Duplicate content detected. Remove duplicates or pass "
+            "--allow-shared-entries for unique-video-only mode:\n"
+            f"{detail}"
+        )
+
+    return len(seen_videos), len(seen_entries)
+
+
 def chunk_jobs(
     jobs: list[dict[str, Any]],
     chunk_size: int,
 ) -> list[list[dict[str, Any]]]:
+    """Split jobs into chunks using a soft target.
+
+    A chunk is closed only after it has reached the target, so it may go
+    slightly over (by at most one video's worth of pairs). A video is never
+    split across chunk files.
+    """
     if chunk_size < 1:
         raise SystemExit("--chunk-size must be at least 1.")
     chunks: list[list[dict[str, Any]]] = []
@@ -352,7 +439,7 @@ def chunk_jobs(
     current_entries = 0
 
     for job in jobs:
-        if current and current_entries + job["pair_count"] > chunk_size:
+        if current and current_entries >= chunk_size:
             chunks.append(current)
             current = []
             current_entries = 0
@@ -372,7 +459,15 @@ def main() -> None:
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--state", type=Path, default=DEFAULT_STATE)
-    parser.add_argument("--chunk-size", type=int, default=300)
+    parser.add_argument(
+        "--chunk-size",
+        type=int,
+        default=300,
+        help=(
+            "Soft target entries per chunk. A chunk may go over the target so "
+            "a 7-word or 4-pair video is never split."
+        ),
+    )
     parser.add_argument(
         "--allow-partial",
         action="store_true",
@@ -384,6 +479,15 @@ def main() -> None:
         help=(
             "Include entries/videos that are not marked verification=verified. "
             "Use only for review or layout previews, never for publishing."
+        ),
+    )
+    parser.add_argument(
+        "--allow-shared-entries",
+        action="store_true",
+        help=(
+            "Allow the same word/sentence to appear in multiple videos; "
+            "video signatures must still be unique. Default is no duplicates "
+            "at all."
         ),
     )
     parser.add_argument(
@@ -568,6 +672,9 @@ def main() -> None:
         )
         raise SystemExit(f"No complete video jobs were produced.{hint}")
 
+    unique_videos, unique_entries = validate_unique_jobs(
+        jobs, args.allow_shared_entries
+    )
     assign_content_numbers(jobs)
     total_video_entries = sum(job["pair_count"] for job in jobs)
     total_jobs = len(jobs)
@@ -674,6 +781,9 @@ def main() -> None:
             "excluded_unverified_word_entries": excluded_unverified_word_entries,
             "excluded_unverified_sentence_entries": excluded_unverified_sentence_entries,
             "verified_only": not args.include_unverified,
+            "unique_videos": unique_videos,
+            "unique_entries": unique_entries,
+            "strict_unique_entries": not args.allow_shared_entries,
             "skipped_videos": skipped_videos,
             "excluded_remainder": excluded_remainder,
             "excluded_entries": [
@@ -759,6 +869,10 @@ def main() -> None:
         f"videos: {total_jobs} jobs "
         f"({sum(1 for j in manifest_jobs if j['mode'] == 'word')} word, "
         f"{sum(1 for j in manifest_jobs if j['mode'] == 'sentence')} sentence)"
+    )
+    print(
+        f"unique: {unique_videos} video signatures, {unique_entries} entries "
+        f"({'strict' if not args.allow_shared_entries else 'shared entries allowed'})"
     )
     print(
         f"chunks: {len(chunk_meta)} files (target {args.chunk_size} entries each)"
