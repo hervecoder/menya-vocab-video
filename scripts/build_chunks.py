@@ -10,6 +10,12 @@ Two input shapes are supported:
 2. A video-batch file with a ``videos`` list (the pilot format). Every video
    must already be a complete 7-word or 4-pair job.
 
+By default only items marked ``verification: "verified"`` enter the rotation.
+Unverified entries/videos are recorded in the manifest meta and excluded.
+``--include-unverified`` is for review/layout builds only, never publishing.
+``--start-content content_0003`` migrates a rotation without replaying finished
+videos.
+
 Outputs:
 
     data/chunks/vocabulary_chunk_01.json ...
@@ -27,8 +33,8 @@ Usage:
         --chunk-size 300
 
 The second command is the one to run after the full 1,098-entry database is
-ready. The builder refuses to silently drop entries: leftovers are recorded in
-the manifest and printed in the summary.
+ready. The builder refuses to silently drop entries: leftovers and excluded
+unverified items are recorded in the manifest and printed in the summary.
 """
 
 from __future__ import annotations
