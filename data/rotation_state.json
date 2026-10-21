@@ -1,12 +1,12 @@
 {
   "cycle": 1,
-  "next_job_index": 1,
-  "jobs_done_in_cycle": 1,
+  "next_job_index": 2,
+  "jobs_done_in_cycle": 2,
   "total_jobs": 16,
   "total_entries": 94,
   "input_entries": 100,
   "remainder_entries": 6,
-  "last_content_id": "content_0001",
-  "next_content_id": "content_0002",
-  "updated_at": "2026-10-21T00:58:24Z"
+  "last_content_id": "content_0002",
+  "next_content_id": "content_0003",
+  "updated_at": "2026-10-21T01:02:31Z"
 }
