@@ -43,6 +43,86 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Validate rotation database
+        run: |
+          python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          EXPECTED_VIDEOS = 1098
+          manifest_path = Path("data/rotation_manifest.json")
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          jobs = manifest.get("jobs") or []
+          chunks = manifest.get("chunks") or []
+
+          if len(jobs) != EXPECTED_VIDEOS:
+              raise SystemExit(
+                  f"rotation database has {len(jobs)} jobs; "
+                  f"expected {EXPECTED_VIDEOS}"
+              )
+          if len(chunks) != 4:
+              raise SystemExit(
+                  f"rotation database has {len(chunks)} chunks; expected 4"
+              )
+          if manifest.get("meta", {}).get("unique_videos") != EXPECTED_VIDEOS:
+              raise SystemExit("manifest does not report 1098 unique videos")
+
+          chunk_cache = {}
+          seen = set()
+          previous_words = None
+          for index, entry in enumerate(jobs):
+              chunk_id = int(entry["chunk_id"])
+              chunk = chunk_cache.get(chunk_id)
+              if chunk is None:
+                  chunk_path = manifest_path.parent / chunks[chunk_id - 1]["file"]
+                  if not chunk_path.exists():
+                      raise SystemExit(f"missing chunk file: {chunk_path}")
+                  chunk = json.loads(chunk_path.read_text(encoding="utf-8"))
+                  chunk_cache[chunk_id] = chunk
+              job = chunk["jobs"][int(entry["job_index"])]
+              if job.get("id") != entry.get("id"):
+                  raise SystemExit(
+                      f"job mismatch at {index}: {entry.get('id')} != {job.get('id')}"
+                  )
+              pairs = job.get("pairs") or []
+              if len(pairs) != 7:
+                  raise SystemExit(
+                      f"{entry.get('id')} has {len(pairs)} pairs; expected 7"
+                  )
+              signature = tuple(
+                  sorted(
+                      (
+                          str(pair["english"]).strip().casefold(),
+                          str(pair["kinyarwanda"]).strip().casefold(),
+                      )
+                      for pair in pairs
+                  )
+              )
+              if signature in seen:
+                  raise SystemExit(f"duplicate video signature at {entry.get('id')}")
+              seen.add(signature)
+
+              words = {
+                  str(pair["english"]).strip().casefold() for pair in pairs
+              }
+              if len(words) != 7:
+                  raise SystemExit(f"{entry.get('id')} repeats a word")
+              if previous_words is not None and index >= 10:
+                  overlap = previous_words & words
+                  if overlap:
+                      raise SystemExit(
+                          f"{entry.get('id')} shares words with the previous "
+                          f"video: {sorted(overlap)}"
+                      )
+              previous_words = words
+
+          print(
+              f"database OK: {len(jobs)} unique 7-word videos, "
+              f"{len(chunks)} chunks"
+          )
+          PY
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -153,6 +233,7 @@ jobs:
         run: |
           echo "### Menya Vocab Video" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Database:** 1098 unique videos (4 chunks, no duplicate video signatures)" >> "$GITHUB_STEP_SUMMARY"
           echo "**Content:** \`$CONTENT_ID\` ($CONTENT_NUMBER/$TOTAL_JOBS, $MODE, $PAIR_COUNT pairs)" >> "$GITHUB_STEP_SUMMARY"
           echo "**Entry range:** $ENTRY_START–$ENTRY_END of $TOTAL_ENTRIES" >> "$GITHUB_STEP_SUMMARY"
           echo "**Cycle:** $CYCLE" >> "$GITHUB_STEP_SUMMARY"

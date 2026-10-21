@@ -83,6 +83,13 @@ def rel_to_root(path: Path) -> str:
         return str(path)
 
 
+def rel_to_manifest(path: Path, manifest: Path) -> str:
+    try:
+        return path.resolve().relative_to(manifest.parent.resolve()).as_posix()
+    except ValueError:
+        return str(path)
+
+
 def entry_mode(entry: dict[str, Any]) -> str:
     raw = str(entry.get("type") or entry.get("mode") or "").strip().lower()
     if raw in {"word", "words"}:
@@ -103,6 +110,41 @@ def pair_is_verified(pair: dict[str, Any]) -> bool:
     return str(pair.get("verification") or "").strip().lower() == "verified"
 
 
+def promote_dictionary_verification(data: Any) -> int:
+    """Promote cached-dictionary pairs to the publishing gate.
+
+    The full database marks generated pairs ``verification: "dictionary"`` so
+    the source is visible. With ``--trust-dictionary`` those pairs are promoted
+    to ``verified`` for the rotation, while ``verification_tier`` keeps the
+    original tier. The 10 pilot pairs stay ``verified`` either way.
+    """
+    changed = 0
+
+    def promote(pair: dict[str, Any]) -> None:
+        nonlocal changed
+        if str(pair.get("verification") or "").strip().lower() != "dictionary":
+            return
+        pair["verification"] = "verified"
+        pair.setdefault("verification_tier", "dictionary")
+        changed += 1
+
+    if isinstance(data, list):
+        for entry in data:
+            if isinstance(entry, dict):
+                promote(entry)
+    elif isinstance(data, dict):
+        for entry in data.get("entries", []) or []:
+            if isinstance(entry, dict):
+                promote(entry)
+        for video in data.get("videos", []) or []:
+            if not isinstance(video, dict):
+                continue
+            for pair in video.get("pairs", []) or []:
+                if isinstance(pair, dict):
+                    promote(pair)
+    return changed
+
+
 def pair_from_entry(entry: dict[str, Any], index: int) -> dict[str, Any]:
     english = str(entry.get("english") or "").strip()
     kinyarwanda = str(entry.get("kinyarwanda") or "").strip()
@@ -116,6 +158,8 @@ def pair_from_entry(entry: dict[str, Any], index: int) -> dict[str, Any]:
         "group_title": entry.get("group_title", ""),
         "grammar": entry.get("grammar", ""),
         "verification": entry.get("verification", ""),
+        "verification_tier": entry.get("verification_tier", ""),
+        "corpus_hits": entry.get("corpus_hits", 0),
         "sources": entry.get("sources", []),
         "notes": entry.get("notes", ""),
     }
@@ -260,6 +304,8 @@ def jobs_from_videos(
                     "group_title": pair.get("group_title", ""),
                     "grammar": pair.get("grammar", ""),
                     "verification": pair.get("verification", ""),
+                    "verification_tier": pair.get("verification_tier", ""),
+                    "corpus_hits": pair.get("corpus_hits", 0),
                     "sources": pair.get("sources", []),
                     "notes": pair.get("notes", ""),
                 }
@@ -491,6 +537,15 @@ def main() -> None:
         ),
     )
     parser.add_argument(
+        "--trust-dictionary",
+        action="store_true",
+        help=(
+            "Promote pairs marked verification=dictionary to verified for this "
+            "build. Used by the 1,098-video database (curriculum/dictionary "
+            "sourced); review builds should omit it."
+        ),
+    )
+    parser.add_argument(
         "--keep-state",
         action="store_true",
         help="Keep the existing rotation state if total_jobs still matches.",
@@ -508,6 +563,9 @@ def main() -> None:
     if not args.input.exists():
         raise SystemExit(f"Input not found: {args.input}")
     data = read_json(args.input)
+    if args.trust_dictionary:
+        promoted = promote_dictionary_verification(data)
+        print(f"trusted dictionary pairs promoted: {promoted}")
 
     source_kind: str
     word_remainder: list[tuple[int, dict[str, Any]]] = []
@@ -705,7 +763,9 @@ def main() -> None:
         chunk_meta.append(
             {
                 "chunk_id": chunk_id,
-                "file": f"chunks/{filename}",
+                "file": rel_to_manifest(
+                    args.out_dir / filename, args.manifest
+                ),
                 "entry_start": payload["entry_start"],
                 "entry_end": payload["entry_end"],
                 "entry_count": payload["entry_count"],
@@ -781,6 +841,7 @@ def main() -> None:
             "excluded_unverified_word_entries": excluded_unverified_word_entries,
             "excluded_unverified_sentence_entries": excluded_unverified_sentence_entries,
             "verified_only": not args.include_unverified,
+            "trusted_dictionary": bool(args.trust_dictionary),
             "unique_videos": unique_videos,
             "unique_entries": unique_entries,
             "strict_unique_entries": not args.allow_shared_entries,

@@ -1,0 +1,2300 @@
+{
+  "name": "Menya Icyongereza curriculum word/phrase cache",
+  "version": 1,
+  "retrieved": "2026-10-21",
+  "source": "Local app asset: app/src/main/assets/curriculum.json",
+  "note": "Curriculum was confirmed OK by the app owner; used as the high-confidence seed for generated videos.",
+  "pair_count": 458,
+  "pairs": [
+    {
+      "english": "name",
+      "kinyarwanda": "izina",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "student",
+      "kinyarwanda": "umunyeshuri",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "teacher",
+      "kinyarwanda": "umwarimu",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "friend",
+      "kinyarwanda": "inshuti",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "from",
+      "kinyarwanda": "aho uturuka",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "My name is Jean.",
+      "kinyarwanda": "Nitwa Jean.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am from Kigali.",
+      "kinyarwanda": "Ndaturuka i Kigali.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "hello",
+      "kinyarwanda": "muraho",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "good morning",
+      "kinyarwanda": "mwaramutse",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "good afternoon",
+      "kinyarwanda": "mwiriwe",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "goodbye",
+      "kinyarwanda": "murabeho",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "thank you",
+      "kinyarwanda": "murakoze",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "How are you?",
+      "kinyarwanda": "Amakuru?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am fine, thank you.",
+      "kinyarwanda": "Ni meza, murakoze.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "fine",
+      "kinyarwanda": "ni meza",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "tired",
+      "kinyarwanda": "ndananiwe",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "happy",
+      "kinyarwanda": "ndishimye",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am tired.",
+      "kinyarwanda": "Ndananiwe.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am fine.",
+      "kinyarwanda": "Ni meza.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "He is tired.",
+      "kinyarwanda": "Yananiwe.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "mother",
+      "kinyarwanda": "mama",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "father",
+      "kinyarwanda": "papa",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "brother",
+      "kinyarwanda": "umuvandimwe",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "sister",
+      "kinyarwanda": "mushiki",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "family",
+      "kinyarwanda": "umuryango",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "child",
+      "kinyarwanda": "umwana",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "This is my mother.",
+      "kinyarwanda": "Uyu ni mama.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I have two brothers.",
+      "kinyarwanda": "Mfite abavandimwe babiri.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "who",
+      "kinyarwanda": "nde",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "this",
+      "kinyarwanda": "uyu / iki",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "that",
+      "kinyarwanda": "uriya",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Who is this?",
+      "kinyarwanda": "Uyu ni nde?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "This is my sister.",
+      "kinyarwanda": "Uyu ni mushiki wanjye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "He is a teacher.",
+      "kinyarwanda": "Ni umwarimu.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "my",
+      "kinyarwanda": "ibyanjye / wanjye",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "your",
+      "kinyarwanda": "ibyawe",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "our",
+      "kinyarwanda": "ibyacu",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "This is my book.",
+      "kinyarwanda": "Iki ni igitabo cyanjye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Where is your pen?",
+      "kinyarwanda": "Ikaramu yawe iri he?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "This is my pen.",
+      "kinyarwanda": "Iyi ni ikaramu yanjye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Our school is big.",
+      "kinyarwanda": "Ishuri ryacu ni rinini.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "one",
+      "kinyarwanda": "rimwe",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "two",
+      "kinyarwanda": "kabiri",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "three",
+      "kinyarwanda": "gatatu",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "four",
+      "kinyarwanda": "kane",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "five",
+      "kinyarwanda": "gatanu",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "ten",
+      "kinyarwanda": "icumi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "There are ten students.",
+      "kinyarwanda": "Hari abanyeshuri icumi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I have five books.",
+      "kinyarwanda": "Mfite ibitabo bitanu.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "pen",
+      "kinyarwanda": "ikaramu",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "book",
+      "kinyarwanda": "igitabo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "table",
+      "kinyarwanda": "ameza",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "This is a pen.",
+      "kinyarwanda": "Iki ni ikaramu.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "These are books.",
+      "kinyarwanda": "Ibi ni ibitabo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "This is a chair.",
+      "kinyarwanda": "Iki ni intebe.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "These are pens.",
+      "kinyarwanda": "Izi ni inkaramu.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "chair",
+      "kinyarwanda": "intebe",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "red",
+      "kinyarwanda": "umutuku",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "blue",
+      "kinyarwanda": "ubururu",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "green",
+      "kinyarwanda": "icyatsi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The pen is red.",
+      "kinyarwanda": "Ikaramu itukura.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I like blue.",
+      "kinyarwanda": "Nkunda ubururu.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "a red pen",
+      "kinyarwanda": "ikaramu itukura",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "a blue book",
+      "kinyarwanda": "igitabo cy'ubururu",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "water",
+      "kinyarwanda": "amazi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "bread",
+      "kinyarwanda": "umugati",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "rice",
+      "kinyarwanda": "umuceri",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "beans",
+      "kinyarwanda": "ibishyimbo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "milk",
+      "kinyarwanda": "amata",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "tea",
+      "kinyarwanda": "icyayi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I want water.",
+      "kinyarwanda": "Nshaka amazi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "We eat rice and beans.",
+      "kinyarwanda": "Turya umuceri n'ibishyimbo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "want",
+      "kinyarwanda": "gushaka",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "have",
+      "kinyarwanda": "kugira",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "eat",
+      "kinyarwanda": "kurya",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I want tea.",
+      "kinyarwanda": "Nshaka icyayi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I have one brother.",
+      "kinyarwanda": "Mfite umuvandimwe umwe.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "what",
+      "kinyarwanda": "iki",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "where",
+      "kinyarwanda": "he",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "how",
+      "kinyarwanda": "gute / ute",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "What is this?",
+      "kinyarwanda": "Iki ni iki?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Where is the pen?",
+      "kinyarwanda": "Ikaramu iri he?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Where is the school?",
+      "kinyarwanda": "Ishuri riri he?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "house",
+      "kinyarwanda": "inzu",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "room",
+      "kinyarwanda": "icyumba",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "kitchen",
+      "kinyarwanda": "igikoni",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "My house has three rooms.",
+      "kinyarwanda": "Inzu yanjye ifite ibyumba bitatu.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The kitchen is small.",
+      "kinyarwanda": "Igikoni ni gito.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "My house has one kitchen.",
+      "kinyarwanda": "Inzu yanjye ifite igikoni kimwe.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The room is big.",
+      "kinyarwanda": "Icyumba ni kinini.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "in",
+      "kinyarwanda": "muri",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "on",
+      "kinyarwanda": "ku",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "under",
+      "kinyarwanda": "munsi ya",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The book is on the table.",
+      "kinyarwanda": "Igitabo kiri ku meza.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "There is a pen in the bag.",
+      "kinyarwanda": "Hari ikaramu mu museke.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "There is a cat under the table.",
+      "kinyarwanda": "Hari injangwe munsi y'ameza.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "There are three books on the table.",
+      "kinyarwanda": "Hari ibitabo bitatu ku meza.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "time",
+      "kinyarwanda": "isaha",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "morning",
+      "kinyarwanda": "mu gitondo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "afternoon",
+      "kinyarwanda": "ku manywa",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "evening",
+      "kinyarwanda": "nimugoroba",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "today",
+      "kinyarwanda": "uyu munsi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "tomorrow",
+      "kinyarwanda": "ejo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "What time is it?",
+      "kinyarwanda": "Isaha ni ingahe?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I study in the morning.",
+      "kinyarwanda": "Niga mu gitondo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Monday",
+      "kinyarwanda": "ku wa mbere",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Sunday",
+      "kinyarwanda": "ku cyumweru",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Today is Monday.",
+      "kinyarwanda": "Uyu munsi ni ku wa mbere.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I go to school on Monday.",
+      "kinyarwanda": "Njya ku ishuri ku wa mbere.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "We play on Sunday.",
+      "kinyarwanda": "Dukina ku cyumweru.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Today is Tuesday.",
+      "kinyarwanda": "Uyu munsi ni ku wa kabiri.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "month",
+      "kinyarwanda": "ukwezi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "January",
+      "kinyarwanda": "mutarama",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "June",
+      "kinyarwanda": "kamena",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "January is the first month.",
+      "kinyarwanda": "Mutarama ni ukwezi kwa mbere.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "My birthday is in June.",
+      "kinyarwanda": "Umunsi wavutseho uri muri Kamena.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "My birthday is on Monday, June 5.",
+      "kinyarwanda": "Umunsi wavutseho ni ku wa mbere, Kamena 5.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "School starts in January.",
+      "kinyarwanda": "Ishuri ritangira muri Mutarama.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "We rest in June.",
+      "kinyarwanda": "Duruhuka muri Kamena.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "hot",
+      "kinyarwanda": "gushyuha",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "cold",
+      "kinyarwanda": "gukonja",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "rain",
+      "kinyarwanda": "imvura",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "It is hot today.",
+      "kinyarwanda": "Harashyushye uyu munsi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "It is raining.",
+      "kinyarwanda": "Imvura iragwa.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "It is sunny today.",
+      "kinyarwanda": "Ikirere gifite izuba uyu munsi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "How is the weather?",
+      "kinyarwanda": "Ikirere kimeze bite?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "shirt",
+      "kinyarwanda": "ishati",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "shoes",
+      "kinyarwanda": "inkweto",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "dress",
+      "kinyarwanda": "umwenda",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "My shirt is white.",
+      "kinyarwanda": "Ishati yanjye yera.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "These are my shoes.",
+      "kinyarwanda": "Izi ni inkweto zanjye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "a white shirt",
+      "kinyarwanda": "ishati yera",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "a blue dress",
+      "kinyarwanda": "umwenda w'ubururu",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "head",
+      "kinyarwanda": "umutwe",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "eyes",
+      "kinyarwanda": "amaso",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "hands",
+      "kinyarwanda": "intoki / amaboko",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I have two eyes.",
+      "kinyarwanda": "Mfite amaso abiri.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "He has black hair.",
+      "kinyarwanda": "Afite umusatsi wirabura.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I have two hands.",
+      "kinyarwanda": "Mfite intoki ebyiri.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "She has brown eyes.",
+      "kinyarwanda": "Afite amaso y'ikijuju.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "night",
+      "kinyarwanda": "ijoro",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "every day",
+      "kinyarwanda": "buri munsi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I wake up in the morning.",
+      "kinyarwanda": "Nkubyuka mu gitondo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I sleep at night.",
+      "kinyarwanda": "Nsinzira nijoro.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I eat in the morning.",
+      "kinyarwanda": "Ndirya mu gitondo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I study every day.",
+      "kinyarwanda": "Niga buri munsi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "do",
+      "kinyarwanda": "gukora",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "does",
+      "kinyarwanda": "gukora (we)",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "like",
+      "kinyarwanda": "gukunda",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Do you like tea?",
+      "kinyarwanda": "Ukunda icyayi?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Does she like milk?",
+      "kinyarwanda": "Akunda amata?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Do you like rice?",
+      "kinyarwanda": "Ukunda umuceri?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Does he like bread?",
+      "kinyarwanda": "Akunda umugati?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "tall",
+      "kinyarwanda": "muremure",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "short",
+      "kinyarwanda": "mugufi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "young",
+      "kinyarwanda": "muto",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "My father is tall.",
+      "kinyarwanda": "Papa ni muremure.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "She is young.",
+      "kinyarwanda": "Ni muto.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "He is short.",
+      "kinyarwanda": "Ni mugufi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "They are tall.",
+      "kinyarwanda": "Bari baremure.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "big",
+      "kinyarwanda": "kinini",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "small",
+      "kinyarwanda": "gito",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "beautiful",
+      "kinyarwanda": "nziza",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Kigali is a big city.",
+      "kinyarwanda": "Kigali ni umujyi munini.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Our school is clean.",
+      "kinyarwanda": "Ishuri ryacu rirasuku.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "a big city",
+      "kinyarwanda": "umujyi munini",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "a clean school",
+      "kinyarwanda": "ishuri risuku",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "taller",
+      "kinyarwanda": "muremure kurusha",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "bigger",
+      "kinyarwanda": "kinini kurusha",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "smaller",
+      "kinyarwanda": "gito kurusha",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Kigali is bigger than my village.",
+      "kinyarwanda": "Kigali ni kinini kurusha umudugudu wanjye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "There is a school near my house.",
+      "kinyarwanda": "Hari ishuri hafi y'inzu yanjye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "There are many shops in the city.",
+      "kinyarwanda": "Hari amaduka menshi mu mujyi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "My father is taller than my brother.",
+      "kinyarwanda": "Papa ni muremure kurusha umuvandimwe wanjye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "This house is bigger than that house.",
+      "kinyarwanda": "Iyi nzu ni nini kurusha iya.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "can",
+      "kinyarwanda": "gushobora",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "swim",
+      "kinyarwanda": "koga",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "cook",
+      "kinyarwanda": "guteka",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I can swim.",
+      "kinyarwanda": "Nshobora koga.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I cannot cook.",
+      "kinyarwanda": "Ntabwo nshobora guteka.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "She can dance.",
+      "kinyarwanda": "Ashobora kubyina.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Can you cook?",
+      "kinyarwanda": "Ushobora guteka?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "reading",
+      "kinyarwanda": "gusoma",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "writing",
+      "kinyarwanda": "kwandika",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "playing",
+      "kinyarwanda": "gukina",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am reading a book.",
+      "kinyarwanda": "Ndasoma igitabo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "They are playing.",
+      "kinyarwanda": "Barakina.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am writing.",
+      "kinyarwanda": "Ndandika.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "He is reading.",
+      "kinyarwanda": "Arasoma.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "works",
+      "kinyarwanda": "gukora",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "always",
+      "kinyarwanda": "buri gihe",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "often",
+      "kinyarwanda": "akenshi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "sometimes",
+      "kinyarwanda": "rimwe na rimwe",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "He works every day.",
+      "kinyarwanda": "Akora buri munsi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "She goes to school every morning.",
+      "kinyarwanda": "Ajya ku ishuri buri gitondo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "He plays football on Sunday.",
+      "kinyarwanda": "Akina umupira ku cyumweru.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "She studies English at night.",
+      "kinyarwanda": "Yiga Icyongereza nijoro.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "He plays football every day.",
+      "kinyarwanda": "Akina umupira buri munsi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "She always works.",
+      "kinyarwanda": "Akora buri gihe.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "when",
+      "kinyarwanda": "ryari",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "why",
+      "kinyarwanda": "kuki",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "because",
+      "kinyarwanda": "kubera ko",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "When is your birthday?",
+      "kinyarwanda": "Umunsi wavutseho ni ryari?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am happy because I have a new book.",
+      "kinyarwanda": "Nshimye kubera ko mfite igitabo gishya.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "When do you study?",
+      "kinyarwanda": "Wiga ryari?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Why? Because I like English.",
+      "kinyarwanda": "Kuki? Kubera ko nkunda Icyongereza.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "and",
+      "kinyarwanda": "na",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "but",
+      "kinyarwanda": "ariko",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I like tea and coffee.",
+      "kinyarwanda": "Nkunda icyayi na ikawa.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am tired, but I am happy.",
+      "kinyarwanda": "Ndananiwe, ariko ndishimye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I like rice and beans.",
+      "kinyarwanda": "Nkunda umuceri n'ibishyimbo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am hungry, but I have no money.",
+      "kinyarwanda": "Nshonje, ariko nta mafaranga.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "don't like",
+      "kinyarwanda": "kutakunda",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "football",
+      "kinyarwanda": "umupira",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I don't like coffee.",
+      "kinyarwanda": "Ntakunda ikawa.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Do you like football?",
+      "kinyarwanda": "Ukunda umupira?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Does she like tea?",
+      "kinyarwanda": "Akunda icyayi?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Do you like football? — Yes, I do.",
+      "kinyarwanda": "Ukunda umupira? — Yego.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Does she like tea? — No, she doesn't.",
+      "kinyarwanda": "Akunda icyayi? — Oya.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "please",
+      "kinyarwanda": "nyabuneka",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "help",
+      "kinyarwanda": "gufasha",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "give",
+      "kinyarwanda": "gutanga",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Can I have some water, please?",
+      "kinyarwanda": "Nshobora kubona amazi, nyabuneka?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Can you help me, please?",
+      "kinyarwanda": "Ushobora kunfasha, nyabuneka?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Please give me the book.",
+      "kinyarwanda": "Nyabuneka mpa igitabo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Can I use your pen?",
+      "kinyarwanda": "Nshobora gukoresha ikaramu yawe?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Can I have some tea, please?",
+      "kinyarwanda": "Nshobora kubona icyayi, nyabuneka?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Please open the door.",
+      "kinyarwanda": "Nyabuneka fungura urugi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "listen",
+      "kinyarwanda": "kumviriza",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "sit down",
+      "kinyarwanda": "kwicara",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "stand up",
+      "kinyarwanda": "guhaguruka",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "write",
+      "kinyarwanda": "kwandika",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Open your book.",
+      "kinyarwanda": "Fungura igitabo cyawe.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Sit down, please.",
+      "kinyarwanda": "Icara, nyabuneka.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Look at the board.",
+      "kinyarwanda": "Reba ku rubaho.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Write your name.",
+      "kinyarwanda": "Andika izina ryawe.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Close the door, please.",
+      "kinyarwanda": "Funga urugi, nyabuneka.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Read the sentence.",
+      "kinyarwanda": "Soma interuro.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "me",
+      "kinyarwanda": "njye (mu gufashwa)",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "him",
+      "kinyarwanda": "we (umugabo)",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "her",
+      "kinyarwanda": "we (umugore)",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "us",
+      "kinyarwanda": "twese",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "them",
+      "kinyarwanda": "bo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Help me.",
+      "kinyarwanda": "Mfasha.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I see him.",
+      "kinyarwanda": "Ndamubona.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I know her.",
+      "kinyarwanda": "Ndamuzi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Help us.",
+      "kinyarwanda": "Dufashe.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I see them.",
+      "kinyarwanda": "Ndababona.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "live",
+      "kinyarwanda": "gutura",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "with",
+      "kinyarwanda": "kumwe na",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "friends",
+      "kinyarwanda": "inshuti",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Where do you live? — I live in Kigali.",
+      "kinyarwanda": "Utuye he? — Ntuye i Kigali.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Why are you happy? — Because I am with my friends.",
+      "kinyarwanda": "Kuki ushima? — Kubera ko ndi kumwe n'inshuti zanjye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "My brother is tall and young.",
+      "kinyarwanda": "Umuvandimwe wanjye ni muremure kandi muto.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "He is tall and young. He plays football every day.",
+      "kinyarwanda": "Ni muremure kandi muto. Akina umupira buri munsi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "yesterday",
+      "kinyarwanda": "ejo hashize",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "walked",
+      "kinyarwanda": "nagenda (amaguru)",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "worked",
+      "kinyarwanda": "nakoraga",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Yesterday I walked to school.",
+      "kinyarwanda": "Ejo nagiye ku ishuri n'amaguru.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "She worked in Kigali.",
+      "kinyarwanda": "Yakoraga i Kigali.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Today I study English.",
+      "kinyarwanda": "Uyu munsi niga Icyongereza.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I travelled by bus yesterday.",
+      "kinyarwanda": "Ejo nagize urugendo n'ubisi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I played football yesterday.",
+      "kinyarwanda": "Ejo nakiniye umupira.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "We watched TV.",
+      "kinyarwanda": "Twarebye televiziyo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "was",
+      "kinyarwanda": "byari",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "went",
+      "kinyarwanda": "nagiye",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "had",
+      "kinyarwanda": "narimo/nari nfite",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I was at home yesterday.",
+      "kinyarwanda": "Nari mu rugo ejo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "We went to the market.",
+      "kinyarwanda": "Twagiye ku isoko.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "She was happy.",
+      "kinyarwanda": "Yari ashyimye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "They went to school.",
+      "kinyarwanda": "Bagiye ku ishuri.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "will",
+      "kinyarwanda": "nza -",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "study",
+      "kinyarwanda": "kwiga",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Tomorrow I will study.",
+      "kinyarwanda": "Ejo nziga.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I will go to school.",
+      "kinyarwanda": "Nzagenda ku ishuri.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I will travel next week.",
+      "kinyarwanda": "Nzagenda urugendo icyumweru gitaha.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "She will come tomorrow.",
+      "kinyarwanda": "Azaza ejo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "They will play.",
+      "kinyarwanda": "Bazakina.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "plan",
+      "kinyarwanda": "umugambi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "visit",
+      "kinyarwanda": "gusura",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "next week",
+      "kinyarwanda": "icyumweru gitaha",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am going to visit my grandmother.",
+      "kinyarwanda": "Ngiye gusura nyogokuru.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Next week I am going to travel.",
+      "kinyarwanda": "Icyumweru gitaha ngiye kugenda urugendo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "We are going to play.",
+      "kinyarwanda": "Tugiye gukina.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "He is going to sleep.",
+      "kinyarwanda": "Agiye kurara.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "first",
+      "kinyarwanda": "mbere ya byose",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "then",
+      "kinyarwanda": "hanyuma",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "after",
+      "kinyarwanda": "nyuma ya",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "First, I wake up.",
+      "kinyarwanda": "Mbere ya byose, nkubyuka.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "After school, I play.",
+      "kinyarwanda": "Nyuma y'ishuri, ndakina.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "First, I wake up. Then, I eat.",
+      "kinyarwanda": "Mbere ya byose, nkubyuka. Hanyuma, ndirya.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "After school, I study.",
+      "kinyarwanda": "Nyuma y'ishuri, niga.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "story",
+      "kinyarwanda": "inkuru",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "happy",
+      "kinyarwanda": "ashimye",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Jean goes to school in the morning.",
+      "kinyarwanda": "Jean ajya ku ishuri mu gitondo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "After school, he plays football.",
+      "kinyarwanda": "Nyuma y'ishuri, akina umupira.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "He plays football after school.",
+      "kinyarwanda": "Akina umupira nyuma y'ishuri.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "party",
+      "kinyarwanda": "ibirori",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "meeting",
+      "kinyarwanda": "inama",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "celebration",
+      "kinyarwanda": "umunsi mukuru",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Yesterday we had a party.",
+      "kinyarwanda": "Ejo twagize ibirori.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I went to a birthday party.",
+      "kinyarwanda": "Nagiye ku birori by'umunsi wavutseho.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The meeting will be tomorrow.",
+      "kinyarwanda": "Inama izaba ejo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "We ate cake at the party.",
+      "kinyarwanda": "Twariye keke ku birori.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "They are going to have a celebration.",
+      "kinyarwanda": "Bagiye kugira umunsi mukuru.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "again",
+      "kinyarwanda": "nanone",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "early",
+      "kinyarwanda": "kare",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "late",
+      "kinyarwanda": "kereza",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Did you go to school yesterday?",
+      "kinyarwanda": "Wagiye ku ishuri ejo hashize?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Did she play football on Sunday?",
+      "kinyarwanda": "Yakinnye umupira ku cyumweru?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Did you go to school yesterday? — Yes, I did.",
+      "kinyarwanda": "Wagiye ku ishuri ejo hashize? — Yego.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Did she play football? — No, she didn't.",
+      "kinyarwanda": "Yakinnye umupira? — Oya.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "buy",
+      "kinyarwanda": "kugura",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "money",
+      "kinyarwanda": "amafaranga",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "price",
+      "kinyarwanda": "igiciro",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "cheap",
+      "kinyarwanda": "guraho",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "expensive",
+      "kinyarwanda": "gurahenze",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "How much is this?",
+      "kinyarwanda": "Ibi ni angahe?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I want to buy bread.",
+      "kinyarwanda": "Nshaka kugura umugati.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "How much is the rice?",
+      "kinyarwanda": "Umuceri ni angahe?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "How much are the shoes?",
+      "kinyarwanda": "Inkweto ni angahe?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "help",
+      "kinyarwanda": "ubufasha",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Could you help me?",
+      "kinyarwanda": "Wakunfasha?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Could you show me the way?",
+      "kinyarwanda": "Wanyereka inzira?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Thank you very much.",
+      "kinyarwanda": "Murakoze cyane.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Could you open the door?",
+      "kinyarwanda": "Wakingura urugi?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "bank",
+      "kinyarwanda": "banki",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "medicine",
+      "kinyarwanda": "imiti",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "send",
+      "kinyarwanda": "kohereza",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "pay",
+      "kinyarwanda": "kwishyura",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "pharmacy",
+      "kinyarwanda": "famarisi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "doctor",
+      "kinyarwanda": "umuganga",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Where is the bank?",
+      "kinyarwanda": "Banki iri he?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I need medicine.",
+      "kinyarwanda": "Nkeneye imiti.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I want to send a letter.",
+      "kinyarwanda": "Nshaka kohereza ibaruwa.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I want to pay.",
+      "kinyarwanda": "Nshaka kwishyura.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I need water.",
+      "kinyarwanda": "Nkeneye amazi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "left",
+      "kinyarwanda": "ibumoso",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "right",
+      "kinyarwanda": "iburyo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "near",
+      "kinyarwanda": "hafi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Where is the market?",
+      "kinyarwanda": "Isoko riri he?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Turn left at the school.",
+      "kinyarwanda": "Hindukira ibumoso ku ishuri.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Go straight, please.",
+      "kinyarwanda": "Komeza imbere, nyabuneka.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The bank is near the station.",
+      "kinyarwanda": "Banki iri hafi ya sitasiyo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "bus",
+      "kinyarwanda": "bisi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "ticket",
+      "kinyarwanda": "itike",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "travel",
+      "kinyarwanda": "urugendo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "bike",
+      "kinyarwanda": "igare",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "station",
+      "kinyarwanda": "sitasiyo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "How much is a ticket?",
+      "kinyarwanda": "Itike ni angahe?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am going to travel by bus.",
+      "kinyarwanda": "Ngiye kugenda urugendo n'ubisi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I go to work by car.",
+      "kinyarwanda": "Njya ku kazi n'imodoka.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "She travels by bus.",
+      "kinyarwanda": "Agenda n'ubisi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "question",
+      "kinyarwanda": "ikibazo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "understand",
+      "kinyarwanda": "gumva",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I have a question.",
+      "kinyarwanda": "Mfite ikibazo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Can you say it again, please?",
+      "kinyarwanda": "Ushobora kukivuga nanone, nyabuneka?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Do you understand?",
+      "kinyarwanda": "Urumva?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I do not understand.",
+      "kinyarwanda": "Ntabwo numva.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "work",
+      "kinyarwanda": "akazi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "rest",
+      "kinyarwanda": "kuruhuka",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I have a meeting tomorrow.",
+      "kinyarwanda": "Mfite inama ejo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "You should rest.",
+      "kinyarwanda": "Ugomba kuruhuka.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "What do you do?",
+      "kinyarwanda": "Ukora iki?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am a teacher.",
+      "kinyarwanda": "Ndi umwarimu.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "You should drink water.",
+      "kinyarwanda": "Ugomba kunywa amazi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "She should sleep.",
+      "kinyarwanda": "Agomba kurara.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Where do you work?",
+      "kinyarwanda": "Ukora he?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I work at a school.",
+      "kinyarwanda": "Nkora ku ishuri.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "problem",
+      "kinyarwanda": "ikibazo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "sick",
+      "kinyarwanda": "kurwara",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "late",
+      "kinyarwanda": "gutinda",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "My phone does not work.",
+      "kinyarwanda": "Telefone yanjye ntabwo ikora.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The bus is late.",
+      "kinyarwanda": "Bisi iratinda.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I agree.",
+      "kinyarwanda": "Ndemera.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "You should take it to a shop.",
+      "kinyarwanda": "Ugomba kuyijyana mu iduka.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "If I am tired, I sleep.",
+      "kinyarwanda": "Niba nananiwe, nsinzira.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "If I am sick, I rest.",
+      "kinyarwanda": "Niba ndwaye, ndaruhuka.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I like football.",
+      "kinyarwanda": "Nkunda umupira.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Me too.",
+      "kinyarwanda": "Nanje.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "farmer",
+      "kinyarwanda": "umuhinzi",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "sell",
+      "kinyarwanda": "gucuruza",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "market",
+      "kinyarwanda": "isoko",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The farmer sells milk.",
+      "kinyarwanda": "Umuhinzi acuruza amata.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "People buy rice at the market.",
+      "kinyarwanda": "Abantu bagura umuceri ku isoko.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "She sells bread.",
+      "kinyarwanda": "Acuruza umugati.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "He buys milk.",
+      "kinyarwanda": "Agura amata.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "open",
+      "kinyarwanda": "gufungura / gufungura",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "closed",
+      "kinyarwanda": "gufunga",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "sign",
+      "kinyarwanda": "ikimenyetso",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The shop is open.",
+      "kinyarwanda": "Iduka rirafunguye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The shop is closed on Sunday.",
+      "kinyarwanda": "Iduka rirafunga ku cyumweru.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The bank is open today.",
+      "kinyarwanda": "Banki irafunguye uyu munsi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The office is closed.",
+      "kinyarwanda": "Ibiro birafunze.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "think",
+      "kinyarwanda": "gutekereza",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "opinion",
+      "kinyarwanda": "igitekerezo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "interesting",
+      "kinyarwanda": "gushimisha",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I think this book is interesting.",
+      "kinyarwanda": "Ntekereza ko iki gitabo gishimisha.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "In my opinion, it is good.",
+      "kinyarwanda": "Mu bitekerezo byanjye, ni cyiza.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I think English is useful.",
+      "kinyarwanda": "Ntekereza ko Icyongereza ari ingenzi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "In my opinion, the film is long.",
+      "kinyarwanda": "Mu bitekerezo byanjye, filime ni ndende.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "agree",
+      "kinyarwanda": "kwemera",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "disagree",
+      "kinyarwanda": "kutemera",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "true",
+      "kinyarwanda": "ukuri",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I agree with you.",
+      "kinyarwanda": "Ndemera nawe.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I disagree. I think it is wrong.",
+      "kinyarwanda": "Sinshobora kwemera. Ntekereza ko ari ikosa.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "That is true.",
+      "kinyarwanda": "Ni ukuri.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I do not agree with that.",
+      "kinyarwanda": "Ntabwo ndemeranya n'ibyo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "In the afternoon, I study.",
+      "kinyarwanda": "Ku manywa, niga.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "In the evening, I rest.",
+      "kinyarwanda": "Nimugoroba, nruhuka.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "In the morning, I eat.",
+      "kinyarwanda": "Mu gitondo, ndirya.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "In the evening, I read.",
+      "kinyarwanda": "Nimugoroba, nsoma.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "message",
+      "kinyarwanda": "ubutumwa",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "call",
+      "kinyarwanda": "guhama",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "meet",
+      "kinyarwanda": "guhura",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Please call me.",
+      "kinyarwanda": "Nyabuneka, mpamagare.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "See you soon.",
+      "kinyarwanda": "Tuzabonana vuba.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Meet me at the station.",
+      "kinyarwanda": "Duhure kuri sitasiyo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "See you tomorrow.",
+      "kinyarwanda": "Tuzabonana ejo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "invite",
+      "kinyarwanda": "gutumira",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "wedding",
+      "kinyarwanda": "ubukwe",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "come",
+      "kinyarwanda": "kuza",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "You are invited to the wedding.",
+      "kinyarwanda": "Watumiwe mu bukwe.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Please come to my party.",
+      "kinyarwanda": "Nyabuneka, uze ku birori byanjye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "The wedding is on Saturday.",
+      "kinyarwanda": "Ubukwe buzaba ku wa gatandatu.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Come to our house tomorrow.",
+      "kinyarwanda": "Uze ku rugo rwacu ejo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "answer",
+      "kinyarwanda": "igisubizo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "later",
+      "kinyarwanda": "nyuma",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Where did you go? — I went to the market.",
+      "kinyarwanda": "Wagiye he? — Nagiye ku isoko.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "What did you buy? — I bought rice.",
+      "kinyarwanda": "Waguze iki? — Naguze umuceri.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Where does he work? — He works at a bank.",
+      "kinyarwanda": "Akora he? — Akora muri banki.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Do you like football? — Yes, I do. — Who do you play with?",
+      "kinyarwanda": "Ukunda umupira? — Yego. — Ukinira nde?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "review",
+      "kinyarwanda": "gusubiramo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "remember",
+      "kinyarwanda": "kwibuka",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "grammar",
+      "kinyarwanda": "ikibonezamvugo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Let us review the grammar.",
+      "kinyarwanda": "Reka dusubiremo ikibonezamvugo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I remember this word.",
+      "kinyarwanda": "Nibuka iri jambo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I am happy.",
+      "kinyarwanda": "Nshimye.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I was happy yesterday.",
+      "kinyarwanda": "Nari nshimye ejo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I will be happy tomorrow.",
+      "kinyarwanda": "Nzashimwa ejo.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "word",
+      "kinyarwanda": "ijambo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "sentence",
+      "kinyarwanda": "interuro",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "meaning",
+      "kinyarwanda": "ibisobanuro",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "What does this word mean?",
+      "kinyarwanda": "Iri jambo risobanura iki?",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Make a sentence with \"water\".",
+      "kinyarwanda": "Kora interuro ukoresheje \"water\".",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "passage",
+      "kinyarwanda": "ingingo",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "discuss",
+      "kinyarwanda": "kuganira",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "final",
+      "kinyarwanda": "iya nyuma",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Read the passage, please.",
+      "kinyarwanda": "Soma ingingo, nyabuneka.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "Let us discuss the story.",
+      "kinyarwanda": "Reka tuganire ku nkuru.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I think Kigali is beautiful.",
+      "kinyarwanda": "Ntekereza ko Kigali ari umujyi mwiza.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "practice",
+      "kinyarwanda": "kwitoza",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "speak",
+      "kinyarwanda": "kuvuga",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "improve",
+      "kinyarwanda": "kunoza",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "I practice English every day.",
+      "kinyarwanda": "Nitoza Icyongereza buri munsi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "You should speak English often.",
+      "kinyarwanda": "Ugomba kuvuga Icyongereza kenshi.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "You should read English books.",
+      "kinyarwanda": "Ugomba gusoma ibitabo by'Icyongereza.",
+      "source": "curriculum.json"
+    },
+    {
+      "english": "You should not give up.",
+      "kinyarwanda": "Ntugacike intege.",
+      "source": "curriculum.json"
+    }
+  ]
+}

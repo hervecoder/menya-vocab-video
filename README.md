@@ -24,41 +24,45 @@ random per run (same behaviour as the perime.rw videos). Local samples:
 [`output/word_01.mp4`](output/word_01.mp4) and
 [`output/sentence_01.mp4`](output/sentence_01.mp4).
 
-The current data set is the **100-entry pilot**:
+The current data set is the full **1,098-video rotation**:
 
-- `data/vocabulary_pilot.json` — 100 flat entries (74 words + 26 sentence pairs)
-- `data/vocabulary_pilot_videos.json` — 10 complete word videos, 6 sentence
-  layout samples, plus a 6-entry remainder bucket
-- `data/chunks/vocabulary_chunk_01.json` — the 10 **verified** word videos as one
-  rotation chunk (70 entries)
-- `data/rotation_manifest.json` — ordered `content_0001`…`content_0010` jobs
+- `data/vocabulary_all_videos.json` — 1,098 complete word videos
+  (10 verified pilot videos + 1,088 generated videos)
+- `data/vocabulary_all_review.md` — one-line-per-video review table and the
+  1,500-word source pool
+- `data/sources/` — cached English frequency list, English→Kinyarwanda
+  dictionary, aligned sentence corpus, and source notes
+- `data/chunks/vocabulary_chunk_01.json` … `_04.json` — four rotation chunks
+  (2,002 / 2,002 / 2,002 / 1,680 entries)
+- `data/rotation_manifest.json` — ordered `content_0001`…`content_1098` jobs
   and the chunk map
 - `data/rotation_state.json` — remembers the next content and the cycle
-- `data/vocabulary_pilot_review.md` and
-  `data/vocabulary_pilot_videos_review.md` — human-readable review tables
+- `data/vocabulary_pilot*.json` — the original 100-entry pilot, kept as the
+  source of the 10 verified opening videos and the sentence layout samples
 
-The rotation is **verification-gated**: only complete videos whose pairs are all
-marked `verification: "verified"` enter the manifest. The pilot contributes 70
-verified word entries in 10 videos. The 4 leftover words (`pencil`, `mother`,
-`foot`, `small`) stay in `remainder`; 26 sentence pairs are excluded from
-rotation because 25 still need native review and 1 verified pair ("Good
-morning") shares a 4-pair video with unverified pairs. The 6 sentence videos are
-layout previews only until a native speaker signs them off.
+The first 10 videos are the Glosbe-verified pilot. The other 1,088 are generated
+from a **1,500-word common-vocabulary pool**; the 7,616 word slots reuse each
+word 4–6 times, always in different videos. No two videos have the same
+7-word set, no video repeats a word inside itself, and consecutive videos share
+no words. The rotation therefore always advances to a visibly different video
+and wraps from `content_1098` back to `content_0001`.
 
-The full 1,098 build should use counts that divide evenly (for example 854 words
-+ 244 sentence pairs) so every verified entry lands in a complete video.
-
-**Verification status:** 75 entries are checked against live Glosbe pages.
-The other 25 sentence pairs are marked `native_review_required`; they are not
-claimed as online-verified and are not published by the rotation until a native
-speaker reviews them.
+**Verification status:** the 10 pilot videos are checked against live Glosbe
+pages. Generated pairs are marked `verification: "dictionary"` in the source
+database and are promoted by the build's `--trust-dictionary` flag; their
+sources are the app curriculum, the cached Iriza 2006 / Cox–Adamson–Teusink
+1957 dictionary, and corpus co-occurrence checks. They are not claimed as
+individually native-reviewed. The 25 `native_review_required` sentence pairs
+and the 6 sentence layout videos are **not** in this rotation.
 
 ## Rotation (one video per run)
 
 Every workflow run picks exactly one content item and advances the state:
-`content_0001` → `content_0002` → … → `content_0010` → `content_0001` again
+`content_0001` → `content_0002` → … → `content_1098` → `content_0001` again
 (in a new cycle). The state is committed only after the video renders
 successfully, so a failed run repeats the same content instead of skipping it.
+The current position is `content_0004` (the first three pilot videos are already
+rendered).
 
 
 - `scripts/rotation.py next` peeks at the next job and writes a one-job batch
@@ -95,36 +99,38 @@ advance the rotation state.
 
 ## Chunk files and the manifest
 
-The full database is split into small chunk files so no single file has to hold
-all 1,098 entries. The builder uses a **soft 300-entry target**: it closes a
-chunk only after reaching the target, so a chunk may go slightly over (for
-example 303) instead of cutting a video in half.
+The full database is split into **four** chunk files: 2,002 / 2,002 / 2,002 /
+1,680 entries. Chunking uses a soft **2,000-entry target**, not an exact 300
+cap; a chunk may go over the target so a 7-word video is never split. The
+manifest lists every `content_0001`…`content_1098` job and points back to its
+chunk file and job index. The workflow validates all 1,098 unique video
+signatures and the four chunk files before rendering.
 
 ```powershell
 python scripts/build_chunks.py `
-  --input data/vocabulary_all.json `
+  --input data/vocabulary_all_videos.json `
   --out-dir data/chunks `
   --manifest data/rotation_manifest.json `
   --state data/rotation_state.json `
-  --chunk-size 300
+  --chunk-size 2000 `
+  --allow-shared-entries `
+  --trust-dictionary `
+  --start-content content_0004
 ```
 
-A chunk file holds complete video jobs only, so the chunks stay near the 300
-entry target rather than splitting a 7-word or 4-pair video across files. The
-manifest lists every `content_0001`… job and points back to its chunk file and
-job index.
-
 The builder is verification-gated by default: it keeps only content marked
-`verification: "verified"`. Pass `--include-unverified` for a review/layout
-build (never for publishing). Excluded entries, skipped sentence videos and the
-counts are recorded in the manifest `meta`; the workflow summary shows the same
-numbers. Use `--start-content content_0003` when migrating an existing rotation
-so already-rendered videos are not replayed.
+`verification: "verified"`. `--trust-dictionary` promotes pairs marked
+`verification: "dictionary"` for this database; `--include-unverified` remains
+for review/layout builds only (never for publishing). Excluded entries, skipped
+sentence videos and counts are recorded in the manifest `meta`; the workflow
+summary shows the same numbers. Use `--start-content content_0004` when
+migrating the existing rotation so already-rendered videos are not replayed.
 
-Duplicates are rejected. The default is strict: the same word or sentence
-cannot appear in two videos, and two videos cannot contain the same set of
-pairs. `--allow-shared-entries` permits repeated words/sentences but still
-requires every video signature to be unique.
+Duplicate videos are rejected even with `--allow-shared-entries`: every video
+signature must be unique. The generated database intentionally reuses words
+across non-adjacent videos, but no video repeats the same 7-word set and
+consecutive videos share no words. Without `--allow-shared-entries` the builder
+also rejects any repeated word/sentence anywhere in the database.
 
 Each job looks like this:
 
@@ -154,6 +160,34 @@ Each job looks like this:
 - Directions are always English → Kinyarwanda.
 - `generate.py` accepts 1–7 word pairs or 1–4 sentence pairs, so a short final
   job still renders instead of being dropped.
+
+## Rebuild the database from the cached sources
+
+The 1,098-video database is generated deterministically from the files in
+`data/sources/` (about 4.2 MB on disk; see `data/sources/README.md` for
+provenance and sizes):
+
+```powershell
+python scripts/build_full_database.py
+```
+
+- 622 KB English frequency list (GitHub `hermitdave/FrequencyWords`)
+- 19,849-pair English→Kinyarwanda dictionary cache
+- 458 curriculum pairs used as the high-confidence seed
+- 14,411 aligned English/Kinyarwanda sentences used to check word senses
+- a small corpus-backed override list for dictionary senses such as
+  *high → hejuru*, *effect → ingaruka*, and *plant → igihingwa*
+
+The generator is seeded (`20261021`). It keeps the 10 verified pilot videos,
+adds 1,088 generated 7-word videos, and refuses to write a database unless every
+video is complete, all 1,098 signatures are unique, and consecutive videos share
+no words. Output:
+
+- `data/vocabulary_all_videos.json`
+- `data/vocabulary_all_review.md`
+
+Then rebuild the four chunks and the manifest with the command in the previous
+section.
 
 ## Run locally
 
@@ -247,16 +281,20 @@ promo banner runs edge-to-edge and sits on the tab bar divider.
 
 ```
 generate.py                     renderer + ffmpeg encoder
-scripts/build_chunks.py         splits entries into video-job chunk files
+scripts/build_full_database.py  builds the 1,098-video database from cached sources
+scripts/build_chunks.py         splits videos into chunk files + manifest/state
 scripts/rotation.py             next/advance/select/status/reset state machine
-data/vocabulary_pilot.json      flat 100-entry database
-data/vocabulary_pilot_videos.json   video-ready word/sentence batches + review samples
-data/chunks/*.json              rotation chunks (complete verified videos only)
+data/vocabulary_all_videos.json 1,098-video database (10 pilot + 1,088 generated)
+data/vocabulary_all_review.md   word-pool and one-line-per-video review tables
+data/sources/                   frequency list, dictionary cache, corpus, provenance
+data/chunks/*.json              four rotation chunks (complete videos only)
 data/rotation_manifest.json     ordered content ids + chunk map
 data/rotation_state.json        remembered next content and cycle
+data/vocabulary_pilot.json      original flat 100-entry pilot
+data/vocabulary_pilot_videos.json   original word/sentence batches + layout samples
 data/*_review.md                human-readable review tables
 scripts/build_pilot.py          builds the flat pilot
-scripts/build_video_batches.py  builds the video batches
+scripts/build_video_batches.py  builds the original video batches
 assets/img/background.png       phone mockup background
 assets/fonts/Poppins-*.ttf      bundled fonts (OFL)
 assets/song/                    optional music
@@ -274,9 +312,10 @@ output/*.mp4                    generated videos
   (`assets/fonts/OFL.txt`).
 - The workflow is serialized with a concurrency group, so two runs cannot pick
   the same content. The state is committed only after a successful render.
-- The full 1,098-entry database is the next build step; this repo currently
-  ships the 100-entry pilot (75 verified entries; 25 sentence pairs awaiting
-  native review). The chunk builder defaults to 300 entries per file and keeps
-  only verified content. Once all sentence pairs are verified, a clean split of
-  854 words + 244 sentence pairs gives 122 word videos + 61 sentence videos =
-  183 contents in roughly four chunk files.
+- The rotation is now the full 1,098-video word database. The 25 sentence pairs
+  awaiting native review and the 6 sentence layout samples are intentionally
+  outside the rotation; they can be added later as a separate verified sentence
+  track without disturbing the 1,098 word-video cycle.
+- Generated pairs are dictionary/corpus sourced, not individually native
+  reviewed. Use `data/vocabulary_all_review.md` to spot-check before treating
+  every generated translation as final.
