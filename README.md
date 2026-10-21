@@ -15,9 +15,9 @@ Generates a 1080x1920 (9:16) Facebook/Reels-ready video that looks like the
 |---|---|
 | ![word preview](preview/word_01.png) | ![sentence preview](preview/sentence_01.png) |
 
-Output: `output/<video_id>.mp4` — H.264, yuv420p, 30 fps, AAC stereo audio,
-`+faststart`. One of the four tracks in `assets/song/` is picked at random per
-run (same behaviour as the perime.rw videos). Local samples:
+Output: `output/<content_id>.mp4` — H.264, yuv420p, 30 fps, AAC stereo
+audio, `+faststart`. One of the four tracks in `assets/song/` is picked at
+random per run (same behaviour as the perime.rw videos). Local samples:
 [`output/word_01.mp4`](output/word_01.mp4) and
 [`output/sentence_01.mp4`](output/sentence_01.mp4).
 
@@ -25,60 +25,111 @@ The current data set is the **100-entry pilot**:
 
 - `data/vocabulary_pilot.json` — 100 flat entries (74 words + 26 sentence pairs)
 - `data/vocabulary_pilot_videos.json` — 10 complete word videos, 6 complete
-  sentence videos, plus a remainder bucket
+  sentence videos, plus a 6-entry remainder bucket
+- `data/chunks/vocabulary_chunk_01.json` — the 16 complete videos as one
+  rotation chunk (94 video entries)
+- `data/rotation_manifest.json` — ordered `content_0001`…`content_0016` jobs
+  and the chunk map
+- `data/rotation_state.json` — remembers the next content and the cycle
 - `data/vocabulary_pilot_review.md` and
   `data/vocabulary_pilot_videos_review.md` — human-readable review tables
+
+The pilot's 4 leftover words and 2 leftover sentence pairs are kept in
+`remainder`; they do not fill a complete 7-word or 4-pair video. The full
+1,098 build should use counts that divide evenly (for example 854 words +
+244 sentence pairs) so every entry lands in a complete video.
 
 **Verification status:** 75 entries are checked against live Glosbe pages.
 The other 25 sentence pairs are marked `native_review_required`; they are not
 claimed as online-verified until a native speaker reviews them.
 
-## Run it on GitHub (first time)
+## Rotation (one video per run)
+
+Every workflow run picks exactly one content item and advances the state:
+`content_0001` → `content_0002` → … → `content_0016` → `content_0001` again
+(in a new cycle). The state is committed only after the video renders
+successfully, so a failed run repeats the same content instead of skipping it.
+
+- `scripts/rotation.py next` peeks at the next job and writes a one-job batch
+  for `generate.py`; it does not change the state.
+- `scripts/rotation.py advance` runs after encoding and moves to the next job.
+- `scripts/rotation.py select --content-id content_0005` replays one specific
+  content without touching the state.
+- `scripts/rotation.py reset` starts again at `content_0001`, cycle 1.
+- `scripts/rotation.py status` shows the remembered position.
+
+## Run it on GitHub
 
 1. Open the repo's **Actions** tab → **Menya Vocab Video** → **Run workflow**.
-2. Leave every field as-is. The defaults load
-   `data/vocabulary_pilot_videos.json` and render `word_01`.
+2. Leave every field as-is.
 3. Press **Run workflow**.
 
-No typing is needed for the default word video. To render a sentence video,
-change only `video_id` to `sentence_01` (or any id from
-`sentence_01`…`sentence_06`).
+The run automatically renders the next `content_XXXX`, commits the mp4, its
+preview frame and the updated `data/rotation_state.json`, and attaches them as
+the `menya-vocab-video` artifact. The next run starts with the following
+content. No typing is needed.
 
-The run commits the mp4 and its preview frame back into the repo and also
-attaches them as the `menya-vocab-video` artifact.
+To replay one specific video, set `content_id` to an id from
+`data/rotation_manifest.json` (for example `content_0001`). A replay does not
+advance the rotation state.
 
 ## Inputs
 
 | Input | Meaning | Default |
 |---|---|---|
-| `batch_file` | Batch JSON path in the repo | `data/vocabulary_pilot_videos.json` |
-| `video_id` | Batch id: `word_01`…`word_10` or `sentence_01`…`sentence_06` | `word_01` |
+| `content_id` | Optional replay id. Empty = automatically pick the next content | empty |
 | `note` | Yellow banner text. The `brand` text is highlighted in green | the Play Store hook |
 | `brand` | Text to highlight green inside `note` | `Menya Icyongereza App` |
 | `duration` | Video length in seconds | `6` |
 
-## Batch JSON
+## Chunk files and the manifest
 
-Each video carries its own mode and exactly the right number of pairs:
+The full database is split into small chunk files so no single file has to hold
+all 1,098 entries. The builder targets **300 entries per chunk** by default:
+
+```powershell
+python scripts/build_chunks.py `
+  --input data/vocabulary_all.json `
+  --out-dir data/chunks `
+  --manifest data/rotation_manifest.json `
+  --state data/rotation_state.json `
+  --chunk-size 300
+```
+
+A chunk file holds complete video jobs only, so the chunks stay near the 300
+entry target rather than splitting a 7-word or 4-pair video across files. The
+manifest lists every `content_0001`… job and points back to its chunk file and
+job index.
+
+Each job looks like this:
 
 ```json
 {
-  "id": "sentence_01",
-  "mode": "sentence",
-  "pair_count": 4,
+  "id": "content_0001",
+  "content_number": 1,
+  "mode": "word",
+  "pair_count": 7,
+  "entry_start": 1,
+  "entry_end": 7,
   "pairs": [
     {
-      "english": "Where does it hurt?",
-      "kinyarwanda": "Uri kubabara he?"
+      "english": "secretary",
+      "kinyarwanda": "umunyamabanga",
+      "verification": "verified"
     }
   ]
 }
 ```
 
-- Word batch: `mode: "word"`, `pair_count: 7`.
-- Sentence batch: `mode: "sentence"`, `pair_count: 4`.
+- Word jobs: `mode: "word"`, 7 pairs.
+- Sentence jobs: `mode: "sentence"`, 4 pairs.
+- A final partial job is allowed only when a database does not divide evenly;
+  it is labelled with its real pair count and its cards are centred. The
+  conversion command above keeps leftovers in `remainder` unless
+  `--allow-partial` is passed.
 - Directions are always English → Kinyarwanda.
-- `generate.py` refuses a batch whose pair count does not match its mode.
+- `generate.py` accepts 1–7 word pairs or 1–4 sentence pairs, so a short final
+  job still renders instead of being dropped.
 
 ## Run locally
 
@@ -87,6 +138,21 @@ Requires Python 3.10+, Pillow and ffmpeg.
 ```powershell
 pip install -r requirements.txt
 
+# Pick the next content (writes a temporary one-job batch)
+python scripts/rotation.py next `
+  --out data/.current_job.json `
+  --pending data/.rotation_pending.json
+
+# Render its preview and mp4
+python generate.py --batch-json data/.current_job.json --video
+
+# Advance only after the render succeeded
+python scripts/rotation.py advance --pending data/.rotation_pending.json
+```
+
+You can still render one of the approved pilot batches directly:
+
+```powershell
 # word mode (7 pairs)
 python generate.py --batch-json data/vocabulary_pilot_videos.json --video-id word_01 --video
 
@@ -100,7 +166,7 @@ Custom content without the batch JSON still works:
 # word mode, up to 7 pairs
 python generate.py --pairs "Book=Igitabo; Water=Amazi"
 
-# sentence mode, exactly 4 pairs
+# sentence mode, up to 4 pairs
 python generate.py --mode sentence --pairs "Where does it hurt?=Uri kubabara he?; He cooks food.=Ateka ibiryo; I drink tea.=Nnywa icyayi; Good morning.=Mwaramutse"
 ```
 
@@ -119,6 +185,8 @@ promo banner runs edge-to-edge and sits on the tab bar divider.
   green, dotted leader between them.
 - Long words shrink automatically (46→26 px English, 42→24 px Kinyarwanda)
   so a pair can never overflow the card.
+- A short final job with fewer than 7 words is centred vertically instead of
+  leaving all the empty space at the bottom.
 
 ### Sentence mode
 
@@ -128,6 +196,7 @@ promo banner runs edge-to-edge and sits on the tab bar divider.
 - English is Poppins ExtraBold dark; Kinyarwanda is Poppins Bold green.
 - Text wraps and shrinks (46→22 px) until both languages fit inside the card.
 - Number badges, borders and shadows match the word cards.
+- A short final job with fewer than 4 pairs is centred vertically.
 
 ### Promo banner
 
@@ -146,14 +215,20 @@ promo banner runs edge-to-edge and sits on the tab bar divider.
 | Background | `assets/img/background.png` (keep the same 720x1280 screen position, or update `BODY`) |
 | Music | drop `.mp3/.m4a/.wav` files into `assets/song/`; one is picked at random. Empty = silent |
 | Video length | `--duration` / the `duration` input |
-| Video content | edit `data/vocabulary_pilot_videos.json` or pass `--pairs` |
+| Video content | edit `data/vocabulary_pilot_videos.json` or `data/vocabulary_all.json`, then rebuild chunks with `scripts/build_chunks.py` |
+| Rotation order | `data/rotation_manifest.json` (generated); reset with `scripts/rotation.py reset` |
 
 ## Files
 
 ```
 generate.py                     renderer + ffmpeg encoder
+scripts/build_chunks.py         splits entries into video-job chunk files
+scripts/rotation.py             next/advance/select/status/reset state machine
 data/vocabulary_pilot.json      flat 100-entry database
 data/vocabulary_pilot_videos.json   video-ready word/sentence batches
+data/chunks/*.json              rotation chunk files (complete videos only)
+data/rotation_manifest.json     ordered content ids + chunk map
+data/rotation_state.json        remembered next content and cycle
 data/*_review.md                human-readable review tables
 scripts/build_pilot.py          builds the flat pilot
 scripts/build_video_batches.py  builds the video batches
@@ -172,5 +247,9 @@ output/*.mp4                    generated videos
   the video is silent.
 - Poppins is licensed under the SIL Open Font License 1.1
   (`assets/fonts/OFL.txt`).
+- The workflow is serialized with a concurrency group, so two runs cannot pick
+  the same content. The state is committed only after a successful render.
 - The full 1,098-entry database is the next build step; this repo currently
-  ships the reviewed 100-entry pilot.
+  ships the reviewed 100-entry pilot. The chunk builder defaults to 300 entries
+  per file. A clean split of 854 words + 244 sentence pairs gives 122 word
+  videos + 61 sentence videos = 183 contents in roughly four chunk files.

@@ -1,3 +1,5 @@
 __pycache__/
 *.pyc
 .venv/
+data/.current_job.json
+data/.rotation_pending.json

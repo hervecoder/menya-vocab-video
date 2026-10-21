@@ -1,0 +1,371 @@
+{
+  "meta": {
+    "generated_at": "2026-10-21T00:46:03Z",
+    "source": "data/vocabulary_pilot_videos.json",
+    "source_kind": "videos",
+    "chunk_size_target": 300,
+    "chunk_count": 1,
+    "total_jobs": 16,
+    "video_entries": 94,
+    "input_entries": 100,
+    "word_entries": 74,
+    "sentence_entries": 26,
+    "video_word_entries": 70,
+    "video_sentence_entries": 24,
+    "remainder_entries": 6,
+    "allow_partial": false,
+    "word_video_size": 7,
+    "sentence_video_size": 4
+  },
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "file": "chunks/vocabulary_chunk_01.json",
+      "entry_start": 1,
+      "entry_end": 94,
+      "entry_count": 94,
+      "content_start": 1,
+      "content_end": 16
+    }
+  ],
+  "jobs": [
+    {
+      "id": "content_0001",
+      "content_number": 1,
+      "source_id": "word_01",
+      "chunk_id": 1,
+      "job_index": 0,
+      "mode": "word",
+      "pair_count": 7,
+      "entry_start": 1,
+      "entry_end": 7,
+      "source_entry_ids": [
+        "w065",
+        "w016",
+        "w021",
+        "w001",
+        "w035",
+        "w057",
+        "w015"
+      ]
+    },
+    {
+      "id": "content_0002",
+      "content_number": 2,
+      "source_id": "word_02",
+      "chunk_id": 1,
+      "job_index": 1,
+      "mode": "word",
+      "pair_count": 7,
+      "entry_start": 8,
+      "entry_end": 14,
+      "source_entry_ids": [
+        "w067",
+        "w051",
+        "w061",
+        "w060",
+        "w070",
+        "w011",
+        "w045"
+      ]
+    },
+    {
+      "id": "content_0003",
+      "content_number": 3,
+      "source_id": "word_03",
+      "chunk_id": 1,
+      "job_index": 2,
+      "mode": "word",
+      "pair_count": 7,
+      "entry_start": 15,
+      "entry_end": 21,
+      "source_entry_ids": [
+        "w058",
+        "w010",
+        "w007",
+        "w034",
+        "w069",
+        "w056",
+        "w024"
+      ]
+    },
+    {
+      "id": "content_0004",
+      "content_number": 4,
+      "source_id": "word_04",
+      "chunk_id": 1,
+      "job_index": 3,
+      "mode": "word",
+      "pair_count": 7,
+      "entry_start": 22,
+      "entry_end": 28,
+      "source_entry_ids": [
+        "w039",
+        "w042",
+        "w032",
+        "w017",
+        "w054",
+        "w002",
+        "w074"
+      ]
+    },
+    {
+      "id": "content_0005",
+      "content_number": 5,
+      "source_id": "word_05",
+      "chunk_id": 1,
+      "job_index": 4,
+      "mode": "word",
+      "pair_count": 7,
+      "entry_start": 29,
+      "entry_end": 35,
+      "source_entry_ids": [
+        "w029",
+        "w027",
+        "w055",
+        "w068",
+        "w053",
+        "w046",
+        "w049"
+      ]
+    },
+    {
+      "id": "content_0006",
+      "content_number": 6,
+      "source_id": "word_06",
+      "chunk_id": 1,
+      "job_index": 5,
+      "mode": "word",
+      "pair_count": 7,
+      "entry_start": 36,
+      "entry_end": 42,
+      "source_entry_ids": [
+        "w020",
+        "w050",
+        "w023",
+        "w003",
+        "w071",
+        "w028",
+        "w033"
+      ]
+    },
+    {
+      "id": "content_0007",
+      "content_number": 7,
+      "source_id": "word_07",
+      "chunk_id": 1,
+      "job_index": 6,
+      "mode": "word",
+      "pair_count": 7,
+      "entry_start": 43,
+      "entry_end": 49,
+      "source_entry_ids": [
+        "w036",
+        "w064",
+        "w037",
+        "w059",
+        "w041",
+        "w063",
+        "w026"
+      ]
+    },
+    {
+      "id": "content_0008",
+      "content_number": 8,
+      "source_id": "word_08",
+      "chunk_id": 1,
+      "job_index": 7,
+      "mode": "word",
+      "pair_count": 7,
+      "entry_start": 50,
+      "entry_end": 56,
+      "source_entry_ids": [
+        "w038",
+        "w044",
+        "w025",
+        "w009",
+        "w014",
+        "w066",
+        "w005"
+      ]
+    },
+    {
+      "id": "content_0009",
+      "content_number": 9,
+      "source_id": "word_09",
+      "chunk_id": 1,
+      "job_index": 8,
+      "mode": "word",
+      "pair_count": 7,
+      "entry_start": 57,
+      "entry_end": 63,
+      "source_entry_ids": [
+        "w013",
+        "w072",
+        "w048",
+        "w019",
+        "w052",
+        "w040",
+        "w022"
+      ]
+    },
+    {
+      "id": "content_0010",
+      "content_number": 10,
+      "source_id": "word_10",
+      "chunk_id": 1,
+      "job_index": 9,
+      "mode": "word",
+      "pair_count": 7,
+      "entry_start": 64,
+      "entry_end": 70,
+      "source_entry_ids": [
+        "w006",
+        "w047",
+        "w031",
+        "w004",
+        "w012",
+        "w008",
+        "w018"
+      ]
+    },
+    {
+      "id": "content_0011",
+      "content_number": 11,
+      "source_id": "sentence_01",
+      "chunk_id": 1,
+      "job_index": 10,
+      "mode": "sentence",
+      "pair_count": 4,
+      "entry_start": 71,
+      "entry_end": 74,
+      "source_entry_ids": [
+        "s013",
+        "s015",
+        "s007",
+        "s019"
+      ]
+    },
+    {
+      "id": "content_0012",
+      "content_number": 12,
+      "source_id": "sentence_02",
+      "chunk_id": 1,
+      "job_index": 11,
+      "mode": "sentence",
+      "pair_count": 4,
+      "entry_start": 75,
+      "entry_end": 78,
+      "source_entry_ids": [
+        "s022",
+        "s011",
+        "s020",
+        "s016"
+      ]
+    },
+    {
+      "id": "content_0013",
+      "content_number": 13,
+      "source_id": "sentence_03",
+      "chunk_id": 1,
+      "job_index": 12,
+      "mode": "sentence",
+      "pair_count": 4,
+      "entry_start": 79,
+      "entry_end": 82,
+      "source_entry_ids": [
+        "s008",
+        "s021",
+        "s014",
+        "s001"
+      ]
+    },
+    {
+      "id": "content_0014",
+      "content_number": 14,
+      "source_id": "sentence_04",
+      "chunk_id": 1,
+      "job_index": 13,
+      "mode": "sentence",
+      "pair_count": 4,
+      "entry_start": 83,
+      "entry_end": 86,
+      "source_entry_ids": [
+        "s012",
+        "s005",
+        "s009",
+        "s023"
+      ]
+    },
+    {
+      "id": "content_0015",
+      "content_number": 15,
+      "source_id": "sentence_05",
+      "chunk_id": 1,
+      "job_index": 14,
+      "mode": "sentence",
+      "pair_count": 4,
+      "entry_start": 87,
+      "entry_end": 90,
+      "source_entry_ids": [
+        "s002",
+        "s006",
+        "s025",
+        "s004"
+      ]
+    },
+    {
+      "id": "content_0016",
+      "content_number": 16,
+      "source_id": "sentence_06",
+      "chunk_id": 1,
+      "job_index": 15,
+      "mode": "sentence",
+      "pair_count": 4,
+      "entry_start": 91,
+      "entry_end": 94,
+      "source_entry_ids": [
+        "s010",
+        "s018",
+        "s024",
+        "s003"
+      ]
+    }
+  ],
+  "remainder": {
+    "words": [
+      {
+        "english": "pencil",
+        "kinyarwanda": "ikaramu",
+        "entry_id": "w030"
+      },
+      {
+        "english": "mother",
+        "kinyarwanda": "mama",
+        "entry_id": "w062"
+      },
+      {
+        "english": "foot",
+        "kinyarwanda": "ikirenge",
+        "entry_id": "w073"
+      },
+      {
+        "english": "small",
+        "kinyarwanda": "gitoya",
+        "entry_id": "w043"
+      }
+    ],
+    "sentences": [
+      {
+        "english": "How much do you need?",
+        "kinyarwanda": "Ukeneye amafaranga angahe?",
+        "entry_id": "s017"
+      },
+      {
+        "english": "I brush my teeth",
+        "kinyarwanda": "Noza amenyo",
+        "entry_id": "s026"
+      }
+    ]
+  }
+}

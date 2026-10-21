@@ -5,6 +5,7 @@ Menya Icyongereza - vocabulary video generator.
 Renders a 1080x1920 video frame that looks like the Menya Icyongereza app
 screen (phone mockup background), with either 7 English word / Kinyarwanda
 rows or 4 sentence pairs (8 lines), plus an edge-to-edge yellow promo banner.
+A final partial job may have fewer rows/pairs; those cards are centred.
 
 Everything is drawn at 1.5x the source mockup so text stays sharp.
 
@@ -467,7 +468,9 @@ def render(pairs, note, brand, out_path: Path, mode: str = "word"):
         row_h = max(96, min(ROW_MAX_H, int(available_h / n)))
         draw = draw_row
 
-    y = rows_top
+    used_h = n * row_h + (n - 1) * gap
+    extra_h = max(0, (rows_bottom_limit - rows_top) - used_h)
+    y = rows_top + extra_h // 2
     for i, (eng, kin) in enumerate(pairs, start=1):
         canvas = draw(
             canvas, (content_left, y, content_right, y + row_h), i, eng, kin
@@ -566,10 +569,10 @@ def load_batch(path: str, video_id: str = "", preferred_mode: str = "word"):
     mode = video.get("mode", "word")
     expected = 7 if mode == "word" else 4
     pairs = [(p["english"], p["kinyarwanda"]) for p in video.get("pairs", [])]
-    if len(pairs) != expected:
+    if not (1 <= len(pairs) <= expected):
         raise SystemExit(
             f"Batch {video.get('id')!r} has {len(pairs)} pairs; "
-            f"{mode} mode needs exactly {expected}."
+            f"{mode} mode needs 1-{expected} pairs."
         )
 
     return mode, pairs, video.get("id", "")
@@ -598,8 +601,12 @@ def main():
         mode = args.mode
         video_id = ""
         pairs = parse_pairs(args.pairs, 100 if mode == "sentence" else 7)
-        if mode == "sentence" and len(pairs) != 4:
-            raise SystemExit("Sentence mode needs exactly 4 English=Kinyarwanda pairs.")
+        if not (1 <= len(pairs) <= (4 if mode == "sentence" else 7)):
+            raise SystemExit(
+                "Sentence mode needs 1-4 English=Kinyarwanda pairs."
+                if mode == "sentence"
+                else "Word mode needs 1-7 English=Kinyarwanda pairs."
+            )
 
     if args.preview:
         preview_path = Path(args.preview)

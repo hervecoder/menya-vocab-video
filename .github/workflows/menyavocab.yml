@@ -1,18 +1,16 @@
 name: Menya Vocab Video
 
-# Manual only. Every field is pre-filled with test content, so the first
-# run needs no typing at all: just press "Run workflow".
+# Manual only. Leave every field as-is and press "Run workflow". The script
+# picks the next content from data/rotation_manifest.json, renders it, then
+# advances data/rotation_state.json. After the last content it starts again
+# from content_0001. Use content_id only to replay a specific video.
 on:
   workflow_dispatch:
     inputs:
-      batch_file:
-        description: 'Batch JSON path in the repo'
-        required: true
-        default: 'data/vocabulary_pilot_videos.json'
-      video_id:
-        description: 'Batch id (word_01..word_10 or sentence_01..sentence_06)'
-        required: true
-        default: 'word_01'
+      content_id:
+        description: 'Optional replay id (e.g. content_0001). Leave empty for auto-next.'
+        required: false
+        default: ''
       note:
         description: 'Yellow box text. The brand name is highlighted in green.'
         required: true
@@ -58,35 +56,71 @@ jobs:
       - name: Check ffmpeg
         run: ffmpeg -version | head -n 1
 
+      - name: Pick next content
+        id: pick
+        env:
+          CONTENT_ID: ${{ inputs.content_id }}
+        run: |
+          if [ -n "$CONTENT_ID" ]; then
+            python scripts/rotation.py select \
+              --manifest data/rotation_manifest.json \
+              --state data/rotation_state.json \
+              --content-id "$CONTENT_ID" \
+              --out "$RUNNER_TEMP/current_job.json" \
+              --pending "$RUNNER_TEMP/pending.json" \
+              --github-output "$GITHUB_OUTPUT"
+          else
+            python scripts/rotation.py next \
+              --manifest data/rotation_manifest.json \
+              --state data/rotation_state.json \
+              --out "$RUNNER_TEMP/current_job.json" \
+              --pending "$RUNNER_TEMP/pending.json" \
+              --github-output "$GITHUB_OUTPUT"
+          fi
+
       - name: Generate frame + video
         env:
-          BATCH_FILE: ${{ inputs.batch_file }}
-          VIDEO_ID: ${{ inputs.video_id }}
+          CONTENT_ID: ${{ steps.pick.outputs.content_id }}
           NOTE: ${{ inputs.note }}
           BRAND: ${{ inputs.brand }}
           DURATION: ${{ inputs.duration }}
         run: |
           python generate.py \
-            --batch-json "$BATCH_FILE" \
-            --video-id "$VIDEO_ID" \
+            --batch-json "$RUNNER_TEMP/current_job.json" \
             --note "$NOTE" \
             --brand "$BRAND" \
             --duration "$DURATION" \
-            --preview "preview/${VIDEO_ID}.png" \
-            --out "output/${VIDEO_ID}.mp4" \
+            --preview "preview/${CONTENT_ID}.png" \
+            --out "output/${CONTENT_ID}.mp4" \
             --video
 
-      - name: Commit video to the repo
+      - name: Advance rotation
+        if: inputs.content_id == ''
         env:
-          VIDEO_ID: ${{ inputs.video_id }}
+          CONTENT_ID: ${{ steps.pick.outputs.content_id }}
+        run: |
+          python scripts/rotation.py advance \
+            --manifest data/rotation_manifest.json \
+            --state data/rotation_state.json \
+            --pending "$RUNNER_TEMP/pending.json"
+
+      - name: Commit video, preview and rotation state
+        env:
+          CONTENT_ID: ${{ steps.pick.outputs.content_id }}
+          CYCLE: ${{ steps.pick.outputs.cycle }}
+          AUTO: ${{ steps.pick.outputs.auto }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "output/${VIDEO_ID}.mp4" "preview/${VIDEO_ID}.png"
+          git add "output/${CONTENT_ID}.mp4" "preview/${CONTENT_ID}.png"
+          if [ "$AUTO" = "true" ]; then
+            git add data/rotation_state.json
+          fi
           if git diff --staged --quiet; then
             echo "No new output to commit."
           else
-            git commit -m "Add Menya vocab video ${VIDEO_ID} ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+            git commit -m "Add Menya vocab video ${CONTENT_ID} (cycle ${CYCLE}) ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+            git pull --rebase origin main
             git push
           fi
 
@@ -95,16 +129,39 @@ jobs:
         with:
           name: menya-vocab-video
           path: |
-            output/*.mp4
-            preview/*.png
+            output/${{ steps.pick.outputs.content_id }}.mp4
+            preview/${{ steps.pick.outputs.content_id }}.png
           if-no-files-found: error
 
       - name: Summary
         env:
-          VIDEO_ID: ${{ inputs.video_id }}
+          CONTENT_ID: ${{ steps.pick.outputs.content_id }}
+          CONTENT_NUMBER: ${{ steps.pick.outputs.content_number }}
+          TOTAL_JOBS: ${{ steps.pick.outputs.total_jobs }}
+          MODE: ${{ steps.pick.outputs.mode }}
+          PAIR_COUNT: ${{ steps.pick.outputs.pair_count }}
+          ENTRY_START: ${{ steps.pick.outputs.entry_start }}
+          ENTRY_END: ${{ steps.pick.outputs.entry_end }}
+          TOTAL_ENTRIES: ${{ steps.pick.outputs.total_entries }}
+          INPUT_ENTRIES: ${{ steps.pick.outputs.input_entries }}
+          REMAINDER_ENTRIES: ${{ steps.pick.outputs.remainder_entries }}
+          CYCLE: ${{ steps.pick.outputs.cycle }}
+          NEXT_CONTENT_ID: ${{ steps.pick.outputs.next_content_id }}
+          NEXT_CYCLE: ${{ steps.pick.outputs.next_cycle }}
+          AUTO: ${{ steps.pick.outputs.auto }}
         run: |
           echo "### Menya Vocab Video" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Batch:** \`$VIDEO_ID\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Video:** \`output/$VIDEO_ID.mp4\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Frame:** \`preview/$VIDEO_ID.png\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Content:** \`$CONTENT_ID\` ($CONTENT_NUMBER/$TOTAL_JOBS, $MODE, $PAIR_COUNT pairs)" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Entry range:** $ENTRY_START–$ENTRY_END of $TOTAL_ENTRIES" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Cycle:** $CYCLE" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$AUTO" = "true" ]; then
+            echo "**Next:** \`$NEXT_CONTENT_ID\` (cycle $NEXT_CYCLE)" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "**Manual replay:** rotation state not advanced." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ "$REMAINDER_ENTRIES" != "0" ]; then
+            echo "**Coverage:** $TOTAL_ENTRIES of $INPUT_ENTRIES entries in complete videos; $REMAINDER_ENTRIES remainder." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "**Video:** \`output/$CONTENT_ID.mp4\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Frame:** \`preview/$CONTENT_ID.png\`" >> "$GITHUB_STEP_SUMMARY"
