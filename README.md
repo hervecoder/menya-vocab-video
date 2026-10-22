@@ -95,9 +95,19 @@ again. Every job contains 5 or 6 pairs (10-12 text lines), never mixed with
 words. The count is decided by the layout planner, not by a fixed rule. Its
 state lives in `data/sentence_rotation_state.json`.
 
+The sentence workflow runs automatically every day at **13:00 UTC (15:00
+Africa/Kigali)**. It renders the next video, commits the mp4, and schedules it
+on the `perime.rw250` TikTok channel through Buffer for **18:30
+Africa/Kigali** with a blank caption. The reusable Buffer queue schedule is not
+edited by the API; each post is explicitly custom-scheduled at that time, which
+gives the same one-post-per-day result. The Buffer post id and due time are
+recorded in `data/buffer_queue.json`.
+
 Both tracks use the same state machine. State is committed only after the video
 renders successfully, so a failed run repeats the same content instead of
-skipping it.
+skipping it. For the sentence track, state advances only after Buffer accepts
+the scheduled post; if Buffer fails, the next run retries the same sentence
+video.
 
 - `scripts/rotation.py next` peeks at the next job and writes a one-job batch
   for `generate.py`; it does not change the state.
@@ -129,19 +139,41 @@ python scripts/rotation.py advance `
 
 Choose one of the two pre-filled workflows:
 
-1. **Menya Vocab Video** — word track (`content_0001`…`content_1098`).
-2. **Menya Vocab Sentences** — sentence track (`sentence_0001`…`sentence_0012`).
+1. **Menya Vocab Video** — word track (`content_0001`…`content_1098`), manual.
+2. **Menya Vocab Sentences** — sentence track (`sentence_0001`…`sentence_0012`),
+   automatically daily and available for manual runs.
 
 For either one: open the **Actions** tab, select the workflow, leave every
 field as-is, and press **Run workflow**. The run renders the next video,
 commits the mp4, its preview frame and that track's updated state, and attaches
-them as an artifact. The next run starts with the following content. No typing
-is needed.
+them as an artifact. The sentence workflow also schedules the video on TikTok
+through Buffer with a blank caption. The next run starts with the following
+content. No typing is needed.
 
 To replay one specific video, set `content_id` to an id from the matching
 manifest (for example `content_0001` or `sentence_0001`). A replay does not
-advance that track's state. Both workflows share one concurrency group, so a
-word run and a sentence run cannot race on a commit.
+advance that track's state, and a sentence replay is **not** posted to Buffer,
+so it cannot create a duplicate. Both workflows share one concurrency group, so
+a word run and a sentence run cannot race on a commit.
+
+### Daily TikTok slot (Buffer)
+
+The sentence workflow expects a repository secret named `BUFFER_API_KEY`
+(Settings → Secrets and variables → Actions). The key is the API credential for
+the Buffer account that owns `perime.rw250`; it is never written to the repo.
+The optional repository variable `BUFFER_CHANNEL_ID` pins the channel; without
+it the script selects the only connected TikTok channel.
+
+Buffer's public API can create posts but does not expose an endpoint for
+changing the channel's reusable posting schedule. The workflow therefore sends
+each video as `customScheduled` at `18:30` Africa/Kigali. That produces one
+post per day regardless of the queue slots shown in Buffer. The script refuses
+to schedule while the channel queue is paused, disconnected, or locked.
+
+`data/buffer_queue.json` is the idempotency ledger. On a rerun it prevents the
+same sentence id + cycle from being scheduled twice. The first scheduled post
+is recorded after Buffer accepts it; if the later state commit fails, delete the
+duplicate in Buffer or run the workflow with the ledger intact.
 
 ## Inputs
 
@@ -151,6 +183,7 @@ word run and a sentence run cannot race on a commit.
 | `note` | Yellow banner text. The `brand` text is highlighted in green | the Play Store hook |
 | `brand` | Text to highlight green inside `note` | `Menya Icyongereza App` |
 | `duration` | Video length in seconds | `6` |
+| `post_time` | Sentence workflow only: TikTok publish time in Africa/Kigali (after 15:00, the daily run time) | `18:30` |
 
 ## Chunk files and the manifest
 
@@ -413,6 +446,7 @@ scripts/build_sentence_database.py  builds the 72-pair sentence database from th
 scripts/sentence_planner.py     chooses 5 or 6 pairs per sentence video from rendered layout
 scripts/build_chunks.py         splits videos into chunk files + manifest/state
 scripts/rotation.py             next/advance/select/status/reset state machine
+scripts/buffer_post.py          schedules one blank-caption TikTok post through Buffer
 data/vocabulary_all_videos.json 1,098-video word database (10 pilot + 1,088 generated)
 data/vocabulary_all_review.md   word-pool and one-line-per-video review tables
 data/vocabulary_sentences.json  72 curated sentence pairs -> 12 videos (5-6 pairs each)
@@ -424,6 +458,7 @@ data/rotation_state.json        remembered next word content and cycle
 data/sentence_chunks/*.json     one sentence-rotation chunk
 data/sentence_rotation_manifest.json  ordered sentence content ids + chunk map
 data/sentence_rotation_state.json     remembered next sentence video and cycle
+data/buffer_queue.json          Buffer post ids + due times (idempotency ledger)
 data/vocabulary_pilot.json      original flat 100-entry pilot
 data/vocabulary_pilot_videos.json   original word/sentence batches + layout samples
 data/*_review.md                human-readable review tables
@@ -447,6 +482,9 @@ output/*.mp4                    generated videos
   (`assets/fonts/OFL.txt`).
 - Both workflows share one concurrency group, so two runs cannot race on a
   commit. Each track's state is committed only after a successful render.
+- The sentence workflow is scheduled daily at 13:00 UTC (15:00 CAT) and posts
+  at 18:30 CAT. GitHub may delay a scheduled run by a few minutes; the 90-minute
+  gap leaves room for rendering, commit, and Buffer ingestion.
 - The 1,098-video word rotation is unchanged: same manifest, same ids, same
   7-pair videos, same state, and no slash glosses removed. The sentence track
   is separate so it cannot renumber or disturb it.

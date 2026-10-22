@@ -1,13 +1,23 @@
 name: Menya Vocab Sentences
 
-# Manual only. This is a separate rotation from the 1,098-word track, so the
-# word manifest and state are never touched. Leave every field as-is and press
-# "Run workflow". Each run renders one sentence video with 5 or 6 pairs
-# (10-12 text lines: English sentence, then Kinyarwanda translation), chosen
-# by the layout planner, then advances data/sentence_rotation_state.json. After
-# sentence_0012 it wraps to sentence_0001. Use content_id only to replay a
-# specific video.
+# Daily at 13:00 UTC (15:00 Africa/Kigali). This is a separate rotation from
+# the 1,098-word track, so the word manifest and state are never touched. Each
+# run renders one sentence video with 5 or 6 pairs (10-12 text lines: English
+# sentence, then Kinyarwanda translation), chosen by the layout planner, then
+# schedules it in Buffer for 18:30 Africa/Kigali with a blank caption. After
+# sentence_0012 it wraps to sentence_0001.
+#
+# The Buffer API key lives in the repository secret BUFFER_API_KEY. The
+# optional repository variable BUFFER_CHANNEL_ID pins the TikTok channel;
+# without it the script picks the only connected TikTok channel.
+#
+# Manual runs are still available. Leave every field as-is and press
+# "Run workflow" to render and schedule the next sentence video. Use
+# content_id only to replay a specific video (a replay is rendered but never
+# posted to Buffer, so it cannot create a duplicate).
 on:
+  schedule:
+    - cron: '0 13 * * *'
   workflow_dispatch:
     inputs:
       content_id:
@@ -26,6 +36,10 @@ on:
         description: 'Video length in seconds'
         required: false
         default: '6'
+      post_time:
+        description: 'TikTok publish time in Africa/Kigali (HH:MM, after 15:00)'
+        required: false
+        default: '18:30'
 
 permissions:
   contents: write
@@ -40,12 +54,31 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
+    env:
+      # Scheduled runs do not populate the workflow_dispatch inputs, so every
+      # value used by both entry points has an explicit fallback.
+      NOTE: ${{ inputs.note || 'Iyi app yitwa "Menya Icyongereza App" wayisanga kuri Play Store yigisha icyongereza' }}
+      BRAND: ${{ inputs.brand || 'Menya Icyongereza App' }}
+      DURATION: ${{ inputs.duration || '6' }}
+      POST_TIME: ${{ inputs.post_time || '18:30' }}
+      BUFFER_CHANNEL_ID: ${{ vars.BUFFER_CHANNEL_ID }}
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Check Buffer secret
+        if: github.event_name == 'schedule' || inputs.content_id == ''
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+        run: |
+          if [ -z "$BUFFER_API_KEY" ]; then
+            echo "::error::BUFFER_API_KEY repository secret is not set."
+            exit 1
+          fi
 
       - name: Validate sentence rotation database
         run: |
@@ -239,9 +272,6 @@ jobs:
       - name: Generate frame + video
         env:
           CONTENT_ID: ${{ steps.pick.outputs.content_id }}
-          NOTE: ${{ inputs.note }}
-          BRAND: ${{ inputs.brand }}
-          DURATION: ${{ inputs.duration }}
         run: |
           python generate.py \
             --batch-json "$RUNNER_TEMP/current_job.json" \
@@ -252,8 +282,47 @@ jobs:
             --out "output/${CONTENT_ID}.mp4" \
             --video
 
+      # Push the mp4 before Buffer is called: Buffer fetches the video from a
+      # public URL, so the file must already exist on main. The rotation state
+      # is deliberately not advanced yet; if Buffer fails, the next run repeats
+      # this same sentence video instead of skipping it.
+      - name: Commit video and preview
+        env:
+          CONTENT_ID: ${{ steps.pick.outputs.content_id }}
+          CYCLE: ${{ steps.pick.outputs.cycle }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "output/${CONTENT_ID}.mp4" "preview/${CONTENT_ID}.png"
+          if git diff --staged --quiet; then
+            echo "Video output already committed."
+          else
+            git commit -m "Add Menya sentence video ${CONTENT_ID} (cycle ${CYCLE}) ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+            git pull --rebase origin main
+            git push
+          fi
+
+      - name: Schedule TikTok post in Buffer
+        id: buffer
+        if: github.event_name == 'schedule' || inputs.content_id == ''
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          CONTENT_ID: ${{ steps.pick.outputs.content_id }}
+          CYCLE: ${{ steps.pick.outputs.cycle }}
+          VIDEO_URL: https://raw.githubusercontent.com/${{ github.repository }}/main/output/${{ steps.pick.outputs.content_id }}.mp4
+          BUFFER_CHANNEL_ID: ${{ vars.BUFFER_CHANNEL_ID }}
+        run: |
+          python scripts/buffer_post.py \
+            --content-id "$CONTENT_ID" \
+            --cycle "$CYCLE" \
+            --video-url "$VIDEO_URL" \
+            --post-time "$POST_TIME" \
+            --channel-id "$BUFFER_CHANNEL_ID" \
+            --ledger data/buffer_queue.json \
+            --github-output "$GITHUB_OUTPUT"
+
       - name: Advance sentence rotation
-        if: inputs.content_id == ''
+        if: github.event_name == 'schedule' || inputs.content_id == ''
         env:
           CONTENT_ID: ${{ steps.pick.outputs.content_id }}
         run: |
@@ -262,22 +331,18 @@ jobs:
             --state data/sentence_rotation_state.json \
             --pending "$RUNNER_TEMP/pending.json"
 
-      - name: Commit video, preview and sentence state
+      - name: Commit sentence state and Buffer queue
+        if: github.event_name == 'schedule' || inputs.content_id == ''
         env:
           CONTENT_ID: ${{ steps.pick.outputs.content_id }}
           CYCLE: ${{ steps.pick.outputs.cycle }}
-          AUTO: ${{ steps.pick.outputs.auto }}
+          NEXT_CONTENT_ID: ${{ steps.pick.outputs.next_content_id }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "output/${CONTENT_ID}.mp4" "preview/${CONTENT_ID}.png"
-          if [ "$AUTO" = "true" ]; then
-            git add data/sentence_rotation_state.json
-          fi
+          git add data/sentence_rotation_state.json data/buffer_queue.json
           if git diff --staged --quiet; then
-            echo "No new output to commit."
+            echo "Sentence state already committed."
           else
-            git commit -m "Add Menya sentence video ${CONTENT_ID} (cycle ${CYCLE}) ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+            git commit -m "Advance Menya sentence rotation after ${CONTENT_ID} to ${NEXT_CONTENT_ID} (cycle ${CYCLE}) ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
             git pull --rebase origin main
             git push
           fi
@@ -308,6 +373,11 @@ jobs:
           NEXT_CONTENT_ID: ${{ steps.pick.outputs.next_content_id }}
           NEXT_CYCLE: ${{ steps.pick.outputs.next_cycle }}
           AUTO: ${{ steps.pick.outputs.auto }}
+          BUFFER_POST_ID: ${{ steps.buffer.outputs.buffer_post_id }}
+          BUFFER_DUE_AT: ${{ steps.buffer.outputs.buffer_due_at }}
+          BUFFER_STATUS: ${{ steps.buffer.outputs.buffer_status }}
+          BUFFER_SKIPPED: ${{ steps.buffer.outputs.buffer_skipped }}
+          POST_TIME: ${{ env.POST_TIME }}
         run: |
           echo "### Menya Vocab Sentences" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
@@ -318,9 +388,17 @@ jobs:
           echo "**Cycle:** $CYCLE" >> "$GITHUB_STEP_SUMMARY"
           if [ "$AUTO" = "true" ]; then
             echo "**Next:** \`$NEXT_CONTENT_ID\` (cycle $NEXT_CYCLE)" >> "$GITHUB_STEP_SUMMARY"
+            if [ "$BUFFER_SKIPPED" = "true" ]; then
+              echo "**TikTok:** already scheduled in Buffer (post \`$BUFFER_POST_ID\`, due $BUFFER_DUE_AT); no duplicate created." >> "$GITHUB_STEP_SUMMARY"
+            elif [ -n "$BUFFER_POST_ID" ]; then
+              echo "**TikTok:** scheduled in Buffer for $BUFFER_DUE_AT with a blank caption (post \`$BUFFER_POST_ID\`, $BUFFER_STATUS)." >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "**TikTok:** Buffer scheduling did not return a post id." >> "$GITHUB_STEP_SUMMARY"
+            fi
           else
-            echo "**Manual replay:** sentence rotation state not advanced." >> "$GITHUB_STEP_SUMMARY"
+            echo "**Manual replay:** sentence rotation state not advanced; nothing was posted to TikTok." >> "$GITHUB_STEP_SUMMARY"
           fi
+          echo "**Daily slot:** 13:00 UTC generation / $POST_TIME Africa/Kigali publish (blank caption)." >> "$GITHUB_STEP_SUMMARY"
           if [ "$REMAINDER_ENTRIES" != "0" ] || [ "$EXCLUDED_ENTRIES" != "0" ]; then
             echo "**Coverage:** $TOTAL_ENTRIES of $INPUT_ENTRIES entries in verified videos; $REMAINDER_ENTRIES remainder; $EXCLUDED_ENTRIES excluded from rotation." >> "$GITHUB_STEP_SUMMARY"
           fi
