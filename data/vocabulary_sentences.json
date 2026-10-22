@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-21T23:50:08Z",
+    "generated_at": "2026-10-22T00:18:52Z",
     "source": "data/sources/en_rw_corpus.tsv",
     "source_kind": "sentence_rotation",
     "total_pairs": 72,
@@ -1329,8 +1329,8 @@
         {
           "position": 4,
           "entry_id": "sentence_entry_0068",
-          "english": "My daughter was unreasonable when I asked her to spend less money.",
-          "kinyarwanda": "Umukobwa wanjye ntabwo yashyize mu gaciro igihe namusabye gukoresha amafaranga make.",
+          "english": "The game would not be suspended if it did not rain heavily.",
+          "kinyarwanda": "Umukino ntiwari guhagarikwa iyo imvura itagwa cyane.",
           "group_id": "daily-sentences",
           "group_title": "Everyday Sentences",
           "grammar": "sentence",

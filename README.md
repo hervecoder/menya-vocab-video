@@ -358,10 +358,14 @@ promo banner runs edge-to-edge and sits on the tab bar divider.
 ### Sentence mode
 
 - Section label: `INTERURO 4 Z'ICYONGEREZA`, uppercase, tracked, muted.
-- 4 cards, one per pair. Each card stacks the English sentence above the
-  Kinyarwanda sentence, so one pair always reads as two lines.
+- 4 cards, one per pair. Each card has exactly one English line followed by
+  one Kinyarwanda line, so one pair always reads as two lines.
 - English is Poppins ExtraBold dark; Kinyarwanda is Poppins Bold green.
-- Text wraps and shrinks (46→22 px) until both languages fit inside the card.
+- Text never wraps. The renderer picks the largest shared font size for all
+  four cards (starting at 46 px) that keeps every English and Kinyarwanda line
+  inside the card. This keeps the four cards even instead of shrinking each
+  one separately. A future pair that cannot fit at the minimum size fails the
+  build rather than overflowing.
 - Number badges, borders and shadows match the word cards.
 - Manual sentence batches with fewer than 4 pairs are centred vertically; the
   live sentence rotation never contains a partial job.

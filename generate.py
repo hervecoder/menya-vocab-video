@@ -293,8 +293,37 @@ def draw_row(canvas, box, index, english, kinyarwanda):
     return canvas
 
 
-def draw_sentence_row(canvas, box, index, english, kinyarwanda):
-    """Sentence card: English and Kinyarwanda stacked, with wrapping."""
+def sentence_text_bounds(box):
+    """Return the left/right edge shared by the sentence layout and fitting."""
+    x0, _y0, x1, _y1 = box
+    text_left = x0 + 24 + 58 + 22
+    return text_left, x1 - 26
+
+
+def fit_sentence_font_size(pairs, available, max_size=46, min_size=12):
+    """Largest shared size that keeps every English and Kinyarwanda line whole.
+
+    The size is shared by all four cards in one video so the cards do not look
+    uneven. The Kinyarwanda face stays two pixels smaller to preserve the
+    English/Kinyarwanda hierarchy used by the word cards.
+    """
+    for size in range(max_size, min_size - 1, -1):
+        f_eng = font("Poppins-ExtraBold.ttf", size)
+        f_kin = font("Poppins-Bold.ttf", max(min_size, size - 2))
+        if all(
+            f_eng.getlength(english) <= available
+            and f_kin.getlength(kinyarwanda) <= available
+            for english, kinyarwanda in pairs
+        ):
+            return size
+    raise SystemExit(
+        "Sentence text is too long for a single line even at the minimum font "
+        "size. Shorten the pair or widen the card before publishing."
+    )
+
+
+def draw_sentence_row(canvas, box, index, english, kinyarwanda, font_size):
+    """Sentence card: exactly one English line and one Kinyarwanda line."""
     x0, y0, x1, y1 = box
     h = y1 - y0
     radius = 24
@@ -320,38 +349,29 @@ def draw_sentence_row(canvas, box, index, english, kinyarwanda):
         anchor="mm",
     )
 
-    text_left = bx + badge + 22
-    text_right = x1 - 26
+    text_left, text_right = sentence_text_bounds(box)
     available = text_right - text_left
+    f_eng = font("Poppins-ExtraBold.ttf", font_size)
+    f_kin = font("Poppins-Bold.ttf", max(12, font_size - 2))
 
-    # Shrink until both languages fit comfortably in the card.
-    f_eng = f_kin = None
-    eng_lines = kin_lines = []
-    eng_lh = kin_lh = 0
+    if (
+        f_eng.getlength(english) > available
+        or f_kin.getlength(kinyarwanda) > available
+    ):
+        raise SystemExit(
+            f"Sentence line overflow for card {index}: {english!r} / "
+            f"{kinyarwanda!r}"
+        )
+
+    eng_lh = f_eng.size + 6
+    kin_lh = f_kin.size + 6
     gap = 12
-    for size in range(46, 21, -1):
-        f_eng = font("Poppins-ExtraBold.ttf", size)
-        f_kin = font("Poppins-Bold.ttf", max(20, size - 2))
-        eng_lines = wrap_balanced(english, f_eng, available)
-        kin_lines = wrap_balanced(kinyarwanda, f_kin, available)
-        eng_lh = f_eng.size + 6
-        kin_lh = f_kin.size + 6
-        block_h = len(eng_lines) * eng_lh + gap + len(kin_lines) * kin_lh
-        if len(eng_lines) <= 4 and len(kin_lines) <= 4 and block_h <= h - 28:
-            break
-
-    block_h = len(eng_lines) * eng_lh + gap + len(kin_lines) * kin_lh
+    block_h = eng_lh + gap + kin_lh
     y = y0 + (h - block_h) / 2
 
-    for line in eng_lines:
-        d.text((text_left, y), line, font=f_eng, fill=TEXT, anchor="la")
-        y += eng_lh
-
-    y += gap
-
-    for line in kin_lines:
-        d.text((text_left, y), line, font=f_kin, fill=GREEN_DARK, anchor="la")
-        y += kin_lh
+    d.text((text_left, y), english, font=f_eng, fill=TEXT, anchor="la")
+    y += eng_lh + gap
+    d.text((text_left, y), kinyarwanda, font=f_kin, fill=GREEN_DARK, anchor="la")
 
     return canvas
 
@@ -461,9 +481,14 @@ def render(pairs, note, brand, out_path: Path, mode: str = "word"):
     gap = ROW_GAP if mode == "word" else 18
     available_h = rows_bottom_limit - rows_top - (n - 1) * gap
 
+    sentence_size = None
     if mode == "sentence":
         row_h = max(180, min(310, int(available_h / n)))
         draw = draw_sentence_row
+        text_left, text_right = sentence_text_bounds(
+            (content_left, 0, content_right, 0)
+        )
+        sentence_size = fit_sentence_font_size(pairs, text_right - text_left)
     else:
         row_h = max(96, min(ROW_MAX_H, int(available_h / n)))
         draw = draw_row
@@ -472,9 +497,11 @@ def render(pairs, note, brand, out_path: Path, mode: str = "word"):
     extra_h = max(0, (rows_bottom_limit - rows_top) - used_h)
     y = rows_top + extra_h // 2
     for i, (eng, kin) in enumerate(pairs, start=1):
-        canvas = draw(
-            canvas, (content_left, y, content_right, y + row_h), i, eng, kin
-        )
+        box = (content_left, y, content_right, y + row_h)
+        if mode == "sentence":
+            canvas = draw(canvas, box, i, eng, kin, sentence_size)
+        else:
+            canvas = draw(canvas, box, i, eng, kin)
         y += row_h + gap
 
     canvas = draw_promo(

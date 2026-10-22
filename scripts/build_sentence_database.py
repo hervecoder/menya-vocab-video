@@ -173,7 +173,7 @@ CURATED = [
     "There are a lot of people on both sides of the road.",
     "You should not be afraid to make mistakes while learning a language.",
     "There was so much noise that the speaker could not hear.",
-    "My daughter was unreasonable when I asked her to spend less money.",
+    "The game would not be suspended if it did not rain heavily.",
     "You should not be discouraged because you are not an expert.",
     "The midterm exam will start next week.",
     "Some people do not like to get up early in the morning.",

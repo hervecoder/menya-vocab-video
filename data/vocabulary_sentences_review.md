@@ -1,6 +1,6 @@
 # Sentence rotation review
 
-Generated: 2026-10-21T23:50:08Z
+Generated: 2026-10-22T00:18:52Z
 
 Source: `data/sources/en_rw_corpus.tsv` (14,411 aligned pairs).
 Policy: 4 sentence pairs per video, 8 text lines; English first, Kinyarwanda second.
@@ -76,7 +76,7 @@ These 72 pairs passed the hard alignment/length/grammar filters and a manual sca
 | 65 | `sentence_0017` | There are a lot of people on both sides of the road. | Ku mpande zombi z'umuhanda hari abantu benshi. | 1.00 | Corpus-aligned; native review recommended. |
 | 66 | `sentence_0017` | You should not be afraid to make mistakes while learning a language. | Ntugomba gutinya gukora amakosa mu gihe wiga ururimi. | 1.00 | Corpus-aligned; orthography normalized; native review recommended. |
 | 67 | `sentence_0017` | There was so much noise that the speaker could not hear. | Hariho urusaku rwinshi ku buryo uwatanze disikuru atashoboraga kumva. | 1.00 | Corpus-aligned; orthography normalized; native review recommended. |
-| 68 | `sentence_0017` | My daughter was unreasonable when I asked her to spend less money. | Umukobwa wanjye ntabwo yashyize mu gaciro igihe namusabye gukoresha amafaranga make. | 1.00 | Corpus-aligned; native review recommended. |
+| 68 | `sentence_0017` | The game would not be suspended if it did not rain heavily. | Umukino ntiwari guhagarikwa iyo imvura itagwa cyane. | 1.00 | Corpus-aligned; native review recommended. |
 | 69 | `sentence_0018` | You should not be discouraged because you are not an expert. | Ntugomba gucika intege kuko utari umuhanga. | 1.00 | Corpus-aligned; native review recommended. |
 | 70 | `sentence_0018` | The midterm exam will start next week. | Ikizamini cyo hagati kizatangira icyumweru gitaha. | 1.00 | Corpus-aligned; native review recommended. |
 | 71 | `sentence_0018` | Some people do not like to get up early in the morning. | Abantu bamwe ntibakunda kubyuka kare mu gitondo. | 0.80 | Corpus-aligned; orthography normalized; native review recommended. |
