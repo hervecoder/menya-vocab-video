@@ -36,10 +36,11 @@ re-downloading large data on every workflow run.
   common dictionary sense errors (for example *capital* -> *umurwa mukuru*
   instead of *ubukungu*) without adding new downloads.
 - Sentence track: the same corpus supplies the 72 curated pairs behind the
-  separate 18-video sentence rotation. Candidate pairs are length/grammar/
-  alignment filtered, orthography-normalized, and marked `verification:
-  "corpus"` (not native-reviewed). See
-  `data/vocabulary_sentences_review.md` for the full list and alignment scores.
+  separate 12-video sentence rotation (5 or 6 pairs per video, chosen by the
+  layout planner). Candidate pairs are length/grammar/alignment filtered,
+  orthography-normalized, and marked `verification: "corpus"` (not
+  native-reviewed). See `data/vocabulary_sentences_review.md` for the full list
+  and alignment scores.
 
 ## Curriculum seed
 

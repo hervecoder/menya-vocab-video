@@ -4,11 +4,12 @@
 Two input shapes are supported:
 
 1. A flat database with an ``entries`` list (or a bare list). Each entry has
-   ``type`` = ``word`` or ``sentence``. Words are grouped 7 per video and
-   sentences 4 per video. Leftover entries are kept in a ``remainder`` bucket
-   unless ``--allow-partial`` is passed.
+   ``type`` = ``word`` or ``sentence``. Words are grouped 7 per video; flat
+   sentence entries use the legacy 4-per-video path. Leftover entries are kept
+   in a ``remainder`` bucket unless ``--allow-partial`` is passed.
 2. A video-batch file with a ``videos`` list (the pilot format). Every video
-   must already be a complete 7-word or 4-pair job.
+   must already be a complete 7-word or 5/6-pair sentence job.  The sentence
+   planner chooses 5 or 6 pairs from the rendered layout before this step.
 
 By default only items marked ``verification: "verified"`` enter the rotation.
 Unverified entries/videos are recorded in the manifest meta and excluded.
@@ -274,12 +275,13 @@ def jobs_from_videos(
         mode = str(video.get("mode") or "").strip().lower()
         if mode not in {"word", "sentence"}:
             raise SystemExit(f"Video {video.get('id')!r} has no valid mode.")
-        expected = 7 if mode == "word" else 4
         pairs = video.get("pairs") or []
-        if len(pairs) != expected:
+        expected = {7} if mode == "word" else {5, 6}
+        if len(pairs) not in expected:
+            allowed = "7" if mode == "word" else "5 or 6"
             raise SystemExit(
                 f"Video {video.get('id')!r} has {len(pairs)} pairs; "
-                f"{mode} needs {expected}."
+                f"{mode} needs {allowed}."
             )
 
         if not include_unverified and not all(
@@ -536,7 +538,7 @@ def main() -> None:
         default=300,
         help=(
             "Soft target entries per chunk. A chunk may go over the target so "
-            "a 7-word or 4-pair video is never split."
+            "a 7-word or 5/6-pair video is never split."
         ),
     )
     parser.add_argument(
@@ -694,11 +696,10 @@ def main() -> None:
                 meta.get(
                     "sentence_count",
                     sum(
-                        1
+                        len(v.get("pairs") or [])
                         for v in data.get("videos", [])
                         if v.get("mode") == "sentence"
-                    )
-                    * 4,
+                    ),
                 ),
             )
         )
@@ -921,7 +922,8 @@ def main() -> None:
             ],
             "allow_partial": bool(args.allow_partial),
             "word_video_size": 7,
-            "sentence_video_size": 4,
+            "sentence_video_size_min": 5,
+            "sentence_video_size_max": 6,
         },
         "chunks": chunk_meta,
         "jobs": manifest_jobs,

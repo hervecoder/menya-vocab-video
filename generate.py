@@ -4,8 +4,8 @@ Menya Icyongereza - vocabulary video generator.
 
 Renders a 1080x1920 video frame that looks like the Menya Icyongereza app
 screen (phone mockup background), with either 7 English word / Kinyarwanda
-rows or 4 sentence pairs (8 lines), plus an edge-to-edge yellow promo banner.
-A final partial job may have fewer rows/pairs; those cards are centred.
+rows or 5-6 sentence pairs (10-12 lines), plus an edge-to-edge yellow promo
+banner.  A final partial job may have fewer rows/pairs; those cards are centred.
 
 Everything is drawn at 1.5x the source mockup so text stays sharp.
 
@@ -28,6 +28,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from functools import lru_cache
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -90,6 +91,7 @@ DEFAULT_NOTE = (
 DEFAULT_BRAND = "Menya Icyongereza App"
 
 
+@lru_cache(maxsize=None)
 def font(name: str, size: int) -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(str(FONT_DIR / name), size)
 
@@ -368,6 +370,36 @@ def layout_sentence_rows(pairs, available):
     return [layout_sentence_row(eng, kin, available) for eng, kin in pairs]
 
 
+def sentence_card_gap(heights, space):
+    """Return the gap the renderer would use for this stack of cards."""
+    n = len(heights)
+    if n <= 1:
+        return 0
+    spare = (space - sum(heights)) // (n - 1)
+    return max(SENTENCE_GAP_MIN, min(SENTENCE_GAP_MAX, spare))
+
+
+def sentence_video_layout(pairs, context):
+    """Lay out one complete sentence video and report whether it fits.
+
+    This is the single source of truth shared by the renderer and the sentence
+    planner.  The planner uses it to decide whether a candidate 5- or 6-pair
+    group can be published without unreadable text.
+    """
+    layouts = layout_sentence_rows(pairs, context["text_width"])
+    heights = [layout["card_h"] for layout in layouts]
+    gap = sentence_card_gap(heights, context["space"])
+    used_h = sum(heights) + gap * (len(heights) - 1)
+    return {
+        "layouts": layouts,
+        "heights": heights,
+        "gap": gap,
+        "used_h": used_h,
+        "space": context["space"],
+        "fits": used_h <= context["space"],
+    }
+
+
 def draw_sentence_row(canvas, box, index, layout):
     """Sentence card sized to its actual wrapped line count."""
     x0, y0, x1, y1 = box
@@ -478,6 +510,46 @@ def draw_promo(canvas, box, lines, brand):
     return canvas
 
 
+def frame_context(note: str, brand: str) -> dict:
+    """Measure the screen areas that both the renderer and planner need."""
+    left, top, right, bottom = BODY
+    content_left = left + SIDE_PAD
+    content_right = right - SIDE_PAD
+
+    f_line = font("Poppins-Bold.ttf", PROMO_FONT_SIZE)
+    banner_w = (right - 1) - left
+    note_lines = wrap_balanced(
+        note.strip(),
+        f_line,
+        banner_w - PROMO_PAD_X * 2,
+        protect=(brand, "Play Store"),
+    )
+    promo_h = PROMO_PAD_Y * 2 + len(note_lines) * PROMO_LINE_H
+    promo_bottom = NAV_BAR_TOP
+    promo_top = promo_bottom - promo_h
+
+    rows_top = top + 34 + 40 + 28
+    rows_bottom_limit = promo_top - 42
+    text_left, text_right = sentence_text_bounds(
+        (content_left, 0, content_right, 0)
+    )
+    return {
+        "left": left,
+        "top": top,
+        "right": right,
+        "bottom": bottom,
+        "content_left": content_left,
+        "content_right": content_right,
+        "note_lines": note_lines,
+        "promo_top": promo_top,
+        "promo_bottom": promo_bottom,
+        "rows_top": rows_top,
+        "rows_bottom_limit": rows_bottom_limit,
+        "space": rows_bottom_limit - rows_top,
+        "text_width": text_right - text_left,
+    }
+
+
 def render(pairs, note, brand, out_path: Path, mode: str = "word"):
     if not BG_PATH.exists():
         raise SystemExit(f"Missing background: {BG_PATH}")
@@ -485,9 +557,18 @@ def render(pairs, note, brand, out_path: Path, mode: str = "word"):
     bg = Image.open(BG_PATH).convert("RGBA").resize((W, H), Image.Resampling.LANCZOS)
     canvas = bg.copy()
 
-    left, top, right, bottom = BODY
-    content_left = left + SIDE_PAD
-    content_right = right - SIDE_PAD
+    context = frame_context(note, brand)
+    left = context["left"]
+    top = context["top"]
+    right = context["right"]
+    content_left = context["content_left"]
+    content_right = context["content_right"]
+    note_lines = context["note_lines"]
+    promo_top = context["promo_top"]
+    promo_bottom = context["promo_bottom"]
+    rows_top = context["rows_top"]
+    rows_bottom_limit = context["rows_bottom_limit"]
+    n = len(pairs)
 
     # section label
     if mode == "sentence":
@@ -500,38 +581,14 @@ def render(pairs, note, brand, out_path: Path, mode: str = "word"):
         d, (content_left + 3, top + 34), label, f_label, MUTED, tracking=3.2
     )
 
-    # promo block height first (so rows can use the rest of the screen)
-    f_line = font("Poppins-Bold.ttf", PROMO_FONT_SIZE)
-    banner_w = (right - 1) - left
-    note_lines = wrap_balanced(
-        note.strip(),
-        f_line,
-        banner_w - PROMO_PAD_X * 2,
-        protect=(brand, "Play Store"),
-    )
-    promo_h = PROMO_PAD_Y * 2 + len(note_lines) * PROMO_LINE_H
-
-    promo_bottom = NAV_BAR_TOP
-    promo_top = promo_bottom - promo_h
-
-    rows_top = top + 34 + 40 + 28
-    rows_bottom_limit = promo_top - 42
-    n = len(pairs)
-
     if mode == "sentence":
-        text_left, text_right = sentence_text_bounds(
-            (content_left, 0, content_right, 0)
-        )
-        layouts = layout_sentence_rows(pairs, text_right - text_left)
-        heights = [layout["card_h"] for layout in layouts]
-        space = rows_bottom_limit - rows_top
-        if n > 1:
-            spare_gap = (space - sum(heights)) // (n - 1)
-            gap = max(SENTENCE_GAP_MIN, min(SENTENCE_GAP_MAX, spare_gap))
-        else:
-            gap = 0
-        used_h = sum(heights) + gap * (n - 1)
-        if used_h > space:
+        plan = sentence_video_layout(pairs, context)
+        layouts = plan["layouts"]
+        heights = plan["heights"]
+        space = plan["space"]
+        gap = plan["gap"]
+        used_h = plan["used_h"]
+        if not plan["fits"]:
             raise SystemExit(
                 "Sentence cards do not fit between the label and promo banner"
             )
@@ -643,7 +700,7 @@ def load_batch(path: str, video_id: str = "", preferred_mode: str = "word"):
         )
 
     mode = video.get("mode", "word")
-    expected = 7 if mode == "word" else 4
+    expected = 7 if mode == "word" else 6
     pairs = [(p["english"], p["kinyarwanda"]) for p in video.get("pairs", [])]
     if not (1 <= len(pairs) <= expected):
         raise SystemExit(
@@ -677,9 +734,9 @@ def main():
         mode = args.mode
         video_id = ""
         pairs = parse_pairs(args.pairs, 100 if mode == "sentence" else 7)
-        if not (1 <= len(pairs) <= (4 if mode == "sentence" else 7)):
+        if not (1 <= len(pairs) <= (6 if mode == "sentence" else 7)):
             raise SystemExit(
-                "Sentence mode needs 1-4 English=Kinyarwanda pairs."
+                "Sentence mode needs 1-6 English=Kinyarwanda pairs."
                 if mode == "sentence"
                 else "Word mode needs 1-7 English=Kinyarwanda pairs."
             )

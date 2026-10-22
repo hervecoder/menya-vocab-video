@@ -2,12 +2,12 @@
   "cycle": 1,
   "next_job_index": 1,
   "jobs_done_in_cycle": 1,
-  "total_jobs": 18,
+  "total_jobs": 12,
   "total_entries": 72,
   "input_entries": 72,
   "remainder_entries": 0,
   "excluded_unverified_entries": 0,
   "last_content_id": "sentence_0001",
   "next_content_id": "sentence_0002",
-  "updated_at": "2026-10-22T00:02:54Z"
+  "updated_at": "2026-10-22T01:32:41Z"
 }

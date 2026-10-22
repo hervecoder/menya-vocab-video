@@ -1,20 +1,24 @@
 {
   "meta": {
-    "generated_at": "2026-10-22T00:18:52Z",
+    "generated_at": "2026-10-22T01:32:29Z",
     "source": "data/sources/en_rw_corpus.tsv",
     "source_kind": "sentence_rotation",
     "total_pairs": 72,
     "total_entries": 72,
-    "total_videos": 18,
-    "pairs_per_video": 4,
-    "lines_per_video": 8,
+    "total_videos": 12,
+    "min_pairs_per_video": 5,
+    "max_pairs_per_video": 6,
+    "pair_counts": {
+      "6": 12
+    },
     "verification_tier": "corpus",
     "native_review_required": true,
     "filter_policy": "5-12 English words; 4-16 Kinyarwanda words; alignment >= 0.80; no names/religious terms; orthography normalized; curated",
+    "layout_policy": "5-6 pairs per video, chosen by measuring the rendered card stack; six pairs only when type stays readable",
     "orthography_fixes": 26,
     "notes": [
       "English first, Kinyarwanda second on every card.",
-      "4 pairs = 8 text lines per video.",
+      "5-6 pairs = 10-12 text lines per video, chosen by layout.",
       "Corpus-sourced, not individually native-reviewed."
     ]
   },
@@ -24,8 +28,18 @@
       "source_id": "sentence_0001",
       "mode": "sentence",
       "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
+      "pair_count": 6,
+      "line_count": 12,
+      "layout": {
+        "average_font_px": 35.5,
+        "min_font_px": 28,
+        "max_font_px": 42,
+        "wrapped_cards": 0,
+        "gap_px": 48,
+        "used_height_px": 1112,
+        "available_height_px": 1114
+      },
+      "selection_note": "6 pairs chosen by layout analysis: average 35.5px, 0 wrapped card(s), 48px gap.",
       "pairs": [
         {
           "position": 1,
@@ -94,19 +108,9 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; native review recommended."
-        }
-      ]
-    },
-    {
-      "id": "sentence_0002",
-      "source_id": "sentence_0002",
-      "mode": "sentence",
-      "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
-      "pairs": [
+        },
         {
-          "position": 1,
+          "position": 5,
           "entry_id": "sentence_entry_0005",
           "english": "I think you might want to hear this.",
           "kinyarwanda": "Ndatekereza ko ushobora kuba ushaka kumva ibi.",
@@ -123,7 +127,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 2,
+          "position": 6,
           "entry_id": "sentence_entry_0006",
           "english": "All you have to do is wait for his answer.",
           "kinyarwanda": "Ibyo ugomba gukora byose ni ugutegereza igisubizo cye.",
@@ -138,9 +142,29 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; native review recommended."
-        },
+        }
+      ]
+    },
+    {
+      "id": "sentence_0002",
+      "source_id": "sentence_0002",
+      "mode": "sentence",
+      "complete": true,
+      "pair_count": 6,
+      "line_count": 12,
+      "layout": {
+        "average_font_px": 35.2,
+        "min_font_px": 28,
+        "max_font_px": 42,
+        "wrapped_cards": 0,
+        "gap_px": 49,
+        "used_height_px": 1113,
+        "available_height_px": 1114
+      },
+      "selection_note": "6 pairs chosen by layout analysis: average 35.2px, 0 wrapped card(s), 49px gap.",
+      "pairs": [
         {
-          "position": 3,
+          "position": 1,
           "entry_id": "sentence_entry_0007",
           "english": "This is going to take some time to explain.",
           "kinyarwanda": "Ibi bigiye gufata igihe cyo gusobanura.",
@@ -157,7 +181,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 4,
+          "position": 2,
           "entry_id": "sentence_entry_0008",
           "english": "You have to live well while you are alive.",
           "kinyarwanda": "Ugomba kubaho neza mu gihe ukiriho.",
@@ -172,19 +196,9 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
-        }
-      ]
-    },
-    {
-      "id": "sentence_0003",
-      "source_id": "sentence_0003",
-      "mode": "sentence",
-      "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
-      "pairs": [
+        },
         {
-          "position": 1,
+          "position": 3,
           "entry_id": "sentence_entry_0009",
           "english": "Go and ask a child who is playing there.",
           "kinyarwanda": "Genda ubaza umwana uri gukinira hariya.",
@@ -201,7 +215,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 2,
+          "position": 4,
           "entry_id": "sentence_entry_0010",
           "english": "Many times people do not want to die.",
           "kinyarwanda": "Inshuro nyinshi usanga abantu badashaka gupfa.",
@@ -218,7 +232,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 3,
+          "position": 5,
           "entry_id": "sentence_entry_0011",
           "english": "I want to say a few words.",
           "kinyarwanda": "Ndashaka kuvuga amagambo make.",
@@ -235,7 +249,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 4,
+          "position": 6,
           "entry_id": "sentence_entry_0012",
           "english": "Yet they did not want to spend too much time.",
           "kinyarwanda": "Nyamara ntibifuzaga no gukoresha igihe kirekire cyane.",
@@ -254,12 +268,22 @@
       ]
     },
     {
-      "id": "sentence_0004",
-      "source_id": "sentence_0004",
+      "id": "sentence_0003",
+      "source_id": "sentence_0003",
       "mode": "sentence",
       "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
+      "pair_count": 6,
+      "line_count": 12,
+      "layout": {
+        "average_font_px": 38.8,
+        "min_font_px": 34,
+        "max_font_px": 44,
+        "wrapped_cards": 0,
+        "gap_px": 40,
+        "used_height_px": 1110,
+        "available_height_px": 1114
+      },
+      "selection_note": "6 pairs chosen by layout analysis: average 38.8px, 0 wrapped card(s), 40px gap.",
       "pairs": [
         {
           "position": 1,
@@ -328,19 +352,9 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; native review recommended."
-        }
-      ]
-    },
-    {
-      "id": "sentence_0005",
-      "source_id": "sentence_0005",
-      "mode": "sentence",
-      "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
-      "pairs": [
+        },
         {
-          "position": 1,
+          "position": 5,
           "entry_id": "sentence_entry_0017",
           "english": "He says there is something under the bed.",
           "kinyarwanda": "Avuga ko hari ikintu munsi y'igitanda.",
@@ -357,7 +371,7 @@
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
         },
         {
-          "position": 2,
+          "position": 6,
           "entry_id": "sentence_entry_0018",
           "english": "The girl running there is my sister.",
           "kinyarwanda": "Umukobwa wiruka hariya ni mushiki wanjye.",
@@ -372,9 +386,29 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; native review recommended."
-        },
+        }
+      ]
+    },
+    {
+      "id": "sentence_0004",
+      "source_id": "sentence_0004",
+      "mode": "sentence",
+      "complete": true,
+      "pair_count": 6,
+      "line_count": 12,
+      "layout": {
+        "average_font_px": 37.3,
+        "min_font_px": 32,
+        "max_font_px": 46,
+        "wrapped_cards": 0,
+        "gap_px": 44,
+        "used_height_px": 1112,
+        "available_height_px": 1114
+      },
+      "selection_note": "6 pairs chosen by layout analysis: average 37.3px, 0 wrapped card(s), 44px gap.",
+      "pairs": [
         {
-          "position": 3,
+          "position": 1,
           "entry_id": "sentence_entry_0019",
           "english": "We will pay you according to the work you do.",
           "kinyarwanda": "Tuzaguhemba dukurikije akazi ukora.",
@@ -391,7 +425,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 4,
+          "position": 2,
           "entry_id": "sentence_entry_0020",
           "english": "You have a dog that can run fast.",
           "kinyarwanda": "Mufite imbwa ishobora kwiruka vuba.",
@@ -406,19 +440,9 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; native review recommended."
-        }
-      ]
-    },
-    {
-      "id": "sentence_0006",
-      "source_id": "sentence_0006",
-      "mode": "sentence",
-      "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
-      "pairs": [
+        },
         {
-          "position": 1,
+          "position": 3,
           "entry_id": "sentence_entry_0021",
           "english": "We say he is very rich.",
           "kinyarwanda": "Tuvuga ko ari umukire cyane.",
@@ -435,7 +459,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 2,
+          "position": 4,
           "entry_id": "sentence_entry_0022",
           "english": "You have less time to read these days.",
           "kinyarwanda": "Mufite umwanya muto wo gusoma muri iyi minsi.",
@@ -452,7 +476,7 @@
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
         },
         {
-          "position": 3,
+          "position": 5,
           "entry_id": "sentence_entry_0023",
           "english": "There is a lot of money in the account.",
           "kinyarwanda": "Muri konti harimo amafaranga menshi.",
@@ -469,7 +493,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 4,
+          "position": 6,
           "entry_id": "sentence_entry_0024",
           "english": "Were you present at the time of the accident?",
           "kinyarwanda": "Wari uhari igihe impanuka yabaga?",
@@ -488,12 +512,22 @@
       ]
     },
     {
-      "id": "sentence_0007",
-      "source_id": "sentence_0007",
+      "id": "sentence_0005",
+      "source_id": "sentence_0005",
       "mode": "sentence",
       "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
+      "pair_count": 6,
+      "line_count": 12,
+      "layout": {
+        "average_font_px": 30.5,
+        "min_font_px": 24,
+        "max_font_px": 35,
+        "wrapped_cards": 0,
+        "gap_px": 57,
+        "used_height_px": 1111,
+        "available_height_px": 1114
+      },
+      "selection_note": "6 pairs chosen by layout analysis: average 30.5px, 0 wrapped card(s), 57px gap.",
       "pairs": [
         {
           "position": 1,
@@ -562,19 +596,9 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
-        }
-      ]
-    },
-    {
-      "id": "sentence_0008",
-      "source_id": "sentence_0008",
-      "mode": "sentence",
-      "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
-      "pairs": [
+        },
         {
-          "position": 1,
+          "position": 5,
           "entry_id": "sentence_entry_0029",
           "english": "Do you think it will rain in the afternoon?",
           "kinyarwanda": "Mutekereza ko imvura izagwa nyuma ya saa sita?",
@@ -591,7 +615,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 2,
+          "position": 6,
           "entry_id": "sentence_entry_0030",
           "english": "Have you decided whether to sell your house or not?",
           "kinyarwanda": "Wigeze uhitamo niba uzagurisha inzu yawe cyangwa utayigurisha?",
@@ -606,9 +630,29 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; native review recommended."
-        },
+        }
+      ]
+    },
+    {
+      "id": "sentence_0006",
+      "source_id": "sentence_0006",
+      "mode": "sentence",
+      "complete": true,
+      "pair_count": 6,
+      "line_count": 12,
+      "layout": {
+        "average_font_px": 33.7,
+        "min_font_px": 28,
+        "max_font_px": 44,
+        "wrapped_cards": 0,
+        "gap_px": 52,
+        "used_height_px": 1110,
+        "available_height_px": 1114
+      },
+      "selection_note": "6 pairs chosen by layout analysis: average 33.7px, 0 wrapped card(s), 52px gap.",
+      "pairs": [
         {
-          "position": 3,
+          "position": 1,
           "entry_id": "sentence_entry_0031",
           "english": "There may have been a road accident.",
           "kinyarwanda": "Birashoboka ko habaye impanuka yo mu muhanda.",
@@ -625,7 +669,7 @@
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
         },
         {
-          "position": 4,
+          "position": 2,
           "entry_id": "sentence_entry_0032",
           "english": "There was a train accident early in the morning.",
           "kinyarwanda": "Habaye impanuka ya gari ya moshi kare mu gitondo.",
@@ -640,19 +684,9 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
-        }
-      ]
-    },
-    {
-      "id": "sentence_0009",
-      "source_id": "sentence_0009",
-      "mode": "sentence",
-      "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
-      "pairs": [
+        },
         {
-          "position": 1,
+          "position": 3,
           "entry_id": "sentence_entry_0033",
           "english": "There is a lot of rain all year round.",
           "kinyarwanda": "Umwaka wose hari imvura nyinshi.",
@@ -669,7 +703,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 2,
+          "position": 4,
           "entry_id": "sentence_entry_0034",
           "english": "The hotel I am in does not have parking.",
           "kinyarwanda": "Hoteri ndimo ntabwo ifite parikingi.",
@@ -686,7 +720,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 3,
+          "position": 5,
           "entry_id": "sentence_entry_0035",
           "english": "I have to take photos for my school project.",
           "kinyarwanda": "Ngomba gufata amafoto ku mushinga wanjye w'ishuri.",
@@ -703,7 +737,7 @@
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
         },
         {
-          "position": 4,
+          "position": 6,
           "entry_id": "sentence_entry_0036",
           "english": "Is there a reason why I should obey him?",
           "kinyarwanda": "Hari impamvu ituma ngomba kumwumvira?",
@@ -722,12 +756,22 @@
       ]
     },
     {
-      "id": "sentence_0010",
-      "source_id": "sentence_0010",
+      "id": "sentence_0007",
+      "source_id": "sentence_0007",
       "mode": "sentence",
       "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
+      "pair_count": 6,
+      "line_count": 12,
+      "layout": {
+        "average_font_px": 36.2,
+        "min_font_px": 29,
+        "max_font_px": 40,
+        "wrapped_cards": 0,
+        "gap_px": 47,
+        "used_height_px": 1113,
+        "available_height_px": 1114
+      },
+      "selection_note": "6 pairs chosen by layout analysis: average 36.2px, 0 wrapped card(s), 47px gap.",
       "pairs": [
         {
           "position": 1,
@@ -796,19 +840,9 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; native review recommended."
-        }
-      ]
-    },
-    {
-      "id": "sentence_0011",
-      "source_id": "sentence_0011",
-      "mode": "sentence",
-      "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
-      "pairs": [
+        },
         {
-          "position": 1,
+          "position": 5,
           "entry_id": "sentence_entry_0041",
           "english": "He drank a cup of tea and asked for more.",
           "kinyarwanda": "Yanyweye igikombe cy'icyayi hanyuma asaba ikindi.",
@@ -825,7 +859,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 2,
+          "position": 6,
           "entry_id": "sentence_entry_0042",
           "english": "The employee himself would not do so.",
           "kinyarwanda": "Umukozi nawe ubwe ntabwo yabikora.",
@@ -840,9 +874,29 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; native review recommended."
-        },
+        }
+      ]
+    },
+    {
+      "id": "sentence_0008",
+      "source_id": "sentence_0008",
+      "mode": "sentence",
+      "complete": true,
+      "pair_count": 6,
+      "line_count": 12,
+      "layout": {
+        "average_font_px": 32.2,
+        "min_font_px": 25,
+        "max_font_px": 40,
+        "wrapped_cards": 0,
+        "gap_px": 54,
+        "used_height_px": 1112,
+        "available_height_px": 1114
+      },
+      "selection_note": "6 pairs chosen by layout analysis: average 32.2px, 0 wrapped card(s), 54px gap.",
+      "pairs": [
         {
-          "position": 3,
+          "position": 1,
           "entry_id": "sentence_entry_0043",
           "english": "The working man must be paid according to his skill.",
           "kinyarwanda": "Umugabo ukora agomba guhembwa akurikije ubuhanga bwe.",
@@ -859,7 +913,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 4,
+          "position": 2,
           "entry_id": "sentence_entry_0044",
           "english": "There was a lot of fear after the earthquake.",
           "kinyarwanda": "Nyuma y'umutingito habaye ubwoba bwinshi.",
@@ -874,19 +928,9 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; native review recommended."
-        }
-      ]
-    },
-    {
-      "id": "sentence_0012",
-      "source_id": "sentence_0012",
-      "mode": "sentence",
-      "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
-      "pairs": [
+        },
         {
-          "position": 1,
+          "position": 3,
           "entry_id": "sentence_entry_0045",
           "english": "I wrote an article for a school magazine.",
           "kinyarwanda": "Nanditse ingingo y'ikinyamakuru cy'ishuri.",
@@ -903,7 +947,7 @@
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
         },
         {
-          "position": 2,
+          "position": 4,
           "entry_id": "sentence_entry_0046",
           "english": "Using the ability to think helps.",
           "kinyarwanda": "Gukoresha ubushobozi bwo gutekereza birafasha.",
@@ -920,7 +964,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 3,
+          "position": 5,
           "entry_id": "sentence_entry_0047",
           "english": "From the tenth minute I had a chance to win.",
           "kinyarwanda": "Kuva ku munota wa cumi narimfite amahirwe yo gutsinda.",
@@ -937,7 +981,7 @@
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
         },
         {
-          "position": 4,
+          "position": 6,
           "entry_id": "sentence_entry_0048",
           "english": "The concert was packed with people.",
           "kinyarwanda": "Igitaramo cyari kirimo abantu benshi.",
@@ -956,12 +1000,22 @@
       ]
     },
     {
-      "id": "sentence_0013",
-      "source_id": "sentence_0013",
+      "id": "sentence_0009",
+      "source_id": "sentence_0009",
       "mode": "sentence",
       "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
+      "pair_count": 6,
+      "line_count": 12,
+      "layout": {
+        "average_font_px": 33.2,
+        "min_font_px": 25,
+        "max_font_px": 46,
+        "wrapped_cards": 0,
+        "gap_px": 51,
+        "used_height_px": 1113,
+        "available_height_px": 1114
+      },
+      "selection_note": "6 pairs chosen by layout analysis: average 33.2px, 0 wrapped card(s), 51px gap.",
       "pairs": [
         {
           "position": 1,
@@ -1030,19 +1084,9 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
-        }
-      ]
-    },
-    {
-      "id": "sentence_0014",
-      "source_id": "sentence_0014",
-      "mode": "sentence",
-      "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
-      "pairs": [
+        },
         {
-          "position": 1,
+          "position": 5,
           "entry_id": "sentence_entry_0053",
           "english": "It will take time to finish unloading this truck.",
           "kinyarwanda": "Bizatwara igihe cyo kurangiza gupakurura iyi kamyo.",
@@ -1059,7 +1103,7 @@
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
         },
         {
-          "position": 2,
+          "position": 6,
           "entry_id": "sentence_entry_0054",
           "english": "There must be a way to achieve diplomatic solutions.",
           "kinyarwanda": "Hagomba kubaho inzira yo kugera ku bisubizo bya diplomasi.",
@@ -1074,9 +1118,29 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
-        },
+        }
+      ]
+    },
+    {
+      "id": "sentence_0010",
+      "source_id": "sentence_0010",
+      "mode": "sentence",
+      "complete": true,
+      "pair_count": 6,
+      "line_count": 12,
+      "layout": {
+        "average_font_px": 35.8,
+        "min_font_px": 25,
+        "max_font_px": 46,
+        "wrapped_cards": 0,
+        "gap_px": 46,
+        "used_height_px": 1112,
+        "available_height_px": 1114
+      },
+      "selection_note": "6 pairs chosen by layout analysis: average 35.8px, 0 wrapped card(s), 46px gap.",
+      "pairs": [
         {
-          "position": 3,
+          "position": 1,
           "entry_id": "sentence_entry_0055",
           "english": "He is not accustomed to urban life.",
           "kinyarwanda": "Ntabwo aramenyera ubuzima bw'umujyi.",
@@ -1093,7 +1157,7 @@
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
         },
         {
-          "position": 4,
+          "position": 2,
           "entry_id": "sentence_entry_0056",
           "english": "Mom loves tulips and so does my sister.",
           "kinyarwanda": "Mama akunda tulipa cyane na mushiki wanjye.",
@@ -1108,19 +1172,9 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; native review recommended."
-        }
-      ]
-    },
-    {
-      "id": "sentence_0015",
-      "source_id": "sentence_0015",
-      "mode": "sentence",
-      "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
-      "pairs": [
+        },
         {
-          "position": 1,
+          "position": 3,
           "entry_id": "sentence_entry_0057",
           "english": "Instead they are motivated to fulfill their responsibilities.",
           "kinyarwanda": "Ahubwo bagashishikazwa no gusohoza inshingano zabo.",
@@ -1137,7 +1191,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 2,
+          "position": 4,
           "entry_id": "sentence_entry_0058",
           "english": "He grew up to be a good man.",
           "kinyarwanda": "Yarakuze aba umugabo mwiza.",
@@ -1154,7 +1208,7 @@
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
         },
         {
-          "position": 3,
+          "position": 5,
           "entry_id": "sentence_entry_0059",
           "english": "There is a market building near my house.",
           "kinyarwanda": "Hano hari isoko hafi y'inzu yanjye.",
@@ -1171,7 +1225,7 @@
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
         },
         {
-          "position": 4,
+          "position": 6,
           "entry_id": "sentence_entry_0060",
           "english": "This is a photo of my wife on the sand.",
           "kinyarwanda": "Iyi ni ifoto y'umugore wanjye ku musenyi.",
@@ -1190,12 +1244,22 @@
       ]
     },
     {
-      "id": "sentence_0016",
-      "source_id": "sentence_0016",
+      "id": "sentence_0011",
+      "source_id": "sentence_0011",
       "mode": "sentence",
       "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
+      "pair_count": 6,
+      "line_count": 12,
+      "layout": {
+        "average_font_px": 28,
+        "min_font_px": 24,
+        "max_font_px": 38,
+        "wrapped_cards": 2,
+        "gap_px": 53,
+        "used_height_px": 1113,
+        "available_height_px": 1114
+      },
+      "selection_note": "6 pairs chosen by layout analysis: average 28.0px, 2 wrapped card(s), 53px gap.",
       "pairs": [
         {
           "position": 1,
@@ -1264,19 +1328,9 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
-        }
-      ]
-    },
-    {
-      "id": "sentence_0017",
-      "source_id": "sentence_0017",
-      "mode": "sentence",
-      "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
-      "pairs": [
+        },
         {
-          "position": 1,
+          "position": 5,
           "entry_id": "sentence_entry_0065",
           "english": "There are a lot of people on both sides of the road.",
           "kinyarwanda": "Ku mpande zombi z'umuhanda hari abantu benshi.",
@@ -1293,7 +1347,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 2,
+          "position": 6,
           "entry_id": "sentence_entry_0066",
           "english": "You should not be afraid to make mistakes while learning a language.",
           "kinyarwanda": "Ntugomba gutinya gukora amakosa mu gihe wiga ururimi.",
@@ -1308,9 +1362,29 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
-        },
+        }
+      ]
+    },
+    {
+      "id": "sentence_0012",
+      "source_id": "sentence_0012",
+      "mode": "sentence",
+      "complete": true,
+      "pair_count": 6,
+      "line_count": 12,
+      "layout": {
+        "average_font_px": 27,
+        "min_font_px": 24,
+        "max_font_px": 32,
+        "wrapped_cards": 2,
+        "gap_px": 55,
+        "used_height_px": 1113,
+        "available_height_px": 1114
+      },
+      "selection_note": "6 pairs chosen by layout analysis: average 27.0px, 2 wrapped card(s), 55px gap.",
+      "pairs": [
         {
-          "position": 3,
+          "position": 1,
           "entry_id": "sentence_entry_0067",
           "english": "There was so much noise that the speaker could not hear.",
           "kinyarwanda": "Hariho urusaku rwinshi ku buryo uwatanze disikuru atashoboraga kumva.",
@@ -1327,7 +1401,7 @@
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
         },
         {
-          "position": 4,
+          "position": 2,
           "entry_id": "sentence_entry_0068",
           "english": "The game would not be suspended if it did not rain heavily.",
           "kinyarwanda": "Umukino ntiwari guhagarikwa iyo imvura itagwa cyane.",
@@ -1342,19 +1416,9 @@
             "Aligned English/Kinyarwanda corpus"
           ],
           "notes": "Corpus-aligned; native review recommended."
-        }
-      ]
-    },
-    {
-      "id": "sentence_0018",
-      "source_id": "sentence_0018",
-      "mode": "sentence",
-      "complete": true,
-      "pair_count": 4,
-      "line_count": 8,
-      "pairs": [
+        },
         {
-          "position": 1,
+          "position": 3,
           "entry_id": "sentence_entry_0069",
           "english": "You should not be discouraged because you are not an expert.",
           "kinyarwanda": "Ntugomba gucika intege kuko utari umuhanga.",
@@ -1371,7 +1435,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 2,
+          "position": 4,
           "entry_id": "sentence_entry_0070",
           "english": "The midterm exam will start next week.",
           "kinyarwanda": "Ikizamini cyo hagati kizatangira icyumweru gitaha.",
@@ -1388,7 +1452,7 @@
           "notes": "Corpus-aligned; native review recommended."
         },
         {
-          "position": 3,
+          "position": 5,
           "entry_id": "sentence_entry_0071",
           "english": "Some people do not like to get up early in the morning.",
           "kinyarwanda": "Abantu bamwe ntibakunda kubyuka kare mu gitondo.",
@@ -1405,7 +1469,7 @@
           "notes": "Corpus-aligned; orthography normalized; native review recommended."
         },
         {
-          "position": 4,
+          "position": 6,
           "entry_id": "sentence_entry_0072",
           "english": "Inside the refrigerator is a bottle of white wine.",
           "kinyarwanda": "Muri firigo harimo icupa rya vino yera.",

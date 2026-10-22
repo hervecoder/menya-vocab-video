@@ -20,9 +20,11 @@ word spaces such as ``yubukwe -> y'ubukwe`` and ``mugihe -> mu gihe``; it does
 not change the translation.  The source pair still carries
 ``verification: "corpus"`` so the build cannot claim native review.
 
-A sentence video is always exactly 4 pairs = 8 text lines: English sentence,
-then its Kinyarwanda translation, repeated four times.  A remainder is dropped
-rather than published as a partial video.
+A sentence video contains 5 or 6 pairs (10-12 text lines): English sentence,
+then its Kinyarwanda translation.  The split is chosen by a layout planner,
+not a fixed pair count: six cards are preferred when they still keep readable
+type and breathing room; otherwise the planner uses five.  A remainder is
+dropped rather than published as a partial video.
 
 Usage:
 
@@ -46,6 +48,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_full_database as base  # noqa: E402
+from sentence_planner import plan_sentence_groups, summary as plan_summary  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 CORPUS = ROOT / "data" / "sources" / "en_rw_corpus.tsv"
@@ -54,8 +57,8 @@ FREQUENCY = ROOT / "data" / "sources" / "en_frequency_50k.txt"
 OUTPUT = ROOT / "data" / "vocabulary_sentences.json"
 REVIEW = ROOT / "data" / "vocabulary_sentences_review.md"
 
-PAIRS_PER_VIDEO = 4
-LINES_PER_VIDEO = 8
+MIN_PAIRS_PER_VIDEO = 5
+MAX_PAIRS_PER_VIDEO = 6
 MIN_EN_WORDS = 5
 MAX_EN_WORDS = 12
 MIN_RW_WORDS = 4
@@ -438,13 +441,29 @@ def write_review(videos: list[dict[str, Any]], stats: Counter) -> None:
         f"Generated: {now_iso()}",
         "",
         "Source: `data/sources/en_rw_corpus.tsv` (14,411 aligned pairs).",
-        "Policy: 4 sentence pairs per video, 8 text lines; English first, "
-        "Kinyarwanda second.",
+        "Policy: 5 or 6 sentence pairs per video (10-12 text lines), chosen by "
+        "layout analysis; English first, Kinyarwanda second.",
         "",
         f"These {pair_total} pairs passed the hard alignment/length/grammar filters and a "
         "manual scan. Orthographic fixes only add missing apostrophes/spaces; "
         "the translation itself is still corpus-sourced. They are **not** "
         "native-reviewed yet, so the source tier is `corpus`, not `native`.",
+        "",
+        "## Video layout decisions",
+        "",
+        "| Video | Pairs | Text lines | Avg font | Min font | Wrapped cards | Gap | Used / available |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|",
+    ]
+    for video in videos:
+        layout = video["layout"]
+        lines.append(
+            f"| `{video['id']}` | {video['pair_count']} | "
+            f"{video['line_count']} | {layout['average_font_px']} px | "
+            f"{layout['min_font_px']} px | {layout['wrapped_cards']} | "
+            f"{layout['gap_px']} px | {layout['used_height_px']} / "
+            f"{layout['available_height_px']} px |"
+        )
+    lines += [
         "",
         "| # | Video | English sentence | Kinyarwanda translation | Alignment | Notes |",
         "|---:|---|---|---|---:|---|",
@@ -524,19 +543,33 @@ def main() -> None:
             }
         )
 
-    usable = len(selected) - (len(selected) % PAIRS_PER_VIDEO)
-    if usable != len(selected):
-        print(
-            f"dropping {len(selected) - usable} lowest-priority pair(s) so every "
-            "video is a complete 4-pair job"
+    selected_pairs = [
+        (item["english"], item["kinyarwanda"]) for item in selected
+    ]
+    groups = None
+    for usable in range(len(selected), MIN_PAIRS_PER_VIDEO - 1, -1):
+        try:
+            groups = plan_sentence_groups(selected_pairs[:usable])
+        except ValueError:
+            continue
+        if usable != len(selected):
+            print(
+                f"dropping {len(selected) - usable} lowest-priority pair(s) so "
+                "every video is a complete layout-checked job"
+            )
+            selected = selected[:usable]
+        break
+    if groups is None:
+        raise SystemExit(
+            "Could not split the curated sentences into complete "
+            f"{MIN_PAIRS_PER_VIDEO}- or {MAX_PAIRS_PER_VIDEO}-pair videos."
         )
-    selected = selected[:usable]
 
     videos: list[dict[str, Any]] = []
     number = 0
-    for video_number in range(0, len(selected), PAIRS_PER_VIDEO):
-        batch = selected[video_number : video_number + PAIRS_PER_VIDEO]
-        video_id = f"sentence_{len(videos) + 1:04d}"
+    for video_number, group in enumerate(groups, start=1):
+        batch = selected[group.start : group.end]
+        video_id = f"sentence_{video_number:04d}"
         pairs = []
         for position, item in enumerate(batch, start=1):
             number += 1
@@ -571,16 +604,33 @@ def main() -> None:
                 "source_id": video_id,
                 "mode": "sentence",
                 "complete": True,
-                "pair_count": PAIRS_PER_VIDEO,
-                "line_count": LINES_PER_VIDEO,
+                "pair_count": group.pair_count,
+                "line_count": group.line_count,
+                "layout": {
+                    "average_font_px": round(group.avg_font, 1),
+                    "min_font_px": group.min_font,
+                    "max_font_px": group.max_font,
+                    "wrapped_cards": group.wrapped_cards,
+                    "gap_px": group.gap,
+                    "used_height_px": group.used_height,
+                    "available_height_px": group.available_height,
+                },
+                "selection_note": (
+                    f"{group.pair_count} pairs chosen by layout analysis: "
+                    f"average {group.avg_font:.1f}px, "
+                    f"{group.wrapped_cards} wrapped card(s), "
+                    f"{group.gap}px gap."
+                ),
                 "pairs": pairs,
             }
         )
 
     if len(videos) < 1:
         raise SystemExit("No sentence videos were produced.")
-    if number % PAIRS_PER_VIDEO:
+    if number != len(selected):
         raise SystemExit("Internal error: a partial sentence video was produced.")
+    if sum(group.pair_count for group in groups) != len(selected):
+        raise SystemExit("Internal error: the sentence plan left pairs uncovered.")
 
     payload = {
         "meta": {
@@ -590,8 +640,11 @@ def main() -> None:
             "total_pairs": number,
             "total_entries": number,
             "total_videos": len(videos),
-            "pairs_per_video": PAIRS_PER_VIDEO,
-            "lines_per_video": LINES_PER_VIDEO,
+            "min_pairs_per_video": MIN_PAIRS_PER_VIDEO,
+            "max_pairs_per_video": MAX_PAIRS_PER_VIDEO,
+            "pair_counts": dict(
+                Counter(video["pair_count"] for video in videos)
+            ),
             "verification_tier": "corpus",
             "native_review_required": True,
             "filter_policy": (
@@ -600,10 +653,14 @@ def main() -> None:
                 f"alignment >= {MIN_ALIGNMENT:.2f}; no names/religious terms; "
                 "orthography normalized; curated"
             ),
+            "layout_policy": (
+                "5-6 pairs per video, chosen by measuring the rendered card "
+                "stack; six pairs only when type stays readable"
+            ),
             "orthography_fixes": len(TEXT_FIXES),
             "notes": [
                 "English first, Kinyarwanda second on every card.",
-                "4 pairs = 8 text lines per video.",
+                "5-6 pairs = 10-12 text lines per video, chosen by layout.",
                 "Corpus-sourced, not individually native-reviewed.",
             ],
         },
@@ -617,8 +674,8 @@ def main() -> None:
     write_review(videos, stats)
 
     print(
-        f"wrote {OUTPUT.relative_to(ROOT)}: {number} pairs, {len(videos)} videos, "
-        f"{LINES_PER_VIDEO} lines per video"
+        f"wrote {OUTPUT.relative_to(ROOT)}: {number} pairs, {len(videos)} videos "
+        f"({plan_summary(groups)}), 10-12 lines per video"
     )
     print(f"wrote {REVIEW.relative_to(ROOT)}")
     print(

@@ -5,7 +5,8 @@ Generates a 1080x1920 (9:16) Facebook/Reels-ready video that looks like the
 
 - the app's phone mockup as the full-frame background
 - **word mode:** 7 English words with their Kinyarwanda translations
-- **sentence mode:** 4 English/Kinyarwanda sentence pairs (8 text lines)
+- **sentence mode:** 5 or 6 English/Kinyarwanda sentence pairs (10-12 text
+  lines), chosen from the rendered card heights
 - the app's chunky white cards, green number badges and dotted leaders
 - an edge-to-edge yellow promo banner: *Iyi app yitwa* **"Menya Icyongereza
   App"** *wayisanga kuri Play Store yigisha icyongereza* (the app name is
@@ -15,10 +16,12 @@ Generates a 1080x1920 (9:16) Facebook/Reels-ready video that looks like the
 |---|---|
 | ![word preview](preview/word_01.png) | ![sentence preview](preview/sentence_0001.png) |
 
-The sentence track is a separate **18-video rotation**. Every sentence video is
-exactly 4 pairs = 8 text lines: English sentence first, Kinyarwanda translation
-second. The pairs are selected from the cached aligned corpus and carry the
-`corpus` source tier, not a claim of native review.
+The sentence track is a separate **12-video rotation**. Every sentence video
+contains 5 or 6 pairs (10-12 text lines): English sentence first, Kinyarwanda
+translation second. The pair count is chosen by the layout planner rather than
+fixed: six cards are used when they still keep readable type and breathing
+room; otherwise the video uses five. The pairs are selected from the cached
+aligned corpus and carry the `corpus` source tier, not a claim of native review.
 
 Output: `output/<content_id>.mp4` — H.264, yuv420p, 30 fps, AAC stereo
 audio, `+faststart`. One of the four tracks in `assets/song/` is picked at
@@ -27,7 +30,7 @@ random per run (same behaviour as the perime.rw videos). Local samples:
 [`output/sentence_01.mp4`](output/sentence_01.mp4) layout sample.
 
 The current data set has two separate rotations — the untouched **1,098-video
-word rotation** and the **18-video sentence rotation**:
+word rotation** and the **12-video sentence rotation**:
 
 - `data/vocabulary_all_videos.json` — 1,098 complete word videos
   (10 verified pilot videos + 1,088 generated videos)
@@ -40,14 +43,14 @@ word rotation** and the **18-video sentence rotation**:
 - `data/rotation_manifest.json` — ordered `content_0001`…`content_1098` word
   jobs and the chunk map
 - `data/rotation_state.json` — remembers the next word content and the cycle
-- `data/vocabulary_sentences.json` - 72 curated sentence pairs → 18 sentence
-  videos (4 pairs / 8 lines each)
+- `data/vocabulary_sentences.json` - 72 curated sentence pairs → 12 sentence
+  videos (layout-chosen 5 or 6 pairs / 10-12 lines each)
 - `data/vocabulary_sentences_review.md` — sentence review table with alignment
-  notes
+  notes and the planner's per-video layout decisions
 - `data/sentence_chunks/sentence_chunk_01.json` — one sentence-rotation chunk
   (72 pairs)
 - `data/sentence_rotation_manifest.json` — ordered `sentence_0001` …
-  `sentence_0018` sentence jobs
+  `sentence_0012` sentence jobs
 - `data/sentence_rotation_state.json` — remembers the next sentence video
 - `data/vocabulary_pilot*.json` — the original 100-entry pilot, kept as the
   source of the 10 verified opening videos and the old sentence layout samples
@@ -71,9 +74,10 @@ Each pair is marked `verification: "corpus"` in the source and promoted with
 `--trust-corpus`; the manifest keeps `verification_tier: "corpus"` so the
 provenance is visible. The pairs passed alignment, length, grammar, duplicate
 and name/religious-term filters, and a manual scan, followed by orthographic
-cleanup of missing apostrophes/spaces. They are **not** claimed as
-native-verified. The 25 older `native_review_required` sentence pairs and the 6
-old sentence layout samples remain outside both rotations.
+cleanup of missing apostrophes/spaces. The sentence planner then groups them
+into 5- or 6-pair videos from the measured card heights. They are **not**
+claimed as native-verified. The 25 older `native_review_required` sentence
+pairs and the 6 old sentence layout samples remain outside both rotations.
 
 ## Rotation (two separate tracks, one video per run)
 
@@ -86,8 +90,9 @@ latest run it points to `content_0005`.
 
 The sentence track is independent:
 
-`sentence_0001` → `sentence_0002` → … → `sentence_0018` → `sentence_0001`
-again. Every job is exactly 4 pairs = 8 text lines, never mixed with words. Its
+`sentence_0001` → `sentence_0002` → … → `sentence_0012` → `sentence_0001`
+again. Every job contains 5 or 6 pairs (10-12 text lines), never mixed with
+words. The count is decided by the layout planner, not by a fixed rule. Its
 state lives in `data/sentence_rotation_state.json`.
 
 Both tracks use the same state machine. State is committed only after the video
@@ -125,7 +130,7 @@ python scripts/rotation.py advance `
 Choose one of the two pre-filled workflows:
 
 1. **Menya Vocab Video** — word track (`content_0001`…`content_1098`).
-2. **Menya Vocab Sentences** — sentence track (`sentence_0001`…`sentence_0018`).
+2. **Menya Vocab Sentences** — sentence track (`sentence_0001`…`sentence_0012`).
 
 For either one: open the **Actions** tab, select the workflow, leave every
 field as-is, and press **Run workflow**. The run renders the next video,
@@ -187,7 +192,8 @@ also rejects any repeated word/sentence anywhere in the database.
 ### Sentence track
 
 The sentence track is built separately so it cannot change the word manifest or
-state. It has **one** chunk with 72 pairs and 18 complete 4-pair videos:
+state. It has **one** chunk with 72 pairs and 12 complete videos, each with 5 or
+6 pairs chosen by the layout planner:
 
 ```powershell
 python scripts/build_sentence_database.py
@@ -198,10 +204,10 @@ python scripts/build_chunks.py `
   --manifest data/sentence_rotation_manifest.json `
   --state data/sentence_rotation_state.json `
   --chunk-size 2000 `
-  --allow-shared-entries `
   --trust-corpus `
   --id-prefix sentence_ `
-  --chunk-prefix sentence_chunk_
+  --chunk-prefix sentence_chunk_ `
+  --start-content sentence_0002
 ```
 
 `--trust-corpus` promotes the source pairs from `verification: "corpus"` to the
@@ -209,7 +215,8 @@ publishing gate for this build; `verification_tier` stays `"corpus"` so the
 workflow summary and review table never pretend the sentences were native
 reviewed. `--id-prefix sentence_` keeps ids and output filenames separate from
 the word rotation. The sentence builder refuses a partial final video: a
-remainder is dropped rather than published with fewer than 4 pairs.
+remainder that cannot make a complete 5- or 6-pair video is dropped rather than
+published.
 
 Each job looks like this:
 
@@ -232,14 +239,14 @@ Each job looks like this:
 ```
 
 - Word jobs: `mode: "word"`, 7 pairs. The word track never contains sentences.
-- Sentence jobs: `mode: "sentence"`, 4 pairs = 8 text lines (English first,
-  Kinyarwanda second). The sentence track never contains word-only jobs.
+- Sentence jobs: `mode: "sentence"`, 5 or 6 pairs (10-12 text lines; English
+  first, Kinyarwanda second). The sentence track never contains word-only jobs.
 - A final partial job is allowed only when a database does not divide evenly;
   it is labelled with its real pair count and its cards are centred. The
   sentence track deliberately drops a remainder instead, so every published
-  sentence video is exactly 4 pairs.
+  sentence video contains a complete 5- or 6-pair plan.
 - Directions are always English → Kinyarwanda.
-- `generate.py` accepts 1–7 word pairs or 1–4 sentence pairs for manual
+- `generate.py` accepts 1–7 word pairs or 1–6 sentence pairs for manual
   previews; the rotations themselves only contain complete jobs.
 
 ## Rebuild the database from the cached sources
@@ -277,12 +284,12 @@ cached corpus:
 python scripts/build_sentence_database.py
 ```
 
-It selects the 72 curated pairs, applies the orthographic cleanup table, writes
-`data/vocabulary_sentences.json` and `data/vocabulary_sentences_review.md`, and
-refuses to write a partial final video. Then run the sentence chunk command from
-the previous section. Rebuilding the sentence source does **not** touch
-`data/vocabulary_all_videos.json`, the word chunks, the word manifest, or the
-word state.
+It selects the 72 curated pairs, applies the orthographic cleanup table, runs
+the layout planner, writes `data/vocabulary_sentences.json` and
+`data/vocabulary_sentences_review.md`, and refuses to write a partial final
+video. Then run the sentence chunk command from the previous section. Rebuilding
+the sentence source does **not** touch `data/vocabulary_all_videos.json`, the
+word chunks, the word manifest, or the word state.
 
 ## Run locally
 
@@ -304,7 +311,7 @@ python scripts/rotation.py advance --pending data/.rotation_pending.json
 ```
 
 You can still render one of the old pilot batches directly. Its sentence batch
-is a layout sample only; the live sentence rotation is the separate 18-video
+is a layout sample only; the live sentence rotation is the separate 12-video
 track built from `data/vocabulary_sentences.json`.
 
 ```powershell
@@ -333,7 +340,7 @@ Custom content without the batch JSON still works:
 # word mode, up to 7 pairs
 python generate.py --pairs "Book=Igitabo; Water=Amazi"
 
-# sentence mode, up to 4 pairs
+# sentence mode, up to 6 pairs
 python generate.py --mode sentence --pairs "Where does it hurt?=Uri kubabara he?; He cooks food.=Ateka ibiryo; I drink tea.=Nnywa icyayi; Good morning.=Mwaramutse"
 ```
 
@@ -357,8 +364,13 @@ promo banner runs edge-to-edge and sits on the tab bar divider.
 
 ### Sentence mode
 
-- Section label: `INTERURO 4 Z'ICYONGEREZA`, uppercase, tracked, muted.
-- 4 cards, one per pair. English is always above Kinyarwanda.
+- Section label: `INTERURO 6 Z'ICYONGEREZA` when six pairs are chosen, or
+  `INTERURO 5 Z'ICYONGEREZA` when five are; uppercase, tracked, muted.
+- 5 or 6 cards, one per pair. English is always above Kinyarwanda.
+- The count is not fixed in advance. `scripts/sentence_planner.py` measures
+  every candidate 5- and 6-pair group with the renderer's own layout code, then
+  picks a complete partition. Six is preferred when it fits with readable type;
+  five is used when six would be cramped.
 - English is Poppins ExtraBold dark; Kinyarwanda is Poppins Bold green.
 - Each card chooses its own font size, starting at 46 px. It shrinks toward a
   readable minimum of 24 px English / 22 px Kinyarwanda to keep the line whole.
@@ -368,7 +380,7 @@ promo banner runs edge-to-edge and sits on the tab bar divider.
   vertical padding, so short cards stay compact. The leftover vertical space is
   used between cards, never as extra empty space inside a card.
 - Number badges, borders and shadows match the word cards.
-- Manual sentence batches with fewer than 4 pairs are centred vertically; the
+- Manual sentence batches with fewer than 5 pairs are centred vertically; the
   live sentence rotation never contains a partial job.
 
 ### Promo banner
@@ -398,11 +410,12 @@ promo banner runs edge-to-edge and sits on the tab bar divider.
 generate.py                     renderer + ffmpeg encoder
 scripts/build_full_database.py  builds the 1,098-video word database from cached sources
 scripts/build_sentence_database.py  builds the 72-pair sentence database from the corpus
+scripts/sentence_planner.py     chooses 5 or 6 pairs per sentence video from rendered layout
 scripts/build_chunks.py         splits videos into chunk files + manifest/state
 scripts/rotation.py             next/advance/select/status/reset state machine
 data/vocabulary_all_videos.json 1,098-video word database (10 pilot + 1,088 generated)
 data/vocabulary_all_review.md   word-pool and one-line-per-video review tables
-data/vocabulary_sentences.json  72 curated sentence pairs -> 18 videos
+data/vocabulary_sentences.json  72 curated sentence pairs -> 12 videos (5-6 pairs each)
 data/vocabulary_sentences_review.md  sentence review table
 data/sources/                   frequency list, dictionary cache, corpus, provenance
 data/chunks/*.json              four word-rotation chunks (complete videos only)

@@ -2,10 +2,11 @@ name: Menya Vocab Sentences
 
 # Manual only. This is a separate rotation from the 1,098-word track, so the
 # word manifest and state are never touched. Leave every field as-is and press
-# "Run workflow". Each run renders one sentence video with exactly 4 pairs =
-# 8 text lines (English sentence, then Kinyarwanda translation), then advances
-# data/sentence_rotation_state.json. After sentence_0018 it wraps to
-# sentence_0001. Use content_id only to replay a specific video.
+# "Run workflow". Each run renders one sentence video with 5 or 6 pairs
+# (10-12 text lines: English sentence, then Kinyarwanda translation), chosen
+# by the layout planner, then advances data/sentence_rotation_state.json. After
+# sentence_0012 it wraps to sentence_0001. Use content_id only to replay a
+# specific video.
 on:
   workflow_dispatch:
     inputs:
@@ -52,32 +53,54 @@ jobs:
           import json
           from pathlib import Path
 
-          EXPECTED_VIDEOS = 18
           EXPECTED_CHUNKS = 1
-          EXPECTED_PAIRS = 4
-          EXPECTED_LINES = 8
+          EXPECTED_PAIRS = 72
+          MIN_PAIRS = 5
+          MAX_PAIRS = 6
 
           manifest_path = Path("data/sentence_rotation_manifest.json")
           manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
           jobs = manifest.get("jobs") or []
           chunks = manifest.get("chunks") or []
+          meta = manifest.get("meta", {})
 
-          if len(jobs) != EXPECTED_VIDEOS:
+          source_path = Path("data/vocabulary_sentences.json")
+          source = json.loads(source_path.read_text(encoding="utf-8"))
+          source_videos = source.get("videos") or []
+          source_meta = source.get("meta", {})
+          expected_videos = int(source_meta.get("total_videos", len(source_videos)))
+
+          if expected_videos != len(source_videos):
+              raise SystemExit(
+                  "sentence source total_videos does not match its video list"
+              )
+          if len(jobs) != expected_videos:
               raise SystemExit(
                   f"sentence database has {len(jobs)} jobs; "
-                  f"expected {EXPECTED_VIDEOS}"
+                  f"expected {expected_videos}"
               )
           if len(chunks) != EXPECTED_CHUNKS:
               raise SystemExit(
                   f"sentence database has {len(chunks)} chunks; "
                   f"expected {EXPECTED_CHUNKS}"
               )
-          if manifest.get("meta", {}).get("unique_videos") != EXPECTED_VIDEOS:
+          if meta.get("total_jobs") != expected_videos:
+              raise SystemExit("sentence manifest total_jobs is inconsistent")
+          if meta.get("unique_videos") != expected_videos:
               raise SystemExit(
-                  "sentence manifest does not report 18 unique videos"
+                  f"sentence manifest does not report {expected_videos} unique videos"
               )
-          if manifest.get("meta", {}).get("sentence_entries") != 72:
-              raise SystemExit("sentence manifest does not report 72 pairs")
+          if meta.get("sentence_entries") != EXPECTED_PAIRS:
+              raise SystemExit(
+                  f"sentence manifest does not report {EXPECTED_PAIRS} pairs"
+              )
+
+          source_ids = [str(video.get("id")) for video in source_videos]
+          manifest_ids = [str(job.get("id")) for job in jobs]
+          if source_ids != manifest_ids:
+              raise SystemExit(
+                  "sentence manifest ids do not match the source video order"
+              )
 
           chunk_cache = {}
           seen_videos = set()
@@ -100,20 +123,27 @@ jobs:
               if job.get("mode") != "sentence":
                   raise SystemExit(f"{entry.get('id')} is not a sentence video")
               pairs = job.get("pairs") or []
-              if len(pairs) != EXPECTED_PAIRS:
+              pair_count = int(job.get("pair_count", len(pairs)))
+              if pair_count not in {MIN_PAIRS, MAX_PAIRS}:
                   raise SystemExit(
-                      f"{entry.get('id')} has {len(pairs)} pairs; "
-                      f"expected {EXPECTED_PAIRS}"
+                      f"{entry.get('id')} has pair_count={pair_count}; "
+                      f"expected {MIN_PAIRS} or {MAX_PAIRS}"
                   )
-              if int(entry.get("line_count", 0)) != EXPECTED_LINES:
+              if len(pairs) != pair_count:
+                  raise SystemExit(
+                      f"{entry.get('id')} has {len(pairs)} pairs but "
+                      f"pair_count={pair_count}"
+                  )
+              expected_lines = pair_count * 2
+              if int(entry.get("line_count", 0)) != expected_lines:
                   raise SystemExit(
                       f"{entry.get('id')} has line_count="
-                      f"{entry.get('line_count')}; expected {EXPECTED_LINES}"
+                      f"{entry.get('line_count')}; expected {expected_lines}"
                   )
-              if int(job.get("line_count", 0)) != EXPECTED_LINES:
+              if int(job.get("line_count", 0)) != expected_lines:
                   raise SystemExit(
                       f"{entry.get('id')} chunk job has line_count="
-                      f"{job.get('line_count')}; expected {EXPECTED_LINES}"
+                      f"{job.get('line_count')}; expected {expected_lines}"
                   )
 
               signature = tuple(
@@ -158,9 +188,16 @@ jobs:
                   seen_english.add(english)
                   seen_kinyarwanda.add(kinyarwanda)
 
+          if len(seen_english) != EXPECTED_PAIRS:
+              raise SystemExit(
+                  f"sentence database covers {len(seen_english)} pairs; "
+                  f"expected {EXPECTED_PAIRS}"
+              )
+
           print(
               f"sentence database OK: {len(jobs)} unique videos, "
-              f"{len(seen_english)} unique pairs, {EXPECTED_LINES} lines per video"
+              f"{len(seen_english)} unique pairs, {MIN_PAIRS}-{MAX_PAIRS} pairs "
+              f"/ {MIN_PAIRS * 2}-{MAX_PAIRS * 2} lines per video"
           )
           PY
 
@@ -274,7 +311,7 @@ jobs:
         run: |
           echo "### Menya Vocab Sentences" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Database:** 18 sentence videos (1 chunk, 4 pairs / 8 lines each, no duplicate sentence signatures)" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Database:** $TOTAL_JOBS sentence videos (1 chunk, layout-chosen 5-6 pairs / 10-12 lines each, no duplicate sentence signatures)" >> "$GITHUB_STEP_SUMMARY"
           echo "**Source tier:** corpus-aligned; native review recommended (not claimed as native-verified)" >> "$GITHUB_STEP_SUMMARY"
           echo "**Content:** \`$CONTENT_ID\` ($CONTENT_NUMBER/$TOTAL_JOBS, $MODE, $PAIR_COUNT pairs / $((PAIR_COUNT * 2)) lines)" >> "$GITHUB_STEP_SUMMARY"
           echo "**Entry range:** $ENTRY_START–$ENTRY_END of $TOTAL_ENTRIES" >> "$GITHUB_STEP_SUMMARY"
