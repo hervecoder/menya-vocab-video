@@ -358,14 +358,15 @@ promo banner runs edge-to-edge and sits on the tab bar divider.
 ### Sentence mode
 
 - Section label: `INTERURO 4 Z'ICYONGEREZA`, uppercase, tracked, muted.
-- 4 cards, one per pair. Each card has exactly one English line followed by
-  one Kinyarwanda line, so one pair always reads as two lines.
+- 4 cards, one per pair. English is always above Kinyarwanda.
 - English is Poppins ExtraBold dark; Kinyarwanda is Poppins Bold green.
-- Text never wraps. The renderer picks the largest shared font size for all
-  four cards (starting at 46 px) that keeps every English and Kinyarwanda line
-  inside the card. This keeps the four cards even instead of shrinking each
-  one separately. A future pair that cannot fit at the minimum size fails the
-  build rather than overflowing.
+- Each card chooses its own font size, starting at 46 px. It shrinks toward a
+  readable minimum of 24 px English / 22 px Kinyarwanda to keep the line whole.
+  If the line still does not fit at that minimum, it wraps to a second line
+  instead of becoming tiny. Three lines are the hard limit.
+- Card height is calculated from the actual number of lines plus 26 px of
+  vertical padding, so short cards stay compact. The leftover vertical space is
+  used between cards, never as extra empty space inside a card.
 - Number badges, borders and shadows match the word cards.
 - Manual sentence batches with fewer than 4 pairs are centred vertically; the
   live sentence rotation never contains a partial job.
@@ -375,8 +376,9 @@ promo banner runs edge-to-edge and sits on the tab bar divider.
 - Edge-to-edge `#FFF9C4` banner with square corners, no side or top border,
   a single black rule along the bottom, and the text set on two lines at the
   largest size that fits (8 px side padding), brand name highlighted in green.
-- Rows are sized from the space left above the promo banner, so the layout
-  stays balanced without manual tweaking.
+- Word rows are sized from the space left above the promo banner; sentence
+  cards size themselves from their text and the remaining space becomes the
+  gaps between cards.
 
 ## Customizing
 
