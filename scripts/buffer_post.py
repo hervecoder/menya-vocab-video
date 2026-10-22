@@ -334,10 +334,17 @@ def find_post_by_asset(
 
     The ledger in the repository is the first guard against duplicates. This
     second guard covers the window where Buffer accepted the post but the run
-    died before the ledger was committed: the mp4 URL is unique per sentence
-    video, so an existing scheduled post with the same asset means the video
-    is already queued and must not be scheduled twice.
+    died before the ledger was committed: the mp4 file name is unique per
+    sentence video, so an existing scheduled post carrying the same file means
+    the video is already queued and must not be scheduled twice.
+
+    Matching is done on the file name rather than the whole URL on purpose:
+    the same video can be served from the upstream repo or from a fork, and
+    both hosts must be recognised as "already posted".
     """
+    target = video_url.rsplit("/", 1)[-1]
+    if not target:
+        return None
     data = graphql(
         token,
         """
@@ -371,7 +378,10 @@ def find_post_by_asset(
         if node.get("status") not in {"scheduled", "pending"}:
             continue
         for asset in node.get("assets") or []:
-            if asset.get("type") == "video" and asset.get("source") == video_url:
+            if asset.get("type") != "video":
+                continue
+            source = asset.get("source") or ""
+            if source.rsplit("/", 1)[-1] == target:
                 return node
     return None
 
