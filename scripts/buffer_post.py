@@ -327,6 +327,55 @@ def resolve_organization(
     raise SystemExit(f"Multiple Buffer organizations found; choose one: {names}")
 
 
+def find_post_by_asset(
+    token: str, organization_id: str, channel_id: str, video_url: str
+) -> dict[str, Any] | None:
+    """Look for a still-pending Buffer post that already uses this mp4.
+
+    The ledger in the repository is the first guard against duplicates. This
+    second guard covers the window where Buffer accepted the post but the run
+    died before the ledger was committed: the mp4 URL is unique per sentence
+    video, so an existing scheduled post with the same asset means the video
+    is already queued and must not be scheduled twice.
+    """
+    data = graphql(
+        token,
+        """
+        query($organizationId: OrganizationId!, $channelId: ChannelId!) {
+          posts(
+            input: {
+              organizationId: $organizationId
+              filter: { channelIds: [$channelId] }
+            }
+            first: 50
+          ) {
+            edges {
+              node {
+                id
+                status
+                dueAt
+                shareMode
+                text
+                channelId
+                assets { type source }
+              }
+            }
+          }
+        }
+        """,
+        {"organizationId": organization_id, "channelId": channel_id},
+    )
+    edges = data.get("data", {}).get("posts", {}).get("edges") or []
+    for edge in edges:
+        node = edge.get("node") or {}
+        if node.get("status") not in {"scheduled", "pending"}:
+            continue
+        for asset in node.get("assets") or []:
+            if asset.get("type") == "video" and asset.get("source") == video_url:
+                return node
+    return None
+
+
 def create_post(
     token: str, channel_id: str, video_url: str, due_at: str, source: str
 ) -> dict[str, Any]:
@@ -523,6 +572,39 @@ def main() -> None:
             args.check_url_attempts,
             args.check_url_delay,
         )
+
+    # Second duplicate guard: Buffer may already hold a pending post for this
+    # exact mp4 even when the repository ledger was never committed.
+    existing_post = find_post_by_asset(
+        token,
+        organization["id"],
+        channel["id"],
+        args.video_url,
+    )
+    if existing_post:
+        print(
+            "buffer:  already scheduled (post "
+            f"{existing_post.get('id')}, due {existing_post.get('dueAt')}); "
+            "no duplicate created"
+        )
+        update_ledger(
+            args.ledger,
+            content_id=args.content_id,
+            cycle=args.cycle,
+            post=existing_post,
+            video_url=args.video_url,
+        )
+        write_github_output(
+            args.github_output,
+            {
+                "buffer_skipped": "true",
+                "buffer_post_id": existing_post.get("id", ""),
+                "buffer_due_at": existing_post.get("dueAt", ""),
+                "buffer_status": existing_post.get("status", ""),
+            },
+        )
+        print(f"ledger:  {args.ledger}")
+        return
 
     post = create_post(
         token,
