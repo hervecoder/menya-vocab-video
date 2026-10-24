@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-22T08:57:59Z",
+  "updated_at": "2026-10-24T16:27:27Z",
   "posts": [
     {
       "key": "sentence_0002@cycle-1",
@@ -14,6 +14,20 @@
       "text": "",
       "video_url": "https://raw.githubusercontent.com/hervecoder/menya-vocab-video/main/output/sentence_0002.mp4",
       "scheduled_at": "2026-10-22T08:57:59Z"
+    },
+    {
+      "key": "sentence_0003@cycle-1",
+      "content_id": "sentence_0003",
+      "cycle": 1,
+      "buffer_post_id": "6adcdc6f6887a2efc1c71ea4",
+      "channel_id": "6ad96cb8778b240e2f850bc4",
+      "status": "scheduled",
+      "due_at": "2026-10-25T16:30:00.000Z",
+      "share_mode": "customScheduled",
+      "is_custom_scheduled": true,
+      "text": "",
+      "video_url": "https://raw.githubusercontent.com/hervecoder/menya-vocab-video/main/output/sentence_0003.mp4",
+      "scheduled_at": "2026-10-24T16:27:27Z"
     }
   ]
 }
