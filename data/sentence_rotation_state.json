@@ -1,13 +1,13 @@
 {
   "cycle": 1,
-  "next_job_index": 4,
-  "jobs_done_in_cycle": 4,
+  "next_job_index": 5,
+  "jobs_done_in_cycle": 5,
   "total_jobs": 12,
   "total_entries": 72,
   "input_entries": 72,
   "remainder_entries": 0,
   "excluded_unverified_entries": 0,
-  "last_content_id": "sentence_0004",
-  "next_content_id": "sentence_0005",
-  "updated_at": "2026-10-25T16:59:23Z"
+  "last_content_id": "sentence_0005",
+  "next_content_id": "sentence_0006",
+  "updated_at": "2026-10-26T19:02:40Z"
 }
