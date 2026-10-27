@@ -1,11 +1,16 @@
 name: Menya Vocab Sentences
 
-# Daily at 13:00 UTC (15:00 Africa/Kigali). This is a separate rotation from
-# the 1,098-word track, so the word manifest and state are never touched. Each
-# run renders one sentence video with 5 or 6 pairs (10-12 text lines: English
-# sentence, then Kinyarwanda translation), chosen by the layout planner, then
-# schedules it in Buffer for 18:30 Africa/Kigali with a blank caption. After
-# sentence_0012 it wraps to sentence_0001.
+# PAUSED: the daily TikTok slot now belongs to the word track
+# (hervecoder/menya-vocab-daily). This workflow has no `schedule:` trigger,
+# so it can never double-post beside the word video. It is kept for manual
+# replays only while the sentence layout and copy are reworked.
+#
+# Originally daily at 13:00 UTC (15:00 Africa/Kigali). This is a separate
+# rotation from the 1,098-word track, so the word manifest and state are never
+# touched. Each run renders one sentence video with 5 or 6 pairs (10-12 text
+# lines: English sentence, then Kinyarwanda translation), chosen by the layout
+# planner, then schedules it in Buffer for 18:30 Africa/Kigali with a blank
+# caption. After sentence_0012 it wraps to sentence_0001.
 #
 # The Buffer API key lives in the repository secret BUFFER_API_KEY. The
 # optional repository variable BUFFER_CHANNEL_ID pins the TikTok channel;
@@ -16,8 +21,6 @@ name: Menya Vocab Sentences
 # content_id only to replay a specific video (a replay is rendered but never
 # posted to Buffer, so it cannot create a duplicate).
 on:
-  schedule:
-    - cron: '0 13 * * *'
   workflow_dispatch:
     inputs:
       content_id:
